@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 16:08:06 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 18:11:22 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ enum e_type {
 	AND,
 	OR,
 	PIPE,
-	WILDCARD
+	WILDCARD,
+	SUBSHELL
 };
 
 typedef struct s_list {
@@ -48,17 +49,19 @@ typedef struct s_list {
 	struct s_list	*next;
 }	t_list;
 
-typedef struct s_commands {
+typedef struct s_cmd {
 	char			**cmd;
+	int				type;
 	t_list			*redirect;
-}	t_commands;
+	struct s_cmd	*next;
+}	t_cmd;
 
 typedef struct s_vars {
 	char			**envp;
 	char			*cmdline;
 	char			*last_cmdline;
 	t_list			*tokens;
-	t_commands		*cmds;
+	t_cmd			*cmds;
 }	t_vars;
 
 int		ft_strcmp(const char *s1, const char *s2);
@@ -68,22 +71,22 @@ void	*ft_free_2d(char **ptr);
 void	*ft_free_3d(char ***ptr);
 size_t	ft_arrlen(char **arr);
 
-char	**ft_split_args(char const *s);
-// char	**ft_split_pipes(char const *s);
-char	*ft_getenv(char *var, char *envp[]);
-char	*ft_cmdpath(t_vars *vars, char *cmd);
-char	**ft_execve_args(t_vars *vars, char *cmd);
 t_list	*ft_lstnew(char *content, int type);
 t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstclear(t_list **lst);
 int		ft_lstsize(t_list *lst);
 
+t_cmd	*ft_cmd_lstnew(char **cmd, int type, t_cmd *redirect);
+t_cmd	*ft_cmd_lstlast(t_cmd *lst);
+void	ft_cmd_lstadd_back(t_cmd **lst, t_cmd *new);
+void	ft_cmd_lstclear(t_cmd **lst);
+int		ft_cmd_lstsize(t_cmd *lst);
+
 void	ft_init_vars(int argc, char *argv[], char *envp[], t_vars *vars);
 void	ft_handle_signals(int sig);
 void	ft_tokenization(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
-// void	ft_exec_pipeline(t_vars *vars, int index);
 void	ft_free_program(t_vars *vars);
 
 #endif

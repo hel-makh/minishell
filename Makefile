@@ -8,19 +8,16 @@ SRCS			=	srcs/ft_strcmp.c\
 					srcs/ft_strnjoin.c\
 					srcs/ft_free.c\
 					srcs/ft_arrlen.c\
-					srcs/ft_split_args.c\
-					srcs/ft_getenv.c\
-					srcs/ft_cmdpath.c\
-					srcs/ft_execve_args.c\
-					srcs/ft_token_lstnew.c\
-					srcs/ft_token_lstlast.c\
-					srcs/ft_token_lstadd_back.c\
-					srcs/ft_token_lstclear.c\
-					srcs/ft_token_lstsize.c\
+					srcs/ft_lstnew.c\
+					srcs/ft_lstlast.c\
+					srcs/ft_lstadd_back.c\
+					srcs/ft_lstclear.c\
+					srcs/ft_lstsize.c\
 					srcs/ft_init_vars.c\
 					srcs/ft_handle_signals.c\
 					srcs/ft_tokenization.c\
 					srcs/ft_verify_syntax.c\
+					srcs/ft_parse_args.c\
 					srcs/ft_free_program.c
 
 OBJS			=	$(SRCS:.c=.o)\
@@ -46,15 +43,15 @@ all:			$(NAME)
 				./$(NAME)
 
 $(LIB):
-				make bonus -C $(LIBFT)
+				make -C $(LIBFT)
 
 clean:
 				$(RM) $(OBJS)
-#				make clean -C Libft
+				# make clean -C Libft
 
 fclean:			clean
 				$(RM) $(NAME)
-#				make fclean -C Libft
+				# make fclean -C Libft
 
 re:				fclean all
 

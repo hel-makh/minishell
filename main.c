@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 16:03:18 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 17:36:14 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ int	main(int argc, char *argv[], char *envp[])
 			ft_putendl_fd("\n>> Syntax error.\n", STDOUT_FILENO);
 			continue ;
 		}
+
+		if (!ft_parse_args(&vars))
+			return (ft_free_program(&vars), EXIT_FAILURE);
 		
 		// if (!ft_exec_cmdline(&vars))
 		// 	return (ft_free_program(&vars), EXIT_FAILURE);
