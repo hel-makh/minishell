@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 14:36:46 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 14:55:43 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_token {
 typedef struct s_vars {
 	char	**envp;
 	char	*cmdline;
+	char	*last_cmdline;
 	t_token	*tokens;
 	// char	**pipeline;
 	// int		cmd_count;

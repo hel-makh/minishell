@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 16:58:07 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/02/28 15:48:07 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 14:56:20 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	*ft_free(void *ptr)
 {
-	free(ptr);
+	if (ptr)
+		free(ptr);
 	return (NULL);
 }
 

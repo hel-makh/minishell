@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/19 18:15:26 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 15:13:33 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,13 @@ int	main(int argc, char *argv[], char *envp[])
 		vars.cmdline = readline(PROMPT);
 		if (!vars.cmdline)
 			break ;
-		add_history(vars.cmdline);
+		if (*vars.cmdline && (!vars.last_cmdline || (vars.last_cmdline
+					&& ft_strcmp(vars.cmdline, vars.last_cmdline))))
+		{
+			vars.last_cmdline = ft_free(vars.last_cmdline);
+			vars.last_cmdline = ft_strdup(vars.cmdline);
+			add_history(vars.cmdline);
+		}
 		ft_tokenization(&vars);
 		if (!ft_token_lstsize(vars.tokens))
 			continue ;
@@ -70,7 +76,7 @@ int	main(int argc, char *argv[], char *envp[])
 		
 		if (!ft_verify_syntax(&vars))
 		{
-			ft_putendl_fd("Syntax error.", STDOUT_FILENO);
+			ft_putendl_fd("\n>> Syntax error.\n", STDOUT_FILENO);
 			continue ;
 		}
 		
