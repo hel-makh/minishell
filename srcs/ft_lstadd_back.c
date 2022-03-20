@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_token_lstlast.c                                 :+:      :+:    :+:   */
+/*   ft_token_lstadd_back.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/19 11:21:08 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 10:36:42 by hel-makh         ###   ########.fr       */
+/*   Created: 2021/11/07 21:31:45 by hel-makh          #+#    #+#             */
+/*   Updated: 2022/03/20 15:58:27 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token	*ft_token_lstlast(t_token *lst)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	while (lst)
-	{
-		if (lst->next == NULL)
-			break ;
-		lst = lst->next;
-	}
-	return (lst);
+	if (lst && *lst)
+		ft_lstlast(*lst)->next = new;
+	else
+		*lst = new;
 }

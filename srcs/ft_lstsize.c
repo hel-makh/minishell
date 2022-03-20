@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_token_lstclear.c                                :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/19 18:03:33 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/19 18:06:19 by hel-makh         ###   ########.fr       */
+/*   Created: 2022/03/19 18:08:36 by hel-makh          #+#    #+#             */
+/*   Updated: 2022/03/20 15:59:48 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_token_lstclear(t_token **lst)
+int	ft_lstsize(t_list *lst)
 {
-	t_token	*holder;
+	int	lstlen;
 
-	if (!lst)
-		return ;
-	while (*lst)
+	lstlen = 0;
+	while (lst)
 	{
-		holder = *lst;
-		*lst = (*lst)->next;
-		holder->data = ft_free(holder->data);
-		holder = ft_free(holder);
+		lst = lst->next;
+		lstlen ++;
 	}
-	*lst = NULL;
+	return (lstlen);
 }
