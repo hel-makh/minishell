@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:39:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 14:13:39 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 14:36:34 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,10 @@ static size_t	ft_get_token_size(t_vars *vars, int i)
 
 void	ft_tokenization(t_vars *vars)
 {
-	int		i;
 	size_t	size;
 	char	*token_data;
 	int		token_type;
+	int		i;
 
 	ft_token_lstclear(&vars->tokens);
 	i = 0;

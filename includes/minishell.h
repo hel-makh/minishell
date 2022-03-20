@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/19 18:09:12 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 14:36:46 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_vars {
 	char	**envp;
 	char	*cmdline;
 	t_token	*tokens;
-	char	quote;
 	// char	**pipeline;
 	// int		cmd_count;
 	// char	*redirect_input;
