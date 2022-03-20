@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:39:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 13:24:21 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 14:13:39 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,13 @@ static size_t	ft_get_token_size(t_vars *vars, int i)
 	while (cmd[++i])
 	{
 		size ++;
-		if (vars->quote != -1 && vars->quote != cmd[i])
-			continue ;
+		if (!quote && (cmd[i] == '\'' || cmd[i] == '"')
+			&& cmd[i + 1] && !ft_strchr(&cmd[i + 1], cmd[i]))
+		{
+			if (size == 1)
+				return (size);
+			return (size - 1);
+		}
 		if (!quote && (cmd[i] == '\'' || cmd[i] == '"'))
 			quote = cmd[i];
 		else if (quote)
@@ -85,7 +90,7 @@ static size_t	ft_get_token_size(t_vars *vars, int i)
 				return (size + 1);
 			return (size - 1);
 		}
-		else if (ft_strchr(" \"'()<>|*", cmd[i]))
+		else if (ft_strchr(" ()<>|*", cmd[i]))
 		{
 			if (size == 1)
 				return (size);
@@ -102,27 +107,15 @@ void	ft_tokenization(t_vars *vars)
 	char	*token_data;
 	int		token_type;
 
-	vars->quote = -1;
 	ft_token_lstclear(&vars->tokens);
 	i = 0;
 	while (vars->cmdline[i])
 	{
-		if (vars->quote != -1 || vars->cmdline[i] != ' ')
+		if (vars->cmdline[i] != ' ')
 		{
 			size = ft_get_token_size(vars, i - 1);
 			token_data = ft_substr(vars->cmdline, i, size);
-			if (vars->cmdline[i + 1] && ((ft_token_lstlast(vars->tokens)
-					&& ft_token_lstlast(vars->tokens)->type == D_QUOTE)
-				|| (ft_token_lstlast(vars->tokens)
-					&& ft_token_lstlast(vars->tokens)->type == S_QUOTE)))
-				token_type = WORD;
-			else
-				token_type = ft_get_token_type(token_data);
-			if (vars->quote == -1
-				&& (token_type == D_QUOTE || token_type == S_QUOTE))
-				vars->quote = token_data[0];
-			else if (vars->quote != -1 && token_data[0] == vars->quote)
-				vars->quote = -1;
+			token_type = ft_get_token_type(token_data);
 			ft_token_lstadd_back(&vars->tokens,
 				ft_token_lstnew(token_data, token_type));
 			i += size - 1;
