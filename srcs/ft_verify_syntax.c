@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 16:44:10 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 11:48:52 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:01:50 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_syntax {
 int	ft_verify_qandp(t_vars *vars)
 {
 	t_syntax	syntax;
-	t_token		*t_tokens;
+	t_list		*t_tokens;
 
 	syntax.d_quotes = 0;
 	syntax.s_quotes = 0;
@@ -47,7 +47,7 @@ int	ft_verify_qandp(t_vars *vars)
 
 int	ft_verify_pipe_oanda(t_vars *vars)
 {
-	t_token		*t_tokens;
+	t_list		*t_tokens;
 	int			is_word;
 
 	is_word = 0;

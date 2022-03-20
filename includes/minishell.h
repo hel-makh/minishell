@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 15:55:55 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:08:06 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct s_list {
 }	t_list;
 
 typedef struct s_commands {
-	char			**command;
-	t_list			*redirection;
+	char			**cmd;
+	t_list			*redirect;
 }	t_commands;
 
 typedef struct s_vars {
@@ -58,7 +58,7 @@ typedef struct s_vars {
 	char			*cmdline;
 	char			*last_cmdline;
 	t_list			*tokens;
-	t_commands		*commands;
+	t_commands		*cmds;
 }	t_vars;
 
 int		ft_strcmp(const char *s1, const char *s2);
@@ -73,7 +73,7 @@ char	**ft_split_args(char const *s);
 char	*ft_getenv(char *var, char *envp[]);
 char	*ft_cmdpath(t_vars *vars, char *cmd);
 char	**ft_execve_args(t_vars *vars, char *cmd);
-t_list	*ft_lstnew(char *data, int type);
+t_list	*ft_lstnew(char *content, int type);
 t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstclear(t_list **lst);

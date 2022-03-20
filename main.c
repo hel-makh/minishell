@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 15:13:33 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:03:18 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int	main(int argc, char *argv[], char *envp[])
 			add_history(vars.cmdline);
 		}
 		ft_tokenization(&vars);
-		if (!ft_token_lstsize(vars.tokens))
+		if (!ft_lstsize(vars.tokens))
 			continue ;
 
-		t_token	*t_tokens = vars.tokens;
+		t_list	*t_tokens = vars.tokens;
 		while (t_tokens)
 		{
-			printf("%d - '%s'\n", t_tokens->type, t_tokens->data);
+			printf("%d - '%s'\n", t_tokens->type, t_tokens->content);
 			t_tokens = t_tokens->next;
 		}
 		

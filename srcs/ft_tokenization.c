@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:39:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 15:37:15 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:05:56 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,31 +72,31 @@ static size_t	ft_get_token_size(t_vars *vars, int i)
 	return (size);
 }
 
-static int	ft_get_token_type(char *token_data)
+static int	ft_get_token_type(char *token_content)
 {
-	if (!ft_strcmp(token_data, "\""))
+	if (!ft_strcmp(token_content, "\""))
 		return (D_QUOTE);
-	else if (!ft_strcmp(token_data, "'"))
+	else if (!ft_strcmp(token_content, "'"))
 		return (S_QUOTE);
-	else if (!ft_strcmp(token_data, "("))
+	else if (!ft_strcmp(token_content, "("))
 		return (R_PAREN);
-	else if (!ft_strcmp(token_data, ")"))
+	else if (!ft_strcmp(token_content, ")"))
 		return (L_PAREN);
-	else if (!ft_strcmp(token_data, "<<"))
+	else if (!ft_strcmp(token_content, "<<"))
 		return (D_RED_IN);
-	else if (!ft_strcmp(token_data, "<"))
+	else if (!ft_strcmp(token_content, "<"))
 		return (RED_IN);
-	else if (!ft_strcmp(token_data, ">>"))
+	else if (!ft_strcmp(token_content, ">>"))
 		return (D_RED_OUT);
-	else if (!ft_strcmp(token_data, ">"))
+	else if (!ft_strcmp(token_content, ">"))
 		return (RED_OUT);
-	else if (!ft_strcmp(token_data, "&&"))
+	else if (!ft_strcmp(token_content, "&&"))
 		return (AND);
-	else if (!ft_strcmp(token_data, "||"))
+	else if (!ft_strcmp(token_content, "||"))
 		return (OR);
-	else if (!ft_strcmp(token_data, "|"))
+	else if (!ft_strcmp(token_content, "|"))
 		return (PIPE);
-	else if (!ft_strcmp(token_data, "*"))
+	else if (!ft_strcmp(token_content, "*"))
 		return (WILDCARD);
 	return (WORD);
 }
@@ -104,21 +104,20 @@ static int	ft_get_token_type(char *token_data)
 void	ft_tokenization(t_vars *vars)
 {
 	size_t	size;
-	char	*token_data;
+	char	*token_content;
 	int		token_type;
 	int		i;
 
-	ft_token_lstclear(&vars->tokens);
+	ft_lstclear(&vars->tokens);
 	i = 0;
 	while (vars->cmdline[i])
 	{
 		if (vars->cmdline[i] != ' ')
 		{
 			size = ft_get_token_size(vars, i - 1);
-			token_data = ft_substr(vars->cmdline, i, size);
-			token_type = ft_get_token_type(token_data);
-			ft_token_lstadd_back(&vars->tokens,
-				ft_token_lstnew(token_data, token_type));
+			token_content = ft_substr(vars->cmdline, i, size);
+			token_type = ft_get_token_type(token_content);
+			ft_lstadd_back(&vars->tokens, ft_lstnew(token_content, token_type));
 			i += size - 1;
 		}
 		i ++;
