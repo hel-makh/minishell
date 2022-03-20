@@ -8,11 +8,17 @@ SRCS			=	srcs/ft_strcmp.c\
 					srcs/ft_strnjoin.c\
 					srcs/ft_free.c\
 					srcs/ft_arrlen.c\
+					srcs/ft_add_str2arr.c\
 					srcs/ft_lstnew.c\
 					srcs/ft_lstlast.c\
 					srcs/ft_lstadd_back.c\
 					srcs/ft_lstclear.c\
 					srcs/ft_lstsize.c\
+					srcs/ft_cmd_lstnew.c\
+					srcs/ft_cmd_lstlast.c\
+					srcs/ft_cmd_lstadd_back.c\
+					srcs/ft_cmd_lstclear.c\
+					srcs/ft_cmd_lstsize.c\
 					srcs/ft_init_vars.c\
 					srcs/ft_handle_signals.c\
 					srcs/ft_tokenization.c\
