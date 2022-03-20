@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 16:44:10 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 16:01:50 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 17:24:50 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,31 @@ int	ft_verify_pipe_oanda(t_vars *vars)
 	return (1);
 }
 
+int	ft_verify_redirections(t_vars *vars)
+{
+	t_list		*t_tokens;
+
+	t_tokens = vars->tokens;
+	while (t_tokens)
+	{
+		if ((t_tokens->type == RED_IN
+				|| t_tokens->type == RED_OUT
+				|| t_tokens->type == D_RED_IN
+				|| t_tokens->type == D_RED_OUT)
+			&& (!t_tokens->next 
+				|| (t_tokens->next
+					&& t_tokens->next->type != WORD)))
+				return (0);
+		t_tokens = t_tokens->next;
+	}
+	return (1);
+}
+
 int	ft_verify_syntax(t_vars *vars)
 {
 	if (!ft_verify_qandp(vars)
-		|| !ft_verify_pipe_oanda(vars))
+		|| !ft_verify_pipe_oanda(vars)
+		|| !ft_verify_redirections(vars))
 		return (0);
 	return (1);
 }
