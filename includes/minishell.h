@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 19:50:37 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 20:09:52 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ enum e_type {
 	WORD,
 	D_QUOTE,
 	S_QUOTE,
-	R_PAREN,
 	L_PAREN,
+	R_PAREN,
 	D_RED_IN,
 	D_RED_OUT,
 	RED_IN,

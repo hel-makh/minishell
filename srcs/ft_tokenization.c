@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:39:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 20:01:42 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 20:10:21 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ static int	ft_get_token_type(char *token_content)
 	else if (!ft_strcmp(token_content, "'"))
 		return (S_QUOTE);
 	else if (!ft_strcmp(token_content, "("))
-		return (R_PAREN);
-	else if (!ft_strcmp(token_content, ")"))
 		return (L_PAREN);
+	else if (!ft_strcmp(token_content, ")"))
+		return (R_PAREN);
 	else if (!ft_strcmp(token_content, "<<"))
 		return (D_RED_IN);
 	else if (!ft_strcmp(token_content, "<"))
