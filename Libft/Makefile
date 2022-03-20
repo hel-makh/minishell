@@ -41,20 +41,6 @@ SRCS			=	ft_isalpha.c\
 
 OBJS			=	$(SRCS:.c=.o)
 
-BONUS_NAME		=	bonus
-
-BONUS_SRCS		=	ft_lstnew_bonus.c\
-					ft_lstadd_front_bonus.c\
-					ft_lstsize_bonus.c\
-					ft_lstlast_bonus.c\
-					ft_lstadd_back_bonus.c\
-					ft_lstdelone_bonus.c\
-					ft_lstclear_bonus.c\
-					ft_lstiter_bonus.c\
-					ft_lstmap_bonus.c
-
-BONUS_OBJS		=	$(BONUS_SRCS:.c=.o)
-
 GCC				=	cc
 
 CFLAGS			=	-Wall -Wextra -Werror
@@ -68,18 +54,14 @@ $(NAME):		$(OBJS) $(HEADER)
 				ar rc $@ $^
 				ranlib $@
 
-$(BONUS_NAME):	$(OBJS) $(BONUS_OBJS) $(HEADER)
-				ar rc $(NAME) $^
-				ranlib $(NAME)
-
 all:			$(NAME)
 
 clean:
-				$(RM) $(OBJS) $(BONUS_OBJS)
+				$(RM) $(OBJS)
 			
 fclean:			clean
 				$(RM) $(NAME)
 
 re:				fclean all
 
-.PHONY:			all bonus clean fclean re
+.PHONY:			all clean fclean re
