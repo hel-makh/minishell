@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:39:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 16:05:56 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 20:01:42 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void	ft_tokenization(t_vars *vars)
 	int		token_type;
 	int		i;
 
-	ft_lstclear(&vars->tokens);
 	i = 0;
 	while (vars->cmdline[i])
 	{

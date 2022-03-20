@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 17:36:14 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/20 20:02:05 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("%d - '%s'\n", t_tokens->type, t_tokens->content);
 			t_tokens = t_tokens->next;
 		}
+		printf("\n#######################################\n\n");
 		
 		if (!ft_verify_syntax(&vars))
 		{
@@ -82,9 +83,31 @@ int	main(int argc, char *argv[], char *envp[])
 
 		if (!ft_parse_args(&vars))
 			return (ft_free_program(&vars), EXIT_FAILURE);
+
+		t_cmd	*t_cmds = vars.cmds;
+		while (t_cmds)
+		{
+			int i = -1;
+			while (t_cmds->cmd[++i])
+				printf("%d. %s\n", i, t_cmds->cmd[i]);
+			printf("type: %d\n", t_cmds->type);
+			printf("shlvl: %d\n", t_cmds->shlvl);
+			t_list	*t_lists = vars.cmds->redirect;
+			while (t_lists)
+			{
+				printf("redirection: %s\n", t_lists->content);
+				printf("redirection_type: %d\n", t_lists->type);
+				t_lists = t_lists->next;
+			}
+			t_cmds = t_cmds->next;
+			printf("=======================================\n");
+		}
 		
 		// if (!ft_exec_cmdline(&vars))
 		// 	return (ft_free_program(&vars), EXIT_FAILURE);
+		
+		ft_lstclear(&vars.tokens);
+		ft_cmd_lstclear(&vars.cmds);
 	}
 	ft_free_program(&vars);
 	return (EXIT_SUCCESS);
