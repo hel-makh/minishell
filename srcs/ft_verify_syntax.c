@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 16:44:10 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 11:41:52 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 14:57:09 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ static int	ft_verify_pipe_oanda(t_vars *vars)
 		if (t_tokens->type == WORD)
 			is_word = 1;
 		if (is_word
-			&& (t_tokens->type == OR
-				|| t_tokens->type == AND
+			&& (t_tokens->type == AND
+				|| t_tokens->type == OR
 				|| t_tokens->type == PIPE))
 			is_word = 0;
 		else if (!is_word
-			&& (t_tokens->type == OR
-				|| t_tokens->type == AND
+			&& (t_tokens->type == AND
+				|| t_tokens->type == OR
 				|| t_tokens->type == PIPE))
 			return (0);
 		t_tokens = t_tokens->next;
@@ -93,11 +93,33 @@ static int	ft_verify_redirections(t_vars *vars)
 	return (1);
 }
 
+static int	ft_verify_parenthesis(t_vars *vars)
+{
+	t_list		*t_tokens;
+
+	t_tokens = vars->tokens;
+	while (t_tokens)
+	{
+		if ((t_tokens->type != AND
+				&& t_tokens->type != OR
+				&& t_tokens->type != PIPE
+				&& t_tokens->next->type == L_PAREN)
+			|| (t_tokens->type == R_PAREN
+				&& t_tokens->next->type != AND
+				&& t_tokens->next->type != OR
+				&& t_tokens->next->type != PIPE))
+			return (0);
+		t_tokens = t_tokens->next;
+	}
+	return (1);
+}
+
 int	ft_verify_syntax(t_vars *vars)
 {
 	if (!ft_verify_qandp(vars)
 		|| !ft_verify_pipe_oanda(vars)
-		|| !ft_verify_redirections(vars))
+		|| !ft_verify_redirections(vars)
+		|| !ft_verify_parenthesis(vars))
 		return (0);
 	return (1);
 }
