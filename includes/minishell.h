@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 16:46:09 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:55:49 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,17 @@ void	*ft_free_3d(char ***ptr);
 size_t	ft_arrlen(char **arr);
 char	**ft_add_str2arr(char **array, char *str);
 
+int		ft_lstsize(t_list *lst);
 t_list	*ft_lstnew(char *content, int type);
 t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstclear(t_list **lst);
-int		ft_lstsize(t_list *lst);
 
+int		ft_cmd_lstsize(t_cmd *lst);
 t_cmd	*ft_cmd_lstnew(char **cmd, int type, int subsh_lvl, t_list *redirect);
 t_cmd	*ft_cmd_lstlast(t_cmd *lst);
 void	ft_cmd_lstadd_back(t_cmd **lst, t_cmd *new);
 void	ft_cmd_lstclear(t_cmd **lst);
-int		ft_cmd_lstsize(t_cmd *lst);
 
 char	*ft_getenv(char *var, char *envp[]);
 

@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cmd_lstnew.c                                    :+:      :+:    :+:   */
+/*   ft_cmd_lstfuncs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/19 11:19:55 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 11:10:35 by hel-makh         ###   ########.fr       */
+/*   Created: 2022/03/21 16:51:40 by hel-makh          #+#    #+#             */
+/*   Updated: 2022/03/21 16:54:56 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	ft_cmd_lstsize(t_cmd *lst)
+{
+	int	lstlen;
+
+	lstlen = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		lstlen ++;
+	}
+	return (lstlen);
+}
 
 t_cmd	*ft_cmd_lstnew(char **cmd, int type, int subsh_lvl, t_list *redirect)
 {
@@ -25,4 +38,40 @@ t_cmd	*ft_cmd_lstnew(char **cmd, int type, int subsh_lvl, t_list *redirect)
 	element->redirect = redirect;
 	element->next = NULL;
 	return (element);
+}
+
+t_cmd	*ft_cmd_lstlast(t_cmd *lst)
+{
+	while (lst)
+	{
+		if (lst->next == NULL)
+			break ;
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+void	ft_cmd_lstadd_back(t_cmd **lst, t_cmd *new)
+{
+	if (lst && *lst)
+		ft_cmd_lstlast(*lst)->next = new;
+	else
+		*lst = new;
+}
+
+void	ft_cmd_lstclear(t_cmd **lst)
+{
+	t_cmd	*holder;
+
+	if (!lst)
+		return ;
+	while (*lst)
+	{
+		holder = *lst;
+		*lst = (*lst)->next;
+		holder->cmd = ft_free_2d(holder->cmd);
+		ft_lstclear(&holder->redirect);
+		holder = ft_free(holder);
+	}
+	*lst = NULL;
 }
