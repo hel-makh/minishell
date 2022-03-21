@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 11:10:41 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 12:03:01 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ enum e_type {
 	AND,
 	OR,
 	PIPE,
-	WILDCARD,
-	SUBSHELL
+	WILDCARD
 };
 
 typedef struct s_list {
