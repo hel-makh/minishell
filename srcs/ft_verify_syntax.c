@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 16:44:10 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 11:11:16 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 11:41:52 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ typedef struct s_syntax {
 	int		parentheses;
 }	t_syntax;
 
-int	ft_verify_qandp(t_vars *vars)
+static int	ft_verify_qandp(t_vars *vars)
 {
 	t_syntax	syntax;
 	t_list		*t_tokens;
@@ -45,7 +45,7 @@ int	ft_verify_qandp(t_vars *vars)
 	return (1);
 }
 
-int	ft_verify_pipe_oanda(t_vars *vars)
+static int	ft_verify_pipe_oanda(t_vars *vars)
 {
 	t_list		*t_tokens;
 	int			is_word;
@@ -73,7 +73,7 @@ int	ft_verify_pipe_oanda(t_vars *vars)
 	return (1);
 }
 
-int	ft_verify_redirections(t_vars *vars)
+static int	ft_verify_redirections(t_vars *vars)
 {
 	t_list		*t_tokens;
 
