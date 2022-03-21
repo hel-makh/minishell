@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 16:35:19 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:46:09 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,14 @@ void	ft_cmd_lstadd_back(t_cmd **lst, t_cmd *new);
 void	ft_cmd_lstclear(t_cmd **lst);
 int		ft_cmd_lstsize(t_cmd *lst);
 
-void	ft_init_vars(int argc, char *argv[], char *envp[], t_vars *vars);
+char	*ft_getenv(char *var, char *envp[]);
+
+int		ft_init_vars(int argc, char *argv[], char *envp[], t_vars *vars);
 void	ft_handle_signals(int sig);
 void	ft_tokenization(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
 int		ft_parse_cmds(t_vars *vars);
+int		ft_expand_args(t_vars *vars);
 void	ft_free_program(t_vars *vars);
 
 #endif
