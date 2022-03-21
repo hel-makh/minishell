@@ -6,20 +6,25 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 17:36:04 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 16:45:55 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:43:38 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_init_vars(int argc, char *argv[], char *envp[], t_vars *vars)
+int	ft_init_vars(t_vars *vars, char *envp[])
 {
-	(void)argc;
-	(void)argv;
-	vars->envp = ft_calloc(ft_arrlen(envp), sizeof(char *));
+	size_t	i;
+
+	vars->envp = ft_calloc(ft_arrlen(envp) + 1, sizeof(char *));
 	if (!vars->envp)
 		return (0);
-	ft_memmove(vars->envp, envp, ft_arrlen(envp) * sizeof(char *));
+	i = 0;
+	while (i < ft_arrlen(envp))
+	{
+		vars->envp[i] = ft_strdup(envp[i]);
+		i ++;
+	}
 	vars->last_cmdline = NULL;
 	vars->tokens = NULL;
 	return (1);

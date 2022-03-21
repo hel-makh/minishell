@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 16:55:49 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:43:55 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <fcntl.h>
-# include <sys/stat.h>
 # include <dirent.h>
-# include <sys/ioctl.h>
 # include "../Libft/libft.h"
 
 # define PROMPT "minishell$ "
@@ -84,7 +81,7 @@ void	ft_cmd_lstclear(t_cmd **lst);
 
 char	*ft_getenv(char *var, char *envp[]);
 
-int		ft_init_vars(int argc, char *argv[], char *envp[], t_vars *vars);
+int		ft_init_vars(t_vars *vars, char *envp[]);
 void	ft_handle_signals(int sig);
 void	ft_tokenization(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
