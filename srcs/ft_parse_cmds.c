@@ -6,61 +6,67 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 16:11:41 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 14:11:21 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:31:49 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_parse_cmds(t_vars *vars)
+static int	ft_add_cmd(
+	t_vars *vars, t_cmd **cmd, t_list **token, int *paren_closed
+	)
 {
-	t_cmd		*temp_cmd;
-	t_list		*t_tokens;
-	int			paren_closed;
-
-	temp_cmd = ft_cmd_lstnew(ft_calloc(1, sizeof(char *)), 0, 0, NULL);
-	if (!temp_cmd->cmd)
-		return (0);
-	paren_closed = 0;
-	t_tokens = vars->tokens;
-	while (t_tokens)
+	if ((*token)->type == RED_IN || (*token)->type == RED_OUT
+		|| (*token)->type == D_RED_IN || (*token)->type == D_RED_OUT)
 	{
-		if (t_tokens->type == WORD)
+		ft_lstadd_back(&(*cmd)->redirect,
+			ft_lstnew(ft_strdup((*token)->next->content), (*token)->type));
+		*token = (*token)->next;
+	}
+	if (!(*token)->next || (*token)->type == AND
+		|| (*token)->type == OR || (*token)->type == PIPE)
+	{
+		ft_cmd_lstadd_back(&vars->cmds, *cmd);
+		if ((*token)->next)
 		{
-			temp_cmd->cmd = ft_add_str2arr(temp_cmd->cmd, t_tokens->content);
-			if (!temp_cmd->cmd)
+			*cmd = ft_cmd_lstnew(ft_calloc(1, sizeof(char *)),
+					(*token)->type, (*cmd)->subsh_lvl, NULL);
+			if (!(*cmd)->cmd)
 				return (0);
 		}
-		if (t_tokens->type == L_PAREN)
-			temp_cmd->subsh_lvl ++;
-		if (t_tokens->type == RED_IN || t_tokens->type == RED_OUT
-			|| t_tokens->type == D_RED_IN || t_tokens->type == D_RED_OUT)
+		if (*paren_closed)
 		{
-			ft_lstadd_back(&temp_cmd->redirect,
-				ft_lstnew(ft_strdup(t_tokens->next->content), t_tokens->type));
-			t_tokens = t_tokens->next->next;
-			continue ;
+			(*cmd)->subsh_lvl -= *paren_closed;
+			*paren_closed = 0;
 		}
-		if (t_tokens->type == PIPE || t_tokens->type == OR
-			|| t_tokens->type == AND || !t_tokens->next)
-		{
-			ft_cmd_lstadd_back(&vars->cmds, temp_cmd);
-			if (t_tokens->next)
-			{
-				temp_cmd = ft_cmd_lstnew(ft_calloc(1, sizeof(char *)),
-						t_tokens->type, temp_cmd->subsh_lvl, NULL);
-				if (!temp_cmd->cmd)
-					return (0);
-			}
-			if (paren_closed)
-			{
-				temp_cmd->subsh_lvl -= paren_closed;
-				paren_closed = 0;
-			}
-		}
-		if (t_tokens->type == R_PAREN)
+	}
+	return (1);
+}
+
+int	ft_parse_cmds(t_vars *vars)
+{
+	t_cmd		*cmd;
+	t_list		*token;
+	int			paren_closed;
+
+	cmd = ft_cmd_lstnew(ft_calloc(1, sizeof(char *)), 0, 0, NULL);
+	if (!cmd->cmd)
+		return (0);
+	paren_closed = 0;
+	token = vars->tokens;
+	while (token)
+	{
+		if (token->type == WORD)
+			cmd->cmd = ft_add_str2arr(cmd->cmd, token->content);
+		if (!cmd->cmd)
+			return (0);
+		if (token->type == L_PAREN)
+			cmd->subsh_lvl ++;
+		if (!ft_add_cmd(vars, &cmd, &token, &paren_closed))
+			return (0);
+		if (token->type == R_PAREN)
 			paren_closed ++;
-		t_tokens = t_tokens->next;
+		token = token->next;
 	}
 	return (1);
 }
