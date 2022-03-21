@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:39:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 20:10:21 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:34:33 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static size_t	ft_end_of_token(char *cmd, size_t size)
 			return (size + 1);
 		return (size - 1);
 	}
-	else if (ft_strchr(" ()<>|*", cmd[0]) || ((cmd[0] == '\'' || cmd[0] == '"')
+	else if (ft_strchr(" ()<>|", cmd[0]) || ((cmd[0] == '\'' || cmd[0] == '"')
 			&& (!cmd[1] || (cmd[1] && !ft_strchr(&cmd[1], cmd[0])))))
 	{
 		if (size == 1)
@@ -96,8 +96,6 @@ static int	ft_get_token_type(char *token_content)
 		return (OR);
 	else if (!ft_strcmp(token_content, "|"))
 		return (PIPE);
-	else if (!ft_strcmp(token_content, "*"))
-		return (WILDCARD);
 	return (WORD);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 15:34:07 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:35:19 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ enum e_type {
 	RED_OUT,
 	AND,
 	OR,
-	PIPE,
-	WILDCARD
+	PIPE
 };
 
 typedef struct s_list {
