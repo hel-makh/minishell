@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 20:09:52 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 11:10:41 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_list {
 typedef struct s_cmd {
 	char			**cmd;
 	int				type;
-	int				shlvl;
+	int				subsh_lvl;
 	t_list			*redirect;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -79,7 +79,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstclear(t_list **lst);
 int		ft_lstsize(t_list *lst);
 
-t_cmd	*ft_cmd_lstnew(char **cmd, int type, int shlvl, t_list *redirect);
+t_cmd	*ft_cmd_lstnew(char **cmd, int type, int subsh_lvl, t_list *redirect);
 t_cmd	*ft_cmd_lstlast(t_cmd *lst);
 void	ft_cmd_lstadd_back(t_cmd **lst, t_cmd *new);
 void	ft_cmd_lstclear(t_cmd **lst);
@@ -89,7 +89,7 @@ void	ft_init_vars(int argc, char *argv[], char *envp[], t_vars *vars);
 void	ft_handle_signals(int sig);
 void	ft_tokenization(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
-int		ft_parse_args(t_vars *vars);
+int		ft_parse_cmds(t_vars *vars);
 void	ft_free_program(t_vars *vars);
 
 #endif

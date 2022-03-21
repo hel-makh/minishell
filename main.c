@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 20:02:05 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 11:10:19 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	main(int argc, char *argv[], char *envp[])
 			continue ;
 		}
 
-		if (!ft_parse_args(&vars))
+		if (!ft_parse_cmds(&vars))
 			return (ft_free_program(&vars), EXIT_FAILURE);
 
 		t_cmd	*t_cmds = vars.cmds;
@@ -91,7 +91,7 @@ int	main(int argc, char *argv[], char *envp[])
 			while (t_cmds->cmd[++i])
 				printf("%d. %s\n", i, t_cmds->cmd[i]);
 			printf("type: %d\n", t_cmds->type);
-			printf("shlvl: %d\n", t_cmds->shlvl);
+			printf("subsh_lvl: %d\n", t_cmds->subsh_lvl);
 			t_list	*t_lists = vars.cmds->redirect;
 			while (t_lists)
 			{

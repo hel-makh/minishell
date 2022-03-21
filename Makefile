@@ -23,7 +23,7 @@ SRCS			=	srcs/ft_strcmp.c\
 					srcs/ft_handle_signals.c\
 					srcs/ft_tokenization.c\
 					srcs/ft_verify_syntax.c\
-					srcs/ft_parse_args.c\
+					srcs/ft_parse_cmds.c\
 					srcs/ft_free_program.c
 
 OBJS			=	$(SRCS:.c=.o)\

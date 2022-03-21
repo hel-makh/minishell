@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_args.c                                    :+:      :+:    :+:   */
+/*   ft_parse_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 16:11:41 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/20 20:01:16 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 11:10:15 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_parse_args(t_vars *vars)
+int	ft_parse_cmds(t_vars *vars)
 {
 	char		**cmd;
 	t_cmd		temp_cmd;
@@ -23,7 +23,7 @@ int	ft_parse_args(t_vars *vars)
 	if (!cmd)
 		return (0);
 	temp_cmd.type = 0;
-	temp_cmd.shlvl = 0;
+	temp_cmd.subsh_lvl = 0;
 	temp_cmd.redirect = NULL;
 	paren_closed = 0;
 	t_tokens = vars->tokens;
@@ -36,7 +36,7 @@ int	ft_parse_args(t_vars *vars)
 				return (0);
 		}
 		if (t_tokens->type == L_PAREN)
-			temp_cmd.shlvl ++;
+			temp_cmd.subsh_lvl ++;
 		if (t_tokens->type == RED_IN || t_tokens->type == RED_OUT
 			|| t_tokens->type == D_RED_IN || t_tokens->type == D_RED_OUT)
 			ft_lstadd_back(&vars->cmds->redirect,
@@ -45,7 +45,7 @@ int	ft_parse_args(t_vars *vars)
 			|| t_tokens->type == AND || !t_tokens->next)
 		{
 			ft_cmd_lstadd_back(&vars->cmds,
-				ft_cmd_lstnew(cmd, temp_cmd.type, temp_cmd.shlvl, temp_cmd.redirect));
+				ft_cmd_lstnew(cmd, temp_cmd.type, temp_cmd.subsh_lvl, temp_cmd.redirect));
 			temp_cmd.type = t_tokens->type;
 			if (t_tokens->next)
 			{
@@ -55,7 +55,7 @@ int	ft_parse_args(t_vars *vars)
 			}
 			if (paren_closed)
 			{
-				temp_cmd.shlvl -= paren_closed;
+				temp_cmd.subsh_lvl -= paren_closed;
 				paren_closed = 0;
 			}
 		}
