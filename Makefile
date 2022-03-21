@@ -5,7 +5,6 @@ NAME			=	minishell
 MAIN			=	main.c
 
 SRCS			=	srcs/ft_strcmp.c\
-					srcs/ft_strnjoin.c\
 					srcs/ft_free.c\
 					srcs/ft_arrlen.c\
 					srcs/ft_add_str2arr.c\

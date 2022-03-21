@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 12:03:01 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:34:07 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_vars {
 }	t_vars;
 
 int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strnjoin(char const *s1, char const *s2, size_t n);
 void	*ft_free(void *ptr);
 void	*ft_free_2d(char **ptr);
 void	*ft_free_3d(char ***ptr);
