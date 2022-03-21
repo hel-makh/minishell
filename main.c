@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 15:00:32 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/21 21:18:56 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_vars	vars;
 
-	ft_init_vars(argc, argv, envp, &vars);
+	(void)argc;
+	(void)argv;
+	if (!ft_init_vars(&vars, envp))
+		return (EXIT_FAILURE);
 	signal(SIGINT, ft_handle_signals);
 	signal(SIGQUIT, ft_handle_signals);
 	vars.cmdline = ft_strdup("");
@@ -35,11 +38,12 @@ int	main(int argc, char *argv[], char *envp[])
 			vars.last_cmdline = ft_strdup(vars.cmdline);
 			add_history(vars.cmdline);
 		}
+
+		printf("\n#################### Tokenization ###################\n\n");
+
 		ft_tokenization(&vars);
 		if (!ft_lstsize(vars.tokens))
 			continue ;
-
-		printf("\n#################### Tokenization ###################\n\n");
 
 		t_list	*t_tokens = vars.tokens;
 		while (t_tokens)
@@ -79,6 +83,31 @@ int	main(int argc, char *argv[], char *envp[])
 			t_cmds = t_cmds->next;
 		}
 		
+		printf("\n##################### Expansion #####################\n\n");
+
+		if (!ft_expand_env_vars(&vars))
+			return (ft_free_program(&vars), EXIT_FAILURE);
+
+		cmd_n = 1;
+		t_cmds = vars.cmds;
+		while (t_cmds)
+		{
+			printf("=====================[ %d ]======================\n", cmd_n++);
+			int i = -1;
+			while (t_cmds->cmd[++i])
+				printf("%d. %s\n", i, t_cmds->cmd[i]);
+			printf("type: %d\n", t_cmds->type);
+			printf("subsh_lvl: %d\n", t_cmds->subsh_lvl);
+			t_list	*t_lists = t_cmds->redirect;
+			while (t_lists)
+			{
+				printf("redirect: %s\n", t_lists->content);
+				printf("redirect_type: %d\n", t_lists->type);
+				t_lists = t_lists->next;
+			}
+			t_cmds = t_cmds->next;
+		}
+
 		printf("\n");
 	}
 	ft_free_program(&vars);
