@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 15:41:31 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 22:54:13 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/22 21:25:55 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,7 @@ static int	ft_varname_len(char *var_name)
 	return (i);
 }
 
-static void	ft_replace_var(char **envp, char **cmd, int *index)
-{
-	char	*var_name;
-	size_t	var_len;
-
-	var_len = ft_varname_len(&(*cmd)[*index + 1]);
-	var_name = ft_substr(*cmd, *index + 1, var_len);
-	if (ft_getenv(var_name, envp))
-		*cmd = ft_replace_str(*cmd,
-				ft_getenv(var_name, envp), *index, var_len + 1);
-	else
-		*cmd = ft_replace_str(*cmd, "", *index, var_len + 1);
-	if (ft_getenv(var_name, envp))
-		*index += ft_strlen(ft_getenv(var_name, envp)) - 1;
-	var_name = ft_free(var_name);
-}
-
-static void	ft_expand_env_var(t_vars *vars, char **cmd)
+static int	ft_has_env_var(char **cmd)
 {
 	char	s_quote;
 	int		i;
@@ -58,14 +41,40 @@ static void	ft_expand_env_var(t_vars *vars, char **cmd)
 			s_quote = 0;
 		if (!s_quote && (*cmd)[i] == '$'
 			&& (*cmd)[i + 1] && ft_varname_len(&(*cmd)[i + 1]))
-			ft_replace_var(vars->envp, cmd, &i);
+			return (i);
 		i ++;
 	}
+	return (-1);
 }
 
-int	ft_expand_env_vars(t_vars *vars)
+static int	ft_expand_env_var(char **envp, char **cmd)
+{
+	int		index;
+	size_t	var_len;
+	char	*var_name;
+
+	if (ft_has_env_var(cmd) == -1)
+		return (0);
+	index = ft_has_env_var(cmd);
+	var_len = ft_varname_len(&(*cmd)[index + 1]);
+	var_name = ft_substr(*cmd, index + 1, var_len);
+	if (ft_getenv(var_name, envp))
+		*cmd = ft_replace_str(*cmd,
+				ft_getenv(var_name, envp), index, var_len + 1);
+	else
+		*cmd = ft_replace_str(*cmd, "", index, var_len + 1);
+	if (ft_getenv(var_name, envp))
+		index += ft_strlen(ft_getenv(var_name, envp)) - 1;
+	else
+		index = 0;
+	var_name = ft_free(var_name);
+	return (index);
+}
+
+void	ft_expand_env_vars(t_vars *vars)
 {
 	t_cmd	*cmd;
+	t_list	*redirect;
 	int		i;
 
 	cmd = vars->cmds;
@@ -75,16 +84,16 @@ int	ft_expand_env_vars(t_vars *vars)
 		while (cmd->cmd[i])
 		{
 			if (ft_strchr(cmd->cmd[i], '$'))
-				ft_expand_env_var(vars, &cmd->cmd[i]);
+				i += ft_expand_env_var(vars->envp, &cmd->cmd[i]);
 			i ++;
 		}
-		while (cmd->redirect)
+		redirect = cmd->redirect;
+		while (redirect)
 		{
-			if (ft_strchr(cmd->redirect->content, '$'))
-				ft_expand_env_var(vars, &cmd->redirect->content);
-			cmd->redirect = cmd->redirect->next;
+			if (ft_strchr(redirect->content, '$'))
+				ft_expand_env_var(vars->envp, &redirect->content);
+			redirect = redirect->next;
 		}
 		cmd = cmd->next;
 	}
-	return (1);
 }
