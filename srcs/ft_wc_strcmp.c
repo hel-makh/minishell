@@ -6,11 +6,13 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:19:43 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/22 12:24:08 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/22 15:11:33 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+#include <string.h>
 
 static char	*ft_strnotchr(const char *s, char c)
 {
@@ -45,18 +47,40 @@ static void	ft_skip_wildcards(
 			*i += 1;
 }
 
+static int	ft_is_quoted(const char *s, size_t *index, char *quote)
+{
+	if (!*quote && (s[*index] == '\'' || s[*index] == '"'))
+	{
+		*quote = s[*index];
+		*index += 1;
+		return (1);
+	}
+	else if (*quote && s[*index] == *quote)
+	{
+		*quote = 0;
+		*index += 1;
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_wc_strcmp(const char *s1, const char *s2)
 {
+	char	quote;
 	size_t	i;
 	size_t	j;
 
+	quote = 0;
 	i = 0;
 	j = 0;
 	while (s1[i] || s2[j])
 	{
-		if (s1[i] != '*' && s1[i] != s2[j])
+		if (ft_is_quoted(s1, &i, &quote))
+			continue ;
+		if (s1[i] != s2[j] && (quote || (!quote && s1[i] != '*')))
 			break ;
-		ft_skip_wildcards(s1, s2, &i, &j);
+		if (!quote && s1[i] == '*')
+			ft_skip_wildcards(s1, s2, &i, &j);
 		if (s1[i])
 			i ++;
 		if (s2[j])
