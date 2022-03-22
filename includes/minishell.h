@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/22 12:21:29 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/22 21:15:05 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ void	*ft_free_2d(char **ptr);
 void	*ft_free_3d(char ***ptr);
 size_t	ft_arrlen(char **arr);
 char	**ft_add_str2arr(char **array, char *str);
-char	*ft_replace_str(
-			char *s1, const char *s2, unsigned int start, unsigned int len);
+char	*ft_replace_str( char *s1, const char *s2,
+			unsigned int start, unsigned int len);
+char	**ft_replace_arr( char **arr1, char **arr2,
+			unsigned int start, unsigned int size);
 int		ft_wc_strcmp(const char *s1, const char *s2);
 
 int		ft_lstsize(t_list *lst);
@@ -89,7 +91,8 @@ void	ft_handle_signals(int sig);
 void	ft_tokenization(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
 int		ft_parse_cmds(t_vars *vars);
-int		ft_expand_env_vars(t_vars *vars);
+void	ft_expand_env_vars(t_vars *vars);
+void	ft_expand_wildcards(t_vars *vars);
 void	ft_free_program(t_vars *vars);
 
 #endif

@@ -9,6 +9,7 @@ SRCS			=	srcs/ft_strcmp.c\
 					srcs/ft_arrlen.c\
 					srcs/ft_add_str2arr.c\
 					srcs/ft_replace_str.c\
+					srcs/ft_replace_arr.c\
 					srcs/ft_wc_strcmp.c\
 					srcs/ft_lstfuncs.c\
 					srcs/ft_cmd_lstfuncs.c\
@@ -19,6 +20,7 @@ SRCS			=	srcs/ft_strcmp.c\
 					srcs/ft_verify_syntax.c\
 					srcs/ft_parse_cmds.c\
 					srcs/ft_expand_env_vars.c\
+					srcs/ft_expand_wildcards.c\
 					srcs/ft_free_program.c
 
 OBJS			=	$(SRCS:.c=.o)\
