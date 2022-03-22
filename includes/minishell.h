@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 21:21:05 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/22 12:21:29 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ size_t	ft_arrlen(char **arr);
 char	**ft_add_str2arr(char **array, char *str);
 char	*ft_replace_str(
 			char *s1, const char *s2, unsigned int start, unsigned int len);
+int		ft_wc_strcmp(const char *s1, const char *s2);
 
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstnew(char *content, int type);

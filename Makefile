@@ -9,6 +9,7 @@ SRCS			=	srcs/ft_strcmp.c\
 					srcs/ft_arrlen.c\
 					srcs/ft_add_str2arr.c\
 					srcs/ft_replace_str.c\
+					srcs/ft_wc_strcmp.c\
 					srcs/ft_lstfuncs.c\
 					srcs/ft_cmd_lstfuncs.c\
 					srcs/ft_getenv.c\
