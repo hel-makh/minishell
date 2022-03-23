@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 15:41:31 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/22 21:25:55 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/23 13:22:59 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ static int	ft_has_env_var(char **cmd)
 	return (-1);
 }
 
-static int	ft_expand_env_var(char **envp, char **cmd)
+static void	ft_expand_env_var(char **envp, char **cmd)
 {
 	int		index;
 	size_t	var_len;
 	char	*var_name;
 
 	if (ft_has_env_var(cmd) == -1)
-		return (0);
+		return ;
 	index = ft_has_env_var(cmd);
 	var_len = ft_varname_len(&(*cmd)[index + 1]);
 	var_name = ft_substr(*cmd, index + 1, var_len);
@@ -63,12 +63,7 @@ static int	ft_expand_env_var(char **envp, char **cmd)
 				ft_getenv(var_name, envp), index, var_len + 1);
 	else
 		*cmd = ft_replace_str(*cmd, "", index, var_len + 1);
-	if (ft_getenv(var_name, envp))
-		index += ft_strlen(ft_getenv(var_name, envp)) - 1;
-	else
-		index = 0;
 	var_name = ft_free(var_name);
-	return (index);
 }
 
 void	ft_expand_env_vars(t_vars *vars)
@@ -83,15 +78,13 @@ void	ft_expand_env_vars(t_vars *vars)
 		i = 0;
 		while (cmd->cmd[i])
 		{
-			if (ft_strchr(cmd->cmd[i], '$'))
-				i += ft_expand_env_var(vars->envp, &cmd->cmd[i]);
+			ft_expand_env_var(vars->envp, &cmd->cmd[i]);
 			i ++;
 		}
 		redirect = cmd->redirect;
 		while (redirect)
 		{
-			if (ft_strchr(redirect->content, '$'))
-				ft_expand_env_var(vars->envp, &redirect->content);
+			ft_expand_env_var(vars->envp, &redirect->content);
 			redirect = redirect->next;
 		}
 		cmd = cmd->next;
