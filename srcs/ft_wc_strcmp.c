@@ -6,13 +6,11 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:19:43 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/22 15:11:33 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/23 12:48:03 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-#include <string.h>
 
 static char	*ft_strnotchr(const char *s, char c)
 {
@@ -28,28 +26,33 @@ static void	ft_skip_wildcards(
 	const char *s1, const char *s2, size_t *i, size_t *j
 	)
 {
-	char	*(*search_func)(const char *, int);
 	char	*str;
+	char	*(*search_func)(const char *, int);
 
 	str = ft_strnotchr(&s1[*i + 1], '*');
+	str = ft_remove_quotes(ft_strdup(str));
 	if (str && ft_strchr(str, '*'))
 		search_func = &ft_strchr;
 	else
 		search_func = &ft_strrchr;
-	if (!ft_strchr(&s2[*j], str[0]))
-		return ;
-	while (s1[*i] == '*'
-		&& *j < ft_strlen(s2) - ft_strlen(search_func(&s2[*j], str[0])))
-		*j += 1;
-	if (str[0] == s2[*j]
-		&& *j == ft_strlen(s2) - ft_strlen(search_func(&s2[*j], str[0])))
-		while (s1[*i] == '*')
+	if (ft_strchr(&s2[*j], str[0]))
+	{
+		while (s1[*i] == '*'
+			&& *j < ft_strlen(s2) - ft_strlen(search_func(&s2[*j], str[0])))
+			*j += 1;
+		while (s2[*j] == str[0] && s1[*i] == '*')
 			*i += 1;
+		*i -= 1;
+		*j -= 1;
+	}
+	str = ft_free(str);
 }
 
 static int	ft_is_quoted(const char *s, size_t *index, char *quote)
 {
-	if (!*quote && (s[*index] == '\'' || s[*index] == '"'))
+	if (!*quote
+		&& (s[*index] == '\'' || s[*index] == '"')
+		&& ft_strchr(&s[*index + 1], s[*index]))
 	{
 		*quote = s[*index];
 		*index += 1;

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/22 21:25:43 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/23 13:51:53 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 // #include "srcs/ft_replace_str.c"
 // #include "srcs/ft_replace_arr.c"
 // #include "srcs/ft_wc_strcmp.c"
+// #include "srcs/ft_remove_quotes.c"
 // #include "srcs/ft_lstfuncs.c"
 // #include "srcs/ft_cmd_lstfuncs.c"
 // #include "srcs/ft_getenv.c"

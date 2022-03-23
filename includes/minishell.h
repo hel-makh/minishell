@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/22 21:15:05 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/23 12:17:57 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	*ft_replace_str( char *s1, const char *s2,
 			unsigned int start, unsigned int len);
 char	**ft_replace_arr( char **arr1, char **arr2,
 			unsigned int start, unsigned int size);
+char	*ft_remove_quotes(char *s);
 int		ft_wc_strcmp(const char *s1, const char *s2);
 
 int		ft_lstsize(t_list *lst);
