@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 15:27:45 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/22 19:10:31 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:24:25 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ char	**ft_replace_arr(
 	k = 0;
 	while (i < arr_len)
 	{
+		if (i == start)
+			j += size;
 		if (i < start)
 			arr[i++] = ft_strdup(arr1[j++]);
 		else if (i < start + ft_arrlen(arr2))
 			arr[i++] = ft_strdup(arr2[k++]);
 		else
 			arr[i++] = ft_strdup(arr1[j++]);
-		if (i - 1 == start)
-			j += size;
 	}
 	return (ft_free_2d(arr1), arr);
 }
