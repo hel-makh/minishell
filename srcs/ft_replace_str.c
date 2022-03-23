@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 21:20:15 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 22:45:47 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/23 13:50:39 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ char	*ft_replace_str(
 	k = 0;
 	while (i < str_len)
 	{
+		if (i == start)
+			j += len;
 		if (i < start)
 			str[i++] = s1[j++];
 		else if (i < start + ft_strlen(s2))
 			str[i++] = s2[k++];
 		else
 			str[i++] = s1[j++];
-		if (i - 1 == start)
-			j += len;
 	}
 	return (free(s1), str);
 }
