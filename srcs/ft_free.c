@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 16:58:07 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 12:58:41 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 14:48:05 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,27 @@ void	*ft_free(void *ptr)
 	return (NULL);
 }
 
-void	*ft_free_2d(char **ptr)
+void	*ft_free_2d(char **array)
 {
 	int	i;
 
-	if (!ptr)
+	if (!array)
 		return (NULL);
 	i = 0;
-	while (ptr[i])
-		free(ptr[i++]);
-	free(ptr);
+	while (array[i])
+		free(array[i++]);
+	free(array);
 	return (NULL);
 }
 
-void	*ft_free_3d(char ***ptr)
+void	*ft_free_3d(char ***array)
 {
 	int	i;
 
-	if (!ptr)
+	if (!array)
 		return (NULL);
 	i = 0;
-	while (ptr[i])
-		ft_free_2d(ptr[i++]);
+	while (array[i])
+		ft_free_2d(array[i++]);
 	return (NULL);
 }
