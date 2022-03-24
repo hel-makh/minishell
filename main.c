@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 18:23:19 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 22:43:31 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ int	main(int argc, char *argv[], char *envp[])
 			while (t_cmds->cmd[++i])
 				printf("%d. %s\n", i, t_cmds->cmd[i]);
 			printf("type: %d\n", t_cmds->type);
-			printf("subsh_lvl: %d\n", t_cmds->subsh_lvl);
+			printf("subshell_lvlup: %d\n", t_cmds->subsh_lvl[0]);
+			printf("subshell_lvldown: %d\n", t_cmds->subsh_lvl[1]);
 			t_list	*t_lists = t_cmds->redirect;
 			while (t_lists)
 			{
@@ -130,7 +131,8 @@ int	main(int argc, char *argv[], char *envp[])
 			while (t_cmds->cmd[++i])
 				printf("%d. %s\n", i, t_cmds->cmd[i]);
 			printf("type: %d\n", t_cmds->type);
-			printf("subsh_lvl: %d\n", t_cmds->subsh_lvl);
+			printf("subshell_lvlup: %d\n", t_cmds->subsh_lvl[0]);
+			printf("subshell_lvldown: %d\n", t_cmds->subsh_lvl[1]);
 			t_list	*t_lists = t_cmds->redirect;
 			while (t_lists)
 			{

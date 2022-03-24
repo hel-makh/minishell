@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 15:45:59 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 23:12:10 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ enum e_type {
 	PIPE
 };
 
+typedef struct s_env {
+	char			**envp;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_list {
 	char			*content;
 	int				type;
@@ -47,15 +52,15 @@ typedef struct s_list {
 typedef struct s_cmd {
 	char			**cmd;
 	int				type;
-	int				subsh_lvl;
+	int				*subsh_lvl;
 	t_list			*redirect;
 	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_vars {
-	char			**envp;
 	char			*cmdline;
 	char			*last_cmdline;
+	t_env			*envp;
 	t_list			*tokens;
 	t_cmd			*cmds;
 }	t_vars;
@@ -67,10 +72,16 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstclear(t_list **lst);
 
 int		ft_cmd_lstsize(t_cmd *lst);
-t_cmd	*ft_cmd_lstnew(char **cmd, int type, int subsh_lvl, t_list *redirect);
+t_cmd	*ft_cmd_lstnew(char **cmd, int type, int *subsh_lvl, t_list *redirect);
 t_cmd	*ft_cmd_lstlast(t_cmd *lst);
 void	ft_cmd_lstadd_back(t_cmd **lst, t_cmd *new);
 void	ft_cmd_lstclear(t_cmd **lst);
+
+int		ft_env_lstsize(t_env *lst);
+t_env	*ft_env_lstnew(char **envp);
+t_env	*ft_env_lstlast(t_env *lst);
+void	ft_env_lstadd_back(t_env **lst, t_env *new);
+void	ft_env_lstclear(t_env **lst);
 
 char	*ft_remove_quotes(char *s);
 int		ft_wc_strcmp(const char *s1, const char *s2);
