@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 15:08:43 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:45:59 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*ft_getenv(char *var, char *envp[]);
 
 int		ft_init_vars(t_vars *vars, char *envp[]);
 void	ft_handle_signals(int sig);
-void	ft_tokenization(t_vars *vars);
+int		ft_tokenization(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
 int		ft_parse_cmds(t_vars *vars);
 void	ft_expand_env_vars(t_vars *vars);

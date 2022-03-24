@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 16:11:41 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 15:31:49 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:48:47 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_add_cmd(
 		{
 			*cmd = ft_cmd_lstnew(ft_calloc(1, sizeof(char *)),
 					(*token)->type, (*cmd)->subsh_lvl, NULL);
-			if (!(*cmd)->cmd)
+			if (!(*cmd) || !(*cmd)->cmd)
 				return (0);
 		}
 		if (*paren_closed)
@@ -50,7 +50,7 @@ int	ft_parse_cmds(t_vars *vars)
 	int			paren_closed;
 
 	cmd = ft_cmd_lstnew(ft_calloc(1, sizeof(char *)), 0, 0, NULL);
-	if (!cmd->cmd)
+	if (!cmd || !cmd->cmd)
 		return (0);
 	paren_closed = 0;
 	token = vars->tokens;

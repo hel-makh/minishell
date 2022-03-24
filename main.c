@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/23 13:51:53 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:47:29 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ int	main(int argc, char *argv[], char *envp[])
 			add_history(vars.cmdline);
 		}
 
-		ft_tokenization(&vars);
-		if (!ft_lstsize(vars.tokens))
+		if (!ft_tokenization(&vars) || !ft_lstsize(vars.tokens))
 			continue ;
 
 		printf("\n#################### Tokenization ###################\n\n");
@@ -92,7 +91,7 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 
 		if (!ft_parse_cmds(&vars))
-			return (ft_free_program(&vars), EXIT_FAILURE);
+			continue ;
 		
 		printf("\n###################### Parsing ######################\n\n");
 
