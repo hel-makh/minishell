@@ -34,9 +34,10 @@ SRCS			=	ft_isalpha.c\
 					ft_strjoin.c\
 					ft_strtrim.c\
 					ft_replace_str.c\
-					ft_replace_arr.c\
-					ft_add_str2arr.c\
+					ft_arrdup.c\
 					ft_split.c\
+					ft_add_str2arr.c\
+					ft_replace_arr.c\
 					ft_itoa.c\
 					ft_strmapi.c\
 					ft_striteri.c\

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 18:28:42 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 15:07:44 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 23:46:50 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_replace_str( char *s1, const char *s2,
 			unsigned int start, unsigned int len);
+char	**ft_arrdup(char **array);
+char	**ft_split(char const *s, char c);
+char	**ft_add_str2arr(char **array, char *str);
 char	**ft_replace_arr( char **arr1, char **arr2,
 			unsigned int start, unsigned int size);
-char	**ft_add_str2arr(char **array, char *str);
-char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
