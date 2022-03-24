@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 16:44:10 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 15:13:58 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:26:18 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,7 @@ static int	ft_verify_parenthesis(t_vars *vars)
 				&& t_tokens->type != PIPE)
 			|| (t_tokens->type == R_PAREN
 				&& t_tokens->next
-				&& t_tokens->next->type != AND
-				&& t_tokens->next->type != OR
-				&& t_tokens->next->type != PIPE))
+				&& t_tokens->next->type == WORD))
 			return (0);
 		t_tokens = t_tokens->next;
 	}
