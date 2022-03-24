@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/23 12:17:57 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:08:43 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,6 @@ typedef struct s_vars {
 	t_cmd			*cmds;
 }	t_vars;
 
-int		ft_strcmp(const char *s1, const char *s2);
-void	*ft_free(void *ptr);
-void	*ft_free_2d(char **ptr);
-void	*ft_free_3d(char ***ptr);
-size_t	ft_arrlen(char **arr);
-char	**ft_add_str2arr(char **array, char *str);
-char	*ft_replace_str( char *s1, const char *s2,
-			unsigned int start, unsigned int len);
-char	**ft_replace_arr( char **arr1, char **arr2,
-			unsigned int start, unsigned int size);
-char	*ft_remove_quotes(char *s);
-int		ft_wc_strcmp(const char *s1, const char *s2);
-
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstnew(char *content, int type);
 t_list	*ft_lstlast(t_list *lst);
@@ -85,6 +72,8 @@ t_cmd	*ft_cmd_lstlast(t_cmd *lst);
 void	ft_cmd_lstadd_back(t_cmd **lst, t_cmd *new);
 void	ft_cmd_lstclear(t_cmd **lst);
 
+char	*ft_remove_quotes(char *s);
+int		ft_wc_strcmp(const char *s1, const char *s2);
 char	*ft_getenv(char *var, char *envp[]);
 
 int		ft_init_vars(t_vars *vars, char *envp[]);
