@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_arrlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/19 12:30:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/19 12:30:39 by hel-makh         ###   ########.fr       */
+/*   Created: 2022/03/01 16:38:14 by hel-makh          #+#    #+#             */
+/*   Updated: 2022/03/24 15:06:30 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+size_t	ft_arrlen(char **arr)
 {
-	size_t	i;
+	size_t	arrlen;
 
-	i = 0;
-	while (s1[i] != '\0' || s2[i] != '\0')
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i ++;
-	}
-	return (0);
+	arrlen = 0;
+	while (arr[arrlen])
+		arrlen ++;
+	return (arrlen);
 }

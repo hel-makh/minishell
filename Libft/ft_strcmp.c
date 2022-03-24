@@ -1,45 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/26 16:58:07 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 14:48:05 by hel-makh         ###   ########.fr       */
+/*   Created: 2022/03/19 12:30:23 by hel-makh          #+#    #+#             */
+/*   Updated: 2022/03/24 15:06:39 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-void	*ft_free(void *ptr)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	if (ptr)
-		free(ptr);
-	return (NULL);
-}
+	size_t	i;
 
-void	*ft_free_2d(char **array)
-{
-	int	i;
-
-	if (!array)
-		return (NULL);
 	i = 0;
-	while (array[i])
-		free(array[i++]);
-	free(array);
-	return (NULL);
-}
-
-void	*ft_free_3d(char ***array)
-{
-	int	i;
-
-	if (!array)
-		return (NULL);
-	i = 0;
-	while (array[i])
-		ft_free_2d(array[i++]);
-	return (NULL);
+	while (s1[i] != '\0' || s2[i] != '\0')
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i ++;
+	}
+	return (0);
 }

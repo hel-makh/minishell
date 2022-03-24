@@ -1,23 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrlen.c                                        :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/01 16:38:14 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/01 16:39:11 by hel-makh         ###   ########.fr       */
+/*   Created: 2022/02/26 16:58:07 by hel-makh          #+#    #+#             */
+/*   Updated: 2022/03/24 15:06:26 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-size_t	ft_arrlen(char **arr)
+void	*ft_free(void *ptr)
 {
-	size_t	arrlen;
+	if (ptr)
+		free(ptr);
+	return (NULL);
+}
 
-	arrlen = 0;
-	while (arr[arrlen])
-		arrlen ++;
-	return (arrlen);
+void	*ft_free_2d(char **array)
+{
+	int	i;
+
+	if (!array)
+		return (NULL);
+	i = 0;
+	while (array[i])
+		free(array[i++]);
+	free(array);
+	return (NULL);
+}
+
+void	*ft_free_3d(char ***array)
+{
+	int	i;
+
+	if (!array)
+		return (NULL);
+	i = 0;
+	while (array[i])
+		ft_free_2d(array[i++]);
+	return (NULL);
 }

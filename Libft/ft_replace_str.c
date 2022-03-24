@@ -6,11 +6,11 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 21:20:15 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 15:03:20 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:06:36 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
 char	*ft_replace_str(
 	char *s1, const char *s2, unsigned int start, unsigned int len

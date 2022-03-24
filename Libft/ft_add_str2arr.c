@@ -6,11 +6,11 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 19:50:13 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 14:47:11 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:06:32 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
 char	**ft_add_str2arr(char **array, char *str)
 {
