@@ -4,10 +4,10 @@ NAME			=	minishell
 
 MAIN			=	main.c
 
-SRCS			=	srcs/ft_wc_strcmp.c\
-					srcs/ft_remove_quotes.c\
-					srcs/ft_lstfuncs.c\
+SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/ft_cmd_lstfuncs.c\
+					srcs/ft_wc_strcmp.c\
+					srcs/ft_remove_quotes.c\
 					srcs/ft_getenv.c\
 					srcs/ft_init_vars.c\
 					srcs/ft_handle_signals.c\
@@ -45,11 +45,11 @@ $(LIB):
 
 clean:
 				$(RM) $(OBJS)
-				make clean -C Libft
+				# make clean -C Libft
 
 fclean:			clean
 				$(RM) $(NAME)
-				make fclean -C Libft
+				# make fclean -C Libft
 
 re:				fclean all
 
