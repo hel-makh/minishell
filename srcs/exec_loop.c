@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   exec_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/25 14:21:15 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:48:54 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int check_pipe(t_cmd **cmd)
+int check_pipe(t_cmd *cmd, int subsh_lvl)
 {
+	int	subsh;
 	int i;
-	t_cmd *tmp;
 	
-	tmp = *cmd;
+	subsh = 0;
 	i = 0;
-	tmp = tmp->next;
-	while (tmp)
+	while (cmd)
 	{
-		if (tmp->type != PIPE)
-			break;
-		i++;
-		tmp = tmp->next;
+		subsh += cmd->subsh_lvl[0];
+		if (subsh == subsh_lvl && cmd->type == PIPE)
+			i++;
+		subsh -= cmd->subsh_lvl[1];
+		cmd = cmd->next;
 	}
 	return (i);
 }
@@ -53,17 +53,55 @@ void	exec_child_simple(t_cmd **cmd, t_exec *exec, t_vars *vars)
 	*cmd = (*cmd)->next;
 }
 
-void	exec_loop(t_cmd *cmd, t_exec *exec, t_vars *vars)
+int		exec_cmd_skip(t_cmd *cmd)
+{
+	int	subsh_lvl;
+	int	i;
+
+	subsh_lvl = 0;
+	i = 0;
+	if (!cmd->subsh_lvl[0])
+		return (1);
+	while (1)
+	{
+		i ++;
+		subsh_lvl += cmd->subsh_lvl[0];
+		if (cmd->subsh_lvl[1])
+			subsh_lvl -= cmd->subsh_lvl[1];
+		if (subsh_lvl <= 0)
+			break ;
+		cmd = cmd->next;
+	}
+	return (i);
+}
+
+void	init_fd_cmd(t_cmd *cmd, t_exec *exec, t_vars *vars)
 {
 	while (cmd)
 	{
+		exec->pipes = check_pipe(cmd,);
+	}
+}
+
+void	exec_loop(t_cmd *cmd, t_exec *exec, t_vars *vars)
+{
+	int	i;
+	int	subsh_lvl;
+
+	init_fd_cmd(cmd, exec, vars);
+	while (cmd)
+	{
+		subsh_lvl += cmd->subsh_lvl[0];
+		subsh_lvl -= cmd->subsh_lvl[1];
 		if ((cmd->type == AND && exit_status != 0)
 			|| (cmd->type == OR && exit_status == 0))
 		{
-			cmd = cmd->next;
+			i = exec_cmd_skip(cmd);
+			while (i--)
+				cmd = cmd->next;
 			continue;
 		}
-		exec->pipes = check_pipe(&cmd);
+		exec->pipes = check_pipe(cmd,);
 		if (exec->pipes)
 			execute_pipes(&cmd, exec, vars);
 		else
@@ -78,87 +116,3 @@ void	exec_loop(t_cmd *cmd, t_exec *exec, t_vars *vars)
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// 	pid_t pid;
-// 	while (exec->i < exec->cmd_nbr)
-// 	{
-// 		if (cmd->type != PIPE)
-// 		{
-// 			exec->pipes = check_pipe(&cmd);
-// 			if (exec->pipes != 0)
-// 			{
-// 				execute_pipes(&cmd, exec, vars);
-// 				continue;
-// 			}
-// 		}
-// 		printf("cmd now %s\n",cmd->cmd[0]);
-// 		pid = fork();
-// 		if (pid == -1)
-// 			exit_perror();
-// 		if (pid == 0)
-// 		{
-// 			if (cmd->type == AND)
-// 			{
-// 				if (exit_status == 0)
-// 					exec_child_simple(cmd, exec, vars);
-// 				else
-// 					exit(1);
-// 			}
-// 			if (cmd->type == OR)
-// 			{
-// 				if (exit_status != 0)
-// 					exec_child_simple(cmd, exec, vars);
-// 				else
-// 					exit(1);
-// 			}
-// 			exec_child_simple(cmd, exec, vars);
-// 		}
-// 		waitpid(pid,&exec->status,0);
-// 		if (cmd->type != WORD && cmd->type != PIPE)
-// 		{
-// 			exit_status = WEXITSTATUS(exec->status);
-// 			if (exit_status == 1)
-// 			{                                                                                                                                                                
-// 				if (cmd->type == AND)
-// 					break;
-// 			}
-// 		}
-// 		if (cmd->next)
-// 			cmd = cmd->next;
-// 		exec->i = exec->i + 1;

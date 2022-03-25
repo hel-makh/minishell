@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/25 12:45:04 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:04:29 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char *argv[], char *envp[])
 	if (!ft_init_vars(&vars, envp))
 		return (EXIT_FAILURE);
 	signal(SIGINT, ft_handle_signals);
-	signal(SIGQUIT, ft_handle_signals);
+	// signal(SIGQUIT, ft_handle_signals);
 	vars.cmdline = ft_strdup("");
 	while (vars.cmdline)
 	{

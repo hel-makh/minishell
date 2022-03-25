@@ -3,49 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:53:36 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/24 17:34:32 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:20:29 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	get_size(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
 int	echo_builtin(char **cmd)
 {
+	int	option;
 	int	i;
 
-	if (cmd[1] && ft_strcmp(cmd[1], "-n") == 0)
+	option = 0;
+	i = 1;
+	while (cmd[i] && ft_strcmp(cmd[i], "-n") == 0)
 	{
-		i = 1;
-		while (cmd[++i])
-		{
-			printf ("%s", cmd[i]);
-			if (i < get_size(cmd) - 1)
-				printf (" ");
-		}
+		option = 1;
+		i ++;
 	}
-	else
+	while (cmd[i])
 	{
-		i = 0;
-		while (cmd[++i])
-		{
-			printf ("%s", cmd[i]);
-			if (i < get_size(cmd) - 1)
-				printf (" ");
-		}
+		printf ("%s", cmd[i]);
+		if (cmd[i + 1])
+			printf (" ");
+		i ++;
+	}
+	if (!option)
 		printf ("\n");
-	}
 	return (0);
 }

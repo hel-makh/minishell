@@ -18,7 +18,6 @@ SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/exec.c\
 					srcs/exec_loop.c\
 					srcs/exec_tools.c\
-					srcs/exec_split.c\
 					srcs/exec_heredoc.c\
 					srcs/exec_pipes.c\
 					srcs/exec_builtin.c\
@@ -47,7 +46,6 @@ $(NAME):		$(HEADER) $(LIB)
 				$(CC) $(CFLAGS) $(MAIN) $(SRCS) $(LIB) -o $(NAME) -lreadline $(LDFLAGS) $(CPPFLAGS)
 
 all:			$(NAME)
-				./$(NAME)
 
 $(LIB):
 				make -C $(LIBFT)

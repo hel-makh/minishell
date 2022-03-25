@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/25 12:44:46 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:37:52 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ enum e_type {
 
 typedef struct s_exec
 {
-	int		cmd_nbr;
 	int		fd_in;
 	int		fd_out;
 	int		pipes;
@@ -72,6 +71,7 @@ typedef struct s_list {
 
 typedef struct s_cmd {
 	char			**cmd;
+	int				fd[2];
 	int				type;
 	int				*subsh_lvl;
 	t_list			*redirect;
@@ -125,11 +125,10 @@ void	redirect_loop_input(t_exec *exec, t_cmd *cmd);
 void	redirect_loop_output(t_exec *exec, t_cmd *cmd);
 void	redirect_loop_output_last(t_exec *exec, t_cmd *cmd);
 void	the_execution(t_cmd *cmd, t_vars *vars);
-char	*find_cmd(t_cmd *cmd);
 char	**get_env(char *env);
 char	*find_path(char **paths, char *cmd);
-char	**exec_split(char const *s, char c);
 void	exit_perror(void);
+void	exit_cmd_notfound(char *cmd, int exit_status);
 void	heredoc_exec(t_exec *exec, char *end);
 // pipes
 void	execute_pipes(t_cmd **cmd, t_exec *exec, t_vars *vars);
