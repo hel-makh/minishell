@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:51:40 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 22:38:03 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:03:12 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_cmd_lstsize(t_cmd *lst)
 	return (lstlen);
 }
 
-t_cmd	*ft_cmd_lstnew(char **cmd, int type, int **subsh_lvl, t_list *redirect)
+t_cmd	*ft_cmd_lstnew(char **cmd, int type, int *subsh_lvl, t_list *redirect)
 {
 	t_cmd	*element;
 

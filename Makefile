@@ -6,6 +6,7 @@ MAIN			=	main.c
 
 SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/ft_cmd_lstfuncs.c\
+					srcs/ft_env_lstfuncs.c\
 					srcs/ft_wc_strcmp.c\
 					srcs/ft_remove_quotes.c\
 					srcs/ft_getenv.c\
@@ -14,8 +15,6 @@ SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/ft_tokenization.c\
 					srcs/ft_verify_syntax.c\
 					srcs/ft_parse_cmds.c\
-					srcs/ft_expand_env_vars.c\
-					srcs/ft_expand_wildcards.c\
 					srcs/ft_free_program.c
 
 OBJS			=	$(SRCS:.c=.o)\
