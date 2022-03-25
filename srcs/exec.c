@@ -6,7 +6,7 @@
 /*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/24 17:47:50 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:47:29 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	the_execution(t_cmd *cmd, t_vars *vars)
 	}
 	else
 		tmp = find_cmd(cmd);
-	if ((execve(tmp, cmd->cmd, vars->envp) == -1))
+	if ((execve(tmp, cmd->cmd, ft_env_lstlast(vars->envp)->envp) == -1))
 		exit_perror();
 }
 

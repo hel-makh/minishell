@@ -6,9 +6,10 @@
 /*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 17:40:08 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:44:46 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -58,6 +59,11 @@ typedef struct s_exec
 	int		status;
 }   t_exec;
 
+typedef struct s_env {
+	char			**envp;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_list {
 	char			*content;
 	int				type;
@@ -67,27 +73,18 @@ typedef struct s_list {
 typedef struct s_cmd {
 	char			**cmd;
 	int				type;
-	int				subsh_lvl;
+	int				*subsh_lvl;
 	t_list			*redirect;
 	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_vars {
-	char			**envp;
 	char			*cmdline;
 	char			*last_cmdline;
+	t_env			*envp;
 	t_list			*tokens;
 	t_cmd			*cmds;
 }	t_vars;
-
-int		ft_strcmp(const char *s1, const char *s2);
-void	*ft_free(void *ptr);
-void	*ft_free_2d(char **ptr);
-void	*ft_free_3d(char ***ptr);
-size_t	ft_arrlen(char **arr);
-char	**ft_add_str2arr(char **array, char *str);
-char	*ft_replace_str(
-			char *s1, const char *s2, unsigned int start, unsigned int len);
 
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstnew(char *content, int type);
@@ -96,19 +93,28 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstclear(t_list **lst);
 
 int		ft_cmd_lstsize(t_cmd *lst);
-t_cmd	*ft_cmd_lstnew(char **cmd, int type, int subsh_lvl, t_list *redirect);
+t_cmd	*ft_cmd_lstnew(char **cmd, int type, int *subsh_lvl, t_list *redirect);
 t_cmd	*ft_cmd_lstlast(t_cmd *lst);
 void	ft_cmd_lstadd_back(t_cmd **lst, t_cmd *new);
 void	ft_cmd_lstclear(t_cmd **lst);
 
-char	*ft_getenv(char *var, char *envp[]);
+int		ft_env_lstsize(t_env *lst);
+t_env	*ft_env_lstnew(char **envp);
+t_env	*ft_env_lstlast(t_env *lst);
+void	ft_env_lstadd_back(t_env **lst, t_env *new);
+void	ft_env_lstclear(t_env **lst);
+
+char	*ft_remove_quotes(char *s);
+int		ft_wc_strcmp(const char *s1, const char *s2);
+char	*ft_getenv(char *var, t_env *envp);
 
 int		ft_init_vars(t_vars *vars, char *envp[]);
 void	ft_handle_signals(int sig);
-void	ft_tokenization(t_vars *vars);
+int		ft_tokenization(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
 int		ft_parse_cmds(t_vars *vars);
-int		ft_expand_env_vars(t_vars *vars);
+void	ft_expand_env_vars(t_vars *vars);
+void	ft_expand_wildcards(t_vars *vars);
 void	ft_free_program(t_vars *vars);
 
 //execution

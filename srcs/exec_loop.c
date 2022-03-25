@@ -6,7 +6,7 @@
 /*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/25 11:04:42 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/25 14:21:15 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ void	exec_loop(t_cmd *cmd, t_exec *exec, t_vars *vars)
 	{
 		if ((cmd->type == AND && exit_status != 0)
 			|| (cmd->type == OR && exit_status == 0))
-			break ;
+		{
+			cmd = cmd->next;
+			continue;
+		}
 		exec->pipes = check_pipe(&cmd);
 		if (exec->pipes)
 			execute_pipes(&cmd, exec, vars);
@@ -75,7 +78,6 @@ void	exec_loop(t_cmd *cmd, t_exec *exec, t_vars *vars)
 		}
 	}
 }
-
 
 
 

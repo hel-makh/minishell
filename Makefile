@@ -4,21 +4,17 @@ NAME			=	minishell
 
 MAIN			=	main.c
 
-SRCS			=	srcs/ft_strcmp.c\
-					srcs/ft_free.c\
-					srcs/ft_arrlen.c\
-					srcs/ft_add_str2arr.c\
-					srcs/ft_replace_str.c\
-					srcs/ft_lstfuncs.c\
+SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/ft_cmd_lstfuncs.c\
+					srcs/ft_env_lstfuncs.c\
+					srcs/ft_wc_strcmp.c\
+					srcs/ft_remove_quotes.c\
 					srcs/ft_getenv.c\
 					srcs/ft_init_vars.c\
 					srcs/ft_handle_signals.c\
 					srcs/ft_tokenization.c\
 					srcs/ft_verify_syntax.c\
 					srcs/ft_parse_cmds.c\
-					srcs/ft_expand_env_vars.c\
-					srcs/ft_free_program.c\
 					srcs/exec.c\
 					srcs/exec_loop.c\
 					srcs/exec_tools.c\
@@ -28,7 +24,8 @@ SRCS			=	srcs/ft_strcmp.c\
 					srcs/exec_builtin.c\
 					srcs/exec_cd.c\
 					srcs/exec_pwd.c\
-					srcs/exec_echo.c
+					srcs/exec_echo.c\
+					srcs/ft_free_program.c
 
 OBJS			=	$(SRCS:.c=.o)\
 					$(MAIN:.c=.o)

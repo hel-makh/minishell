@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:39:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 16:34:33 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:45:42 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	ft_get_token_type(char *token_content)
 	return (WORD);
 }
 
-void	ft_tokenization(t_vars *vars)
+int	ft_tokenization(t_vars *vars)
 {
 	size_t	size;
 	char	*token_content;
@@ -113,10 +113,13 @@ void	ft_tokenization(t_vars *vars)
 		{
 			size = ft_get_token_size(vars, i - 1);
 			token_content = ft_substr(vars->cmdline, i, size);
+			if (!token_content)
+				return (0);
 			token_type = ft_get_token_type(token_content);
 			ft_lstadd_back(&vars->tokens, ft_lstnew(token_content, token_type));
 			i += size - 1;
 		}
 		i ++;
 	}
+	return (1);
 }

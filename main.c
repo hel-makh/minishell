@@ -6,11 +6,44 @@
 /*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/22 11:57:41 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:45:04 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+// #include "Libft/ft_isalpha.c"
+// #include "Libft/ft_isdigit.c"
+// #include "Libft/ft_isalnum.c"
+// #include "Libft/ft_strlen.c"
+// #include "Libft/ft_strchr.c"
+// #include "Libft/ft_strrchr.c"
+// #include "Libft/ft_bzero.c"
+// #include "Libft/ft_calloc.c"
+// #include "Libft/ft_strdup.c"
+// #include "Libft/ft_strnstr.c"
+// #include "Libft/ft_substr.c"
+// #include "Libft/ft_putendl_fd.c"
+// #include "Libft/ft_strcmp.c"
+// #include "Libft/ft_free.c"
+// #include "Libft/ft_arrlen.c"
+// #include "Libft/ft_add_str2arr.c"
+// #include "Libft/ft_replace_str.c"
+// #include "Libft/ft_replace_arr.c"
+
+// #include "srcs/ft_wc_strcmp.c"
+// #include "srcs/ft_remove_quotes.c"
+// #include "srcs/ft_lstfuncs.c"
+// #include "srcs/ft_cmd_lstfuncs.c"
+// #include "srcs/ft_getenv.c"
+// #include "srcs/ft_init_vars.c"
+// #include "srcs/ft_handle_signals.c"
+// #include "srcs/ft_tokenization.c"
+// #include "srcs/ft_verify_syntax.c"
+// #include "srcs/ft_parse_cmds.c"
+// #include "srcs/ft_expand_env_vars.c"
+// #include "srcs/ft_expand_wildcards.c"
+// #include "srcs/ft_free_program.c"
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -39,76 +72,19 @@ int	main(int argc, char *argv[], char *envp[])
 			add_history(vars.cmdline);
 		}
 
-		// printf("\n#################### Tokenization ###################\n\n");
-
-		ft_tokenization(&vars);
-		if (!ft_lstsize(vars.tokens))
+		if (!ft_tokenization(&vars) || !ft_lstsize(vars.tokens))
 			continue ;
 
-		// t_list	*t_tokens = vars.tokens;
-		// while (t_tokens)
-		// {
-		// 	printf("%d - '%s'\n", t_tokens->type, t_tokens->content);
-		// 	t_tokens = t_tokens->next;
-		// }
-		
 		if (!ft_verify_syntax(&vars))
 		{
 			ft_putendl_fd("\n>> Syntax error.\n", STDOUT_FILENO);
 			continue ;
 		}
 		
-		// printf("\n###################### Parsing ######################\n\n");
-
 		if (!ft_parse_cmds(&vars))
-			return (ft_free_program(&vars), EXIT_FAILURE);
+			continue ;
 
-		// int cmd_n = 1;
-		// t_cmd	*t_cmds = vars.cmds;
-		// while (t_cmds)
-		// {
-		// 	printf("=====================[ %d ]======================\n", cmd_n++);
-		// 	int i = -1;
-		// 	while (t_cmds->cmd[++i])
-		// 		printf("%d. %s\n", i, t_cmds->cmd[i]);
-		// 	printf("type: %d\n", t_cmds->type);
-		// 	printf("subsh_lvl: %d\n", t_cmds->subsh_lvl);
-		// 	t_list	*t_lists = t_cmds->redirect;
-		// 	while (t_lists)
-		// 	{
-		// 		printf("redirect: %s\n", t_lists->content);
-		// 		printf("redirect_type: %d\n", t_lists->type);
-		// 		t_lists = t_lists->next;
-		// 	}
-		// 	t_cmds = t_cmds->next;
-		// }
-		
-		// printf("\n##################### Expansion #####################\n\n");
-		
-	//	if (!ft_expand_env_vars(&vars))
-	//		return (ft_free_program(&vars), EXIT_FAILURE);
-
-		// cmd_n = 1;
-		// t_cmds = vars.cmds;
-		// while (t_cmds)
-		// {
-		// 	printf("=====================[ %d ]======================\n", cmd_n++);
-		// 	int i = -1;
-		// 	while (t_cmds->cmd[++i])
-		// 		printf("%d. %s\n", i, t_cmds->cmd[i]);
-		// 	printf("type: %d\n", t_cmds->type);
-		// 	printf("subsh_lvl: %d\n", t_cmds->subsh_lvl);
-		// 	t_list	*t_lists = t_cmds->redirect;
-		// 	while (t_lists)
-		// 	{
-		// 		printf("redirect: %s\n", t_lists->content);
-		// 		printf("redirect_type: %d\n", t_lists->type);
-		// 		t_lists = t_lists->next;
-		// 	}
-		// 	t_cmds = t_cmds->next;
-		// }
 		execute_cmd(vars.cmds,&vars);
-		//printf("\n");
 	}
 	ft_free_program(&vars);
 	return (EXIT_SUCCESS);

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cmd_lstfuncs.c                                  :+:      :+:    :+:   */
+/*   ft_env_lstfuncs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/21 16:51:40 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/25 12:03:12 by hel-makh         ###   ########.fr       */
+/*   Created: 2022/03/24 23:04:16 by hel-makh          #+#    #+#             */
+/*   Updated: 2022/03/24 23:12:03 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_cmd_lstsize(t_cmd *lst)
+int	ft_env_lstsize(t_env *lst)
 {
 	int	lstlen;
 
@@ -25,22 +25,19 @@ int	ft_cmd_lstsize(t_cmd *lst)
 	return (lstlen);
 }
 
-t_cmd	*ft_cmd_lstnew(char **cmd, int type, int *subsh_lvl, t_list *redirect)
+t_env	*ft_env_lstnew(char **envp)
 {
-	t_cmd	*element;
+	t_env	*element;
 
-	element = malloc (1 * sizeof(t_cmd));
+	element = malloc (1 * sizeof(t_env));
 	if (element == NULL)
 		return (0);
-	element->cmd = cmd;
-	element->type = type;
-	element->subsh_lvl = subsh_lvl;
-	element->redirect = redirect;
+	element->envp = envp;
 	element->next = NULL;
 	return (element);
 }
 
-t_cmd	*ft_cmd_lstlast(t_cmd *lst)
+t_env	*ft_env_lstlast(t_env *lst)
 {
 	while (lst)
 	{
@@ -51,17 +48,17 @@ t_cmd	*ft_cmd_lstlast(t_cmd *lst)
 	return (lst);
 }
 
-void	ft_cmd_lstadd_back(t_cmd **lst, t_cmd *new)
+void	ft_env_lstadd_back(t_env **lst, t_env *new)
 {
 	if (lst && *lst)
-		ft_cmd_lstlast(*lst)->next = new;
+		ft_env_lstlast(*lst)->next = new;
 	else
 		*lst = new;
 }
 
-void	ft_cmd_lstclear(t_cmd **lst)
+void	ft_env_lstclear(t_env **lst)
 {
-	t_cmd	*holder;
+	t_env	*holder;
 
 	if (!lst)
 		return ;
@@ -69,8 +66,7 @@ void	ft_cmd_lstclear(t_cmd **lst)
 	{
 		holder = *lst;
 		*lst = (*lst)->next;
-		holder->cmd = ft_free_2d(holder->cmd);
-		ft_lstclear(&holder->redirect);
+		holder->envp = ft_free_2d(holder->envp);
 		holder = ft_free(holder);
 	}
 	*lst = NULL;
