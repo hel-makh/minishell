@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_handle_signals.c                                :+:      :+:    :+:   */
+/*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 16:53:38 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/22 09:41:36 by ybensell         ###   ########.fr       */
+/*   Created: 2022/03/25 10:11:20 by ybensell          #+#    #+#             */
+/*   Updated: 2022/03/25 10:25:18 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_handle_signals(int sig)
+int arr_size(char **cmd)
 {
-	if (sig == SIGQUIT)
-		return ;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	int i;
+
+	i = 0;
+	while (cmd[i])
+		i++;
+	return (i);
+}
+
+int exit_cmd(char **cmd)
+{
+	int size;
+
+	size = arr_size(cmd);
+	
+	if (size > 1)
+	{
+		
+	}
 }

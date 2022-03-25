@@ -1,23 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_handle_signals.c                                :+:      :+:    :+:   */
+/*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 16:53:38 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/22 09:41:36 by ybensell         ###   ########.fr       */
+/*   Created: 2022/03/24 16:53:36 by ybensell          #+#    #+#             */
+/*   Updated: 2022/03/24 17:34:32 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_handle_signals(int sig)
+int	get_size(char **str)
 {
-	if (sig == SIGQUIT)
-		return ;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+int	echo_builtin(char **cmd)
+{
+	int	i;
+
+	if (cmd[1] && ft_strcmp(cmd[1], "-n") == 0)
+	{
+		i = 1;
+		while (cmd[++i])
+		{
+			printf ("%s", cmd[i]);
+			if (i < get_size(cmd) - 1)
+				printf (" ");
+		}
+	}
+	else
+	{
+		i = 0;
+		while (cmd[++i])
+		{
+			printf ("%s", cmd[i]);
+			if (i < get_size(cmd) - 1)
+				printf (" ");
+		}
+		printf ("\n");
+	}
+	return (0);
 }

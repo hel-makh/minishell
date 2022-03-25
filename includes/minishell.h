@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 21:21:05 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:40:08 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
 # include "../Libft/libft.h"
 
 # define PROMPT "minishell$ "
+
+int exit_status;
 
 enum e_type {
 	WORD,
@@ -37,6 +41,22 @@ enum e_type {
 	OR,
 	PIPE
 };
+
+typedef struct s_exec
+{
+	int		cmd_nbr;
+	int		fd_in;
+	int		fd_out;
+	int		pipes;
+	int		*fd;
+	int		i;
+	int		j;
+	pid_t		pid;
+	char	*line;
+	char	*str;
+	int		fd_tmp;
+	int		status;
+}   t_exec;
 
 typedef struct s_list {
 	char			*content;
@@ -90,5 +110,40 @@ int		ft_verify_syntax(t_vars *vars);
 int		ft_parse_cmds(t_vars *vars);
 int		ft_expand_env_vars(t_vars *vars);
 void	ft_free_program(t_vars *vars);
+
+//execution
+void	execute_cmd(t_cmd *cmd, t_vars *vars);
+void	exec_loop(t_cmd *cmd, t_exec *exec, t_vars *vars);
+void	exec_child(t_cmd *cmd, t_exec *exec, t_vars *vars);
+void	redirect_loop_input(t_exec *exec, t_cmd *cmd);
+void	redirect_loop_output(t_exec *exec, t_cmd *cmd);
+void	redirect_loop_output_last(t_exec *exec, t_cmd *cmd);
+void	the_execution(t_cmd *cmd, t_vars *vars);
+char	*find_cmd(t_cmd *cmd);
+char	**get_env(char *env);
+char	*find_path(char **paths, char *cmd);
+char	**exec_split(char const *s, char c);
+void	exit_perror(void);
+void	heredoc_exec(t_exec *exec, char *end);
+// pipes
+void	execute_pipes(t_cmd **cmd, t_exec *exec, t_vars *vars);
+void	exec_child(t_cmd *cmd, t_exec *exec, t_vars *vars);
+void	redirect_loop_input(t_exec *exec, t_cmd *cmd);
+void	redirect_loop_output(t_exec *exec, t_cmd *cmd);
+void	redirect_loop_output_last(t_exec *exec, t_cmd *cmd);
+
+// builtin
+
+int		is_built_in(char *name);
+int		exec_built_in(char **cmd);
+int		echo_builtin(char **cmd);
+int		cd_build(char **cmd);
+int		pwd_cmd();
+
+
+
+
+
+
 
 #endif

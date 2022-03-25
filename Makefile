@@ -18,7 +18,17 @@ SRCS			=	srcs/ft_strcmp.c\
 					srcs/ft_verify_syntax.c\
 					srcs/ft_parse_cmds.c\
 					srcs/ft_expand_env_vars.c\
-					srcs/ft_free_program.c
+					srcs/ft_free_program.c\
+					srcs/exec.c\
+					srcs/exec_loop.c\
+					srcs/exec_tools.c\
+					srcs/exec_split.c\
+					srcs/exec_heredoc.c\
+					srcs/exec_pipes.c\
+					srcs/exec_builtin.c\
+					srcs/exec_cd.c\
+					srcs/exec_pwd.c\
+					srcs/exec_echo.c
 
 OBJS			=	$(SRCS:.c=.o)\
 					$(MAIN:.c=.o)
@@ -37,7 +47,7 @@ RM				=	rm -f
 				# $(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 $(NAME):		$(HEADER) $(LIB)
-				$(CC) $(CFLAGS) $(MAIN) $(SRCS) $(LIB) -o $(NAME) -lreadline -L/goinfre/hel-makh/.brew/opt/readline/lib -I/goinfre/hel-makh/.brew/opt/readline/include
+				$(CC) $(CFLAGS) $(MAIN) $(SRCS) $(LIB) -o $(NAME) -lreadline $(LDFLAGS) $(CPPFLAGS)
 
 all:			$(NAME)
 				./$(NAME)
