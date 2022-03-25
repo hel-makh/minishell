@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:41:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/25 12:10:45 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:11:57 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_getenv(char *var, t_env *envp)
 {
-	int		i;
 	char	**env_arr;
+	int		i;
 
 	env_arr = ft_env_lstlast(envp)->envp;
 	i = 0;
