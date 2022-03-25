@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 16:44:10 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 17:26:18 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:08:24 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ static int	ft_verify_parenthesis(t_vars *vars)
 		if ((t_tokens->next && t_tokens->next->type == L_PAREN
 				&& t_tokens->type != AND
 				&& t_tokens->type != OR
-				&& t_tokens->type != PIPE)
+				&& t_tokens->type != PIPE
+				&& t_tokens->type != L_PAREN)
 			|| (t_tokens->type == R_PAREN
 				&& t_tokens->next
 				&& t_tokens->next->type == WORD))
