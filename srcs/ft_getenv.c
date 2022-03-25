@@ -6,22 +6,24 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:41:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/21 16:43:02 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:10:45 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_getenv(char *var, char *envp[])
+char	*ft_getenv(char *var, t_env *envp)
 {
 	int		i;
+	char	**env_arr;
 
+	env_arr = ft_env_lstlast(envp)->envp;
 	i = 0;
-	while (envp[i])
+	while (env_arr[i])
 	{
-		if (ft_strnstr(envp[i], var, ft_strlen(envp[i]))
-			&& envp[i][ft_strlen(var)] == '=')
-			return (&envp[i][ft_strlen(var) + 1]);
+		if (ft_strnstr(env_arr[i], var, ft_strlen(env_arr[i]))
+			&& env_arr[i][ft_strlen(var)] == '=')
+			return (&env_arr[i][ft_strlen(var) + 1]);
 		i ++;
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 23:12:10 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:10:57 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_env_lstclear(t_env **lst);
 
 char	*ft_remove_quotes(char *s);
 int		ft_wc_strcmp(const char *s1, const char *s2);
-char	*ft_getenv(char *var, char *envp[]);
+char	*ft_getenv(char *var, t_env *envp);
 
 int		ft_init_vars(t_vars *vars, char *envp[]);
 void	ft_handle_signals(int sig);
