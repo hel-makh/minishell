@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/25 16:37:52 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:33:06 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ enum e_type {
 
 typedef struct s_exec
 {
+	int		count;
+	int 	total_pipes;
 	int		fd_in;
 	int		fd_out;
 	int		pipes;
-	int		*fd;
+	int		**fd;
 	int		i;
 	int		j;
 	pid_t		pid;

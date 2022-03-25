@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:54:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/24 15:47:18 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:32:57 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,24 +119,21 @@ void	exec_child(t_cmd *cmd, t_exec *exec, t_vars *vars)
 	close_pipes(exec);
 	the_execution(cmd, vars);
 }
-void init_pipes(t_exec *exec)
+
+void init_pipes(t_cmd *cmd, t_exec *exec)
 {
 	int i;
 	
 	i = 0;
-	exec->fd = malloc(((exec->pipes + 1)  * 2) * sizeof(int));
+	exec->fd[exec->count] = malloc(((exec->pipes + 1)  * 2) * sizeof(int));
 	if (!exec->fd)
-		return ;
+		exit_perror();
 	while (i < exec->pipes + 1)
 	{
 		if(pipe(exec->fd + (i * 2)) < 0)
     		perror("Error");
 		i++;
 	}
-	exec->i = 0;
-	exec->j = 0;
-	exec->fd_in = 0;
-	exec->fd_out = 1;
 }
 
 
@@ -144,7 +141,7 @@ void	execute_pipes(t_cmd **cmd,t_exec *exec,t_vars *vars)
 {
 	int i;
 
-	init_pipes(exec);
+	//init_pipes(exec);
 	i = 0;
 	while (i < (exec->pipes + 1))
 	{
