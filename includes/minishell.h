@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/26 12:37:30 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 13:10:43 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # define PROMPT "minishell$ "
 
-int exit_status;
+int	exit_status;
 
 enum e_type {
 	WORD,
@@ -42,24 +42,7 @@ enum e_type {
 	OR,
 	PIPE
 };
-/*
-typedef struct s_exec
-{
-	int		count;
-	int 	total_pipes;
-	int		fd_in;
-	int		fd_out;
-	int		pipes;
-	int		*fd;
-	int		i;
-	int		j;
-	pid_t		pid;
-	char	*line;
-	char	*str;
-	int		fd_tmp;
-	int		status;
-}   t_exec;
-*/
+
 typedef struct s_env {
 	char			**envp;
 	struct s_env	*next;
@@ -91,7 +74,6 @@ typedef struct s_vars {
 	t_list			*tokens;
 	t_cmd			*cmds;
 	t_pipe			*pipes;
-	// t_exec			*exec;
 }	t_vars;
 
 int		ft_lstsize(t_list *lst);

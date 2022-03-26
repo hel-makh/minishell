@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 12:40:59 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 13:15:05 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ void	the_execution(t_cmd *cmd, t_vars *vars)
 {
 	char	*tmp;
 
-	if (is_built_in(cmd->cmd[0]) == 0)
+	if (is_built_in(cmd->cmd[0]))
 	{
-		if (exec_built_in(cmd->cmd) == 0)
-			exit (0);
-		else
-			exit (1);
+		exit_status = exec_built_in(cmd->cmd);
+		if ((cmd->next && cmd->next->type == PIPE)
+				|| cmd->type == PIPE)
+			exit (exit_status);
+		return ;
 	}
 	if (access(cmd->cmd[0], F_OK) == 0
 		&& access(cmd->cmd[0], X_OK) == 0)

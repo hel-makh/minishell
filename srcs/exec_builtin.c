@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:46:03 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/24 17:46:17 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/26 13:04:28 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	is_built_in(char *name)
 {
 	if (!name)
-		return (1);
+		return (0);
 	if (ft_strcmp(name, "echo") == 0
 		|| ft_strcmp(name, "cd") == 0
 		|| ft_strcmp(name, "pwd") == 0
@@ -23,9 +23,8 @@ int	is_built_in(char *name)
 		|| ft_strcmp(name, "unset") == 0
 		|| ft_strcmp(name, "env") == 0
 		|| ft_strcmp(name, "exit") == 0)
-		return (0);
-	else
 		return (1);
+	return (0);
 }
 
 int	exec_built_in(char **cmd)

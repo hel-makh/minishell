@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:52:39 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/25 09:14:45 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/26 14:03:13 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	cd_build(char **cmd)
 	{
 		home_path = getenv("HOME");
 		if (home_path == NULL)
-			write(2, " cd Error !\n", 12);
+			ft_putendl_fd(" cd Error !", 2);
 		return (chdir(home_path) != 0);
 	}
 	else
@@ -29,8 +29,8 @@ int	cd_build(char **cmd)
 			return (0);
 		else
 		{
-			write(2, cmd[1], ft_strlen(cmd[1]));
-			write(2," : No such file or directory \n",30);
+			ft_putstr_fd(cmd[1], 2);
+			ft_putendl_fd(" : No such file or directory", 2);
 			return (1);
 		}
 	}

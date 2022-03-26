@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:16:11 by mbabela           #+#    #+#             */
-/*   Updated: 2022/03/24 17:40:00 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/26 13:14:15 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	pwd_cmd(void)
 	if (getcwd(buff, 4096))
 	{
 		printf ("%s\n", buff);
-		exit_status = 0;
+		// exit_status = 0;
 		return (0);
 	}
 	else

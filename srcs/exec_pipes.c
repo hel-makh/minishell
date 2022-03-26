@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:54:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 12:38:31 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 13:56:41 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,31 +105,47 @@ void	exec_cmd_child(t_cmd *cmd, t_vars *vars)
 	the_execution(cmd, vars);
 }
 
+static int	exec_is_fork(t_cmd *cmd)
+{
+	if (((cmd->next && cmd->next->type == PIPE)
+			|| cmd->type == PIPE)
+		|| ((!cmd->next || (cmd->next && cmd->next->type != PIPE))
+			&& cmd->type != PIPE
+			&& !is_built_in(cmd->cmd[0])))
+		return (1);
+	return (0);
+}
+
 void	exec_cmd(t_cmd **cmd, t_vars *vars)
 {
 	pid_t	pid;
+	int		is_fork;
 	int		status;
 
+	pid = 0;
 	while (*cmd)
 	{
+		is_fork = exec_is_fork(*cmd);
 		if ((*cmd)->next && (*cmd)->next->type == PIPE)
 			init_pipes(&vars->pipes, 1);
-		pid = fork();
-		if (pid == -1)
-			exit_perror();
+		if (is_fork)
+		{
+			pid = fork();
+			if (pid == -1)
+				exit_perror();
+		}
 		if (pid == 0)
 			exec_cmd_child(*cmd, vars);
 		if ((*cmd)->type == PIPE)
 			close_pipes(&vars->pipes, 1);
-		if (((*cmd)->next && (*cmd)->next->type != PIPE)
-			&& (*cmd)->type != PIPE)
-		{
-			(*cmd) = (*cmd)->next;
+		if (!(*cmd)->next || ((*cmd)->next && (*cmd)->next->type != PIPE))
 			break ;
-		}
 		(*cmd) = (*cmd)->next;
 	}
-	waitpid(pid, &status, 0);
-	exit_status = WEXITSTATUS(status);
-	waitpid(-1, NULL, 0);
+	if (is_fork)
+	{
+		waitpid(pid, &status, 0);
+		exit_status = WEXITSTATUS(status);
+		waitpid(-1, NULL, 0);
+	}
 }
