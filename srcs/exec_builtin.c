@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:46:03 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 21:42:55 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 23:41:32 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	exec_built_in(char **cmd, t_vars *vars)
 	/*
 	else if (ft_strcmp(cmd[0], "export") == 0)
 		status = export_cmd(ac, av, env);
-	else if (ft_strcmp(cmd[0], "unset") == 0)
-		status = cmd_unset(ac, av, env);
 	*/
+	else if (ft_strcmp(cmd[0], "unset") == 0)
+		status = builtin_unset(cmd, &vars->envp);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 		status = builtin_exit(cmd);
 	return (status);
