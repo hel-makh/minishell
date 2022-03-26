@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 13:46:28 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 21:04:32 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	redirect_input(t_list *redirect)
 	return (0);
 }
 
-int	exec_cmd_skip(t_cmd *cmd)
+static int	ft_next_cmd(t_cmd *cmd)
 {
 	int	subsh_lvl;
 	int	i;
@@ -90,23 +90,40 @@ int	exec_cmd_skip(t_cmd *cmd)
 	return (i);
 }
 
+static int	handle_operators(t_cmd **cmd)
+{
+	int	i;
+
+	if (((*cmd)->type == AND && exit_status != 0)
+		|| ((*cmd)->type == OR && exit_status == 0))
+	{
+		i = ft_next_cmd((*cmd));
+		while (i--)
+			(*cmd) = (*cmd)->next;
+		return (1);
+	}
+	return (0);
+}
+
 void	execute_cmds(t_vars *vars)
 {
 	t_cmd	*cmd;
-	int		i;
+	pid_t	pid;
+	int		status;
 
+	exec_init_pipes(&vars->cmds);
 	cmd = vars->cmds;
 	while (cmd)
 	{
-		if ((cmd->type == AND && exit_status != 0)
-			|| (cmd->type == OR && exit_status == 0))
-		{
-			i = exec_cmd_skip(cmd);
-			while (i--)
-				cmd = cmd->next;
+		if (handle_operators(&cmd))
 			continue ;
+		pid = exec_cmd(&cmd, vars);
+		if (pid)
+		{
+			waitpid(pid, &status, 0);
+			exit_status = WEXITSTATUS(status);
+			waitpid(-1, NULL, 0);
 		}
-		exec_cmd(&cmd, vars);
 		cmd = cmd->next;
 	}
 }

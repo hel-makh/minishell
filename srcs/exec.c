@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 13:15:05 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 21:14:37 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ void	the_execution(t_cmd *cmd, t_vars *vars)
 {
 	char	*tmp;
 
+	ft_expand_env_vars(&cmd, vars);
+	ft_expand_wildcards(&cmd, vars);
 	if (is_built_in(cmd->cmd[0]))
 	{
-		exit_status = exec_built_in(cmd->cmd);
+		exit_status = exec_built_in(cmd->cmd, vars);
 		if ((cmd->next && cmd->next->type == PIPE)
-				|| cmd->type == PIPE)
+			|| cmd->type == PIPE)
 			exit (exit_status);
 		return ;
 	}
@@ -76,6 +78,6 @@ void	the_execution(t_cmd *cmd, t_vars *vars)
 		tmp = cmd->cmd[0];
 	else
 		tmp = find_cmd(cmd, vars);
-	if ((execve(tmp, cmd->cmd, ft_env_lstlast(vars->envp)->envp) == -1))
+	if ((execve(tmp, cmd->cmd, vars->envp) == -1))
 		exit_perror();
 }

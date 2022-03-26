@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 13:06:35 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/23 12:58:31 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 21:16:12 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,29 +87,25 @@ static int	ft_expand_wildcard(
 	return (1);
 }
 
-void	ft_expand_wildcards(t_vars *vars)
+void	ft_expand_wildcards(t_cmd **cmd, t_vars *vars)
 {
-	t_cmd	*cmd;
+	t_cmd	*t_cmd;
 	t_list	*redirect;
 	int		i;
 
-	cmd = vars->cmds;
-	while (cmd)
+	t_cmd = *cmd;
+	i = 0;
+	while (t_cmd->cmd[i])
 	{
-		i = 0;
-		while (cmd->cmd[i])
-		{
-			if (!ft_expand_wildcard(vars, &cmd, NULL, &i))
-				cmd->cmd[i] = ft_remove_quotes(cmd->cmd[i]);
-			i ++;
-		}
-		redirect = cmd->redirect;
-		while (redirect)
-		{
-			if (!ft_expand_wildcard(vars, NULL, &redirect, NULL))
-				redirect->content = ft_remove_quotes(redirect->content);
-			redirect = redirect->next;
-		}
-		cmd = cmd->next;
+		if (!ft_expand_wildcard(vars, cmd, NULL, &i))
+			t_cmd->cmd[i] = ft_remove_quotes(t_cmd->cmd[i]);
+		i ++;
+	}
+	redirect = t_cmd->redirect;
+	while (redirect)
+	{
+		if (!ft_expand_wildcard(vars, NULL, &redirect, NULL))
+			redirect->content = ft_remove_quotes(redirect->content);
+		redirect = redirect->next;
 	}
 }

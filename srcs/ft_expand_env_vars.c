@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 15:41:31 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/23 13:22:59 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 21:13:09 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,24 @@ static void	ft_expand_env_var(char **envp, char **cmd)
 	var_name = ft_free(var_name);
 }
 
-void	ft_expand_env_vars(t_vars *vars)
+void	ft_expand_env_vars(t_cmd **cmd, t_vars *vars)
 {
-	t_cmd	*cmd;
+	t_cmd	*t_cmd;
 	t_list	*redirect;
 	int		i;
 
-	cmd = vars->cmds;
-	while (cmd)
+	t_cmd = *cmd;
+	i = 0;
+	while (t_cmd->cmd[i])
 	{
-		i = 0;
-		while (cmd->cmd[i])
-		{
-			ft_expand_env_var(vars->envp, &cmd->cmd[i]);
-			i ++;
-		}
-		redirect = cmd->redirect;
-		while (redirect)
-		{
-			ft_expand_env_var(vars->envp, &redirect->content);
-			redirect = redirect->next;
-		}
-		cmd = cmd->next;
+		ft_expand_env_var(vars->envp, &t_cmd->cmd[i]);
+		i ++;
 	}
+	redirect = t_cmd->redirect;
+	while (redirect)
+	{
+		ft_expand_env_var(vars->envp, &redirect->content);
+		redirect = redirect->next;
+	}
+	t_cmd = t_cmd->next;
 }

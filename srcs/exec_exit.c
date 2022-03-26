@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 10:11:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 15:14:28 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/26 21:40:21 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,25 +54,23 @@ static long long	ft_atoi_exit(const char *str)
 	return (sign * nbr);
 }
 
-int exit_cmd(char **cmd)
+int	builtin_exit(char **cmd)
 {
 	long long	ret;
-	int		size;
+	int			size;
 
+	ft_putendl_fd("exit", 1);
 	size = ft_arrlen(cmd);
 	if (size == 1)
-	{
-		ft_putendl_fd("exit",1);
 		exit(0);
-	}
 	if (size == 2)
 	{
 		ret = ft_atoi_exit(cmd[1]);
-		if (!is_numb(cmd[1]) || ret > 9223372036854775807 || ret < -9223372036854775800)
+		if (!is_numb(cmd[1]) || ret > LONG_MAX || ret < LONG_MIN)
 		{
-			ft_putstr_fd("minishell: exit: ",2);
-			ft_putstr_fd(cmd[1],2);
-			ft_putendl_fd(" numeric argument required",2);
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(cmd[1], 2);
+			ft_putendl_fd(": numeric argument required", 2);
 			exit(255);
 		}
 		else
@@ -80,8 +78,7 @@ int exit_cmd(char **cmd)
 	}
 	else
 	{
-		ft_putendl_fd("exit",1);
-		ft_putendl_fd("minishell: exit: too many arguments",2);
+		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		return (1);
 	}	
 }

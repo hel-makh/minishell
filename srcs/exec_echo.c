@@ -6,13 +6,13 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:53:36 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/25 16:20:29 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 20:12:51 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	echo_builtin(char **cmd)
+int	builtin_echo(char **cmd)
 {
 	int	option;
 	int	i;
