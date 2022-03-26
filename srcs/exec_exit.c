@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 10:11:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/25 10:25:18 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/26 12:49:23 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int exit_cmd(char **cmd)
 {
 	int size;
 
-	size = arr_size(cmd);
+	size = ft_arrlen(cmd);
 	
 	if (size > 1)
 	{

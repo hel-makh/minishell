@@ -7,6 +7,7 @@ MAIN			=	main.c
 SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/ft_cmd_lstfuncs.c\
 					srcs/ft_env_lstfuncs.c\
+					srcs/ft_pipe_lstfuncs.c\
 					srcs/ft_wc_strcmp.c\
 					srcs/ft_remove_quotes.c\
 					srcs/ft_getenv.c\
@@ -16,9 +17,8 @@ SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/ft_verify_syntax.c\
 					srcs/ft_parse_cmds.c\
 					srcs/exec.c\
-					srcs/exec_loop.c\
+					srcs/exec_cmds.c\
 					srcs/exec_tools.c\
-					srcs/exec_heredoc.c\
 					srcs/exec_pipes.c\
 					srcs/exec_builtin.c\
 					srcs/exec_cd.c\

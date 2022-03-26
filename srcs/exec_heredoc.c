@@ -3,45 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/24 15:31:45 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/26 11:41:16 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/minishell.h"
-
-char	*ft_strcpy(char *dest, const char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_strcat(char *dest, const char *src)
-{
-	int	i;
-	int	size;
-
-	size = ft_strlen(dest);
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[size + i] = src[i];
-		i++;
-	}
-	dest[size + i] = '\0';
-	return (dest);
-}
 
 char	*ft_strjoin_heredoc(char *s1, char *s2)
 {

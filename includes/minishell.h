@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/25 17:33:06 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 12:37:30 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ enum e_type {
 	OR,
 	PIPE
 };
-
+/*
 typedef struct s_exec
 {
 	int		count;
@@ -50,7 +50,7 @@ typedef struct s_exec
 	int		fd_in;
 	int		fd_out;
 	int		pipes;
-	int		**fd;
+	int		*fd;
 	int		i;
 	int		j;
 	pid_t		pid;
@@ -59,7 +59,7 @@ typedef struct s_exec
 	int		fd_tmp;
 	int		status;
 }   t_exec;
-
+*/
 typedef struct s_env {
 	char			**envp;
 	struct s_env	*next;
@@ -73,12 +73,16 @@ typedef struct s_list {
 
 typedef struct s_cmd {
 	char			**cmd;
-	int				fd[2];
 	int				type;
 	int				*subsh_lvl;
 	t_list			*redirect;
 	struct s_cmd	*next;
 }	t_cmd;
+
+typedef struct s_pipe {
+	int				fd[2];
+	struct s_pipe	*next;
+}	t_pipe;
 
 typedef struct s_vars {
 	char			*cmdline;
@@ -86,6 +90,8 @@ typedef struct s_vars {
 	t_env			*envp;
 	t_list			*tokens;
 	t_cmd			*cmds;
+	t_pipe			*pipes;
+	// t_exec			*exec;
 }	t_vars;
 
 int		ft_lstsize(t_list *lst);
@@ -106,6 +112,12 @@ t_env	*ft_env_lstlast(t_env *lst);
 void	ft_env_lstadd_back(t_env **lst, t_env *new);
 void	ft_env_lstclear(t_env **lst);
 
+int		ft_pipe_lstsize(t_pipe *lst);
+t_pipe	*ft_pipe_lstnew(int input, int output);
+t_pipe	*ft_pipe_lstlast(t_pipe *lst);
+void	ft_pipe_lstadd_back(t_pipe **lst, t_pipe *new);
+void	ft_pipe_lstclear(t_pipe **lst);
+
 char	*ft_remove_quotes(char *s);
 int		ft_wc_strcmp(const char *s1, const char *s2);
 char	*ft_getenv(char *var, t_env *envp);
@@ -119,38 +131,28 @@ void	ft_expand_env_vars(t_vars *vars);
 void	ft_expand_wildcards(t_vars *vars);
 void	ft_free_program(t_vars *vars);
 
-//execution
-void	execute_cmd(t_cmd *cmd, t_vars *vars);
-void	exec_loop(t_cmd *cmd, t_exec *exec, t_vars *vars);
-void	exec_child(t_cmd *cmd, t_exec *exec, t_vars *vars);
-void	redirect_loop_input(t_exec *exec, t_cmd *cmd);
-void	redirect_loop_output(t_exec *exec, t_cmd *cmd);
-void	redirect_loop_output_last(t_exec *exec, t_cmd *cmd);
+// execution
+int		exec_cmd_skip(t_cmd *cmd);
+void	execute_cmds(t_vars *vars);
+void	exec_cmd(t_cmd **cmd, t_vars *vars);
+void	exec_cmd_child(t_cmd *cmd, t_vars *vars);
 void	the_execution(t_cmd *cmd, t_vars *vars);
-char	**get_env(char *env);
-char	*find_path(char **paths, char *cmd);
+// void	heredoc_exec(t_exec *exec, char *end);
 void	exit_perror(void);
 void	exit_cmd_notfound(char *cmd, int exit_status);
-void	heredoc_exec(t_exec *exec, char *end);
+
 // pipes
-void	execute_pipes(t_cmd **cmd, t_exec *exec, t_vars *vars);
-void	exec_child(t_cmd *cmd, t_exec *exec, t_vars *vars);
-void	redirect_loop_input(t_exec *exec, t_cmd *cmd);
-void	redirect_loop_output(t_exec *exec, t_cmd *cmd);
-void	redirect_loop_output_last(t_exec *exec, t_cmd *cmd);
+int		get_pipes_count(t_cmd *cmd);
+void	init_pipes(t_pipe **p, int count);
+void	close_pipes(t_pipe **p, int count);
+int		redirect_input(t_list *redirect);
+int		redirect_output(t_list *redirect);
 
-// builtin
-
+// built-ins
 int		is_built_in(char *name);
 int		exec_built_in(char **cmd);
 int		echo_builtin(char **cmd);
 int		cd_build(char **cmd);
 int		pwd_cmd();
-
-
-
-
-
-
 
 #endif
