@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:41:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/26 19:37:18 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/26 23:47:16 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_getenv(char *var, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strnstr(envp[i], var, ft_strlen(envp[i]))
+		if (ft_strnstr(envp[i], var, ft_strlen(var))
 			&& envp[i][ft_strlen(var)] == '=')
 			return (&envp[i][ft_strlen(var) + 1]);
 		i ++;
