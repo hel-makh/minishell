@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stradd.c                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 10:54:29 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/26 11:37:16 by hel-makh         ###   ########.fr       */
+/*   Created: 2022/03/26 11:35:25 by hel-makh          #+#    #+#             */
+/*   Updated: 2022/03/26 11:35:38 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
-char	*ft_stradd(char const *s1, char const *s2)
+char	*ft_strcpy(char *dst, const char *src)
 {
-	char	*buffer;
+	int	i;
 
-	if (!s1)
-		return (0);
-	buffer = (char *) malloc (ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (buffer == NULL)
-		return (0);
-	ft_strcpy(buffer, s1);
-	ft_strcat(buffer, s2);
-	free((void *)s1);
-	return (buffer);
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i ++;
+	}
+	dst[i] = '\0';
+	return (dst);
 }
