@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:54:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 20:59:10 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 12:12:18 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,46 @@ static int	exec_is_fork(t_cmd *cmd)
 	return (0);
 }
 
-static void	exec_cmd_child(t_cmd *cmd, t_vars *vars)
+static void	duplicate_pipes(t_cmd **cmd)
 {
-	if (!redirect_input(cmd->redirect))
+	if ((*cmd)->type == PIPE && (*cmd)->pipe[STDIN_FILENO] != -1)
 	{
-		if (cmd->type == PIPE)
-		{
-			if (dup2(cmd->pipe[STDIN_FILENO], STDIN_FILENO) == -1)
-				perror("Error");
-			if (close(cmd->pipe[STDIN_FILENO]) == -1)
-				perror("Error");
-		}
+		if (dup2((*cmd)->pipe[STDIN_FILENO], STDIN_FILENO) == -1)
+			perror("Error");
+		if (close((*cmd)->pipe[STDIN_FILENO]) == -1)
+			perror("Error");
 	}
-	if (!redirect_output(cmd->redirect))
+	if ((*cmd)->next && (*cmd)->next->type == PIPE
+		&& (*cmd)->next->pipe[STDIN_FILENO] != -1)
 	{
-		if (cmd->next && cmd->next->type == PIPE)
-		{
-			if (dup2(cmd->next->pipe[STDOUT_FILENO], STDOUT_FILENO) == -1)
-				perror("Error");
-			if (close(cmd->next->pipe[STDOUT_FILENO]) == -1)
-				perror("Error");
-		}
+		if (dup2((*cmd)->next->pipe[STDOUT_FILENO], STDOUT_FILENO) == -1)
+			perror("Error");
+		if (close((*cmd)->next->pipe[STDOUT_FILENO]) == -1)
+			perror("Error");
 	}
-	the_execution(cmd, vars);
+}
+
+static void	exec_cmd_child(t_cmd *cmd, t_vars *vars, int is_fork)
+{
+	int	std[2];
+
+	if (!is_fork)
+	{
+		std[STDIN_FILENO] = dup(STDIN_FILENO);
+		std[STDOUT_FILENO] = dup(STDOUT_FILENO);
+	}
+	if (duplicate_redirections(&cmd, is_fork))
+	{
+		duplicate_pipes(&cmd);
+		the_execution(cmd, vars);
+	}
+	if (!is_fork)
+	{
+		dup2(std[STDIN_FILENO], STDIN_FILENO);
+		close(std[STDIN_FILENO]);
+		dup2(std[STDOUT_FILENO], STDOUT_FILENO);
+		close(std[STDOUT_FILENO]);
+	}
 }
 
 pid_t	exec_cmd(t_cmd **cmd, t_vars *vars)
@@ -89,7 +106,7 @@ pid_t	exec_cmd(t_cmd **cmd, t_vars *vars)
 		if (pid == -1)
 			exit_perror();
 		if (pid == 0)
-			exec_cmd_child(*cmd, vars);
+			exec_cmd_child(*cmd, vars, is_fork);
 		if ((*cmd)->type == PIPE)
 			close((*cmd)->pipe[STDIN_FILENO]);
 		if ((*cmd)->next && (*cmd)->next->type == PIPE)

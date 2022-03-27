@@ -6,67 +6,11 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 21:04:32 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 11:32:58 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	redirect_output(t_list *redirect)
-{
-	int	fd;
-
-	while (redirect)
-	{
-		if (redirect->type == RED_OUT || redirect->type == D_RED_OUT)
-		{
-			if (redirect->type == RED_OUT)
-				fd = open(redirect->content,
-						O_RDWR | O_CREAT | O_TRUNC, 0644);
-			else if (redirect->type == D_RED_OUT)
-				fd = open(redirect->content,
-						O_RDWR | O_CREAT | O_APPEND, 0644);
-			if (fd == -1)
-				exit_perror();
-			if (!redirect->next)
-			{
-				dup2(fd, STDOUT_FILENO);
-				close(fd);
-				return (1);
-			}
-			close(fd);
-		}
-		redirect = redirect->next;
-	}
-	return (0);
-}
-
-int	redirect_input(t_list *redirect)
-{
-	int	fd;
-
-	while (redirect)
-	{
-		if (redirect->type == RED_IN || redirect->type == D_RED_IN)
-		{
-			if (redirect->type == RED_IN)
-				fd = open(redirect->content, O_RDONLY);
-			// else if (redirect->type == D_RED_IN)
-			// 	heredoc_exec(exec, redirect->content);
-			if (fd == -1)
-				exit_perror();
-			if (!redirect->next)
-			{
-				dup2(fd, STDIN_FILENO);
-				close(fd);
-				return (1);
-			}
-			close(fd);
-		}
-		redirect = redirect->next;
-	}
-	return (0);
-}
 
 static int	ft_next_cmd(t_cmd *cmd)
 {

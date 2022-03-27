@@ -19,6 +19,7 @@ SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/exec.c\
 					srcs/exec_cmds.c\
 					srcs/exec_pipes.c\
+					srcs/exec_redirections.c\
 					srcs/exec_tools.c\
 					srcs/exec_builtin.c\
 					srcs/exec_echo.c\
