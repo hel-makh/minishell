@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 19:23:19 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 19:29:40 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 21:34:30 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ char	*ft_joinstrs(char **array, char c)
 		str = ft_stradd(str, array[i]);
 		if (!str)
 			return (ft_free(str), NULL);
-		str = ft_stradd(str, &c);
-		if (!str)
-			return (ft_free(str), NULL);
+		if (array[i + 1])
+		{
+			str = ft_stradd(str, &c);
+			if (!str)
+				return (ft_free(str), NULL);
+		}
 		i ++;
 	}
 	return (str);
