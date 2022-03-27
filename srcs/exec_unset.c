@@ -6,11 +6,30 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 23:08:18 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/26 23:51:18 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 10:28:30 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	ft_is_varname(char *var_name)
+{
+	int	i;
+
+	i = 0;
+	while (var_name[i])
+	{
+		if (!ft_isalnum(var_name[i]) && var_name[i] != '_')
+		{
+			ft_putstr_fd("minishell: unset: '", STDERR_FILENO);
+			ft_putstr_fd(var_name, STDERR_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+			return (0);
+		}
+		i ++;
+	}
+	return (1);
+}
 
 int	builtin_unset(char **cmd, char ***envp)
 {
@@ -25,12 +44,10 @@ int	builtin_unset(char **cmd, char ***envp)
 	while (cmd[i])
 	{
 		j = 0;
-		printf("hh\n");
-		while (*envp[j])
+		while (ft_is_varname(cmd[i]) && (*envp)[j])
 		{
-			printf("hh 2\n");
-			if (ft_strnstr(*envp[j], cmd[i], ft_strlen(cmd[i]))
-				&& *envp[j][ft_strlen(cmd[i])] == '=')
+			if (!ft_strncmp((*envp)[j], cmd[i], ft_strlen(cmd[i]))
+				&& (*envp)[j][ft_strlen(cmd[i])] == '=')
 			{
 				*envp = ft_replace_arr(*envp, empty_arr, j, 1);
 				break ;
