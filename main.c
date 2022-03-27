@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:13:32 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 19:03:34 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 21:52:04 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 // #include "Libft/ft_strncmp.c"
 // #include "Libft/ft_free.c"
 // #include "Libft/ft_stradd.c"
+// #include "Libft/ft_joinstrs.c"
 // #include "Libft/ft_arrlen.c"
 // #include "Libft/ft_add_str2arr.c"
 // #include "Libft/ft_replace_str.c"
@@ -83,7 +84,7 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_cmd_lstclear(&vars.cmds);
 		vars.cmdline = ft_free(vars.cmdline);
 		vars.cmdline = readline(PROMPT);
-		// vars.cmdline = ft_strdup("echo hh > hh");
+		// vars.cmdline = ft_strdup("echo hh > 123*");
 		if (!vars.cmdline)
 			break ;
 		if (*vars.cmdline && (!vars.last_cmdline || (vars.last_cmdline

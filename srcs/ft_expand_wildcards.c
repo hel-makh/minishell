@@ -6,13 +6,13 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 13:06:35 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 16:06:41 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 22:27:48 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	**ft_get_files(char **envp, char *cmd, int *index)
+static char	**ft_get_files(char *cmd, int *index, char *cwd)
 {
 	DIR				*folder;
 	struct dirent	*entry;
@@ -21,7 +21,7 @@ static char	**ft_get_files(char **envp, char *cmd, int *index)
 	files = ft_calloc(1, sizeof(char *));
 	if (!files)
 		return (NULL);
-	folder = opendir(ft_getenv("PWD", envp));
+	folder = opendir(cwd);
 	if (!folder)
 		return (NULL);
 	while (1)
@@ -32,7 +32,7 @@ static char	**ft_get_files(char **envp, char *cmd, int *index)
 		if (entry->d_name[0] != '.' && !ft_wc_strcmp(cmd, entry->d_name))
 		{
 			files = ft_add_str2arr(files, entry->d_name);
-			if (!index || !*index)
+			if (index && *index == 0)
 				break ;
 		}
 	}
@@ -60,12 +60,11 @@ static int	ft_has_wildcard(char *str)
 	return (0);
 }
 
-int	ft_expand_wildcards(
-	t_vars *vars, t_cmd **cmd, t_list **redirect, int *index
-	)
+int	ft_expand_wildcards(t_cmd **cmd, t_list **redirect, int *index)
 {
 	char	**files;
 	char	*cmd_p;
+	char	cwd[4096];
 
 	if (index)
 		cmd_p = (*cmd)->cmd[*index];
@@ -73,14 +72,15 @@ int	ft_expand_wildcards(
 		cmd_p = (*redirect)->content;
 	if (!ft_has_wildcard(cmd_p))
 		return (0);
-	files = ft_get_files(vars->envp, cmd_p, index);
+	if (!getcwd(cwd, 4096))
+		return (0);
+	files = ft_get_files(cmd_p, index, cwd);
 	if (!files || !*files)
 		return (0);
 	if (index)
 		(*cmd)->cmd = ft_replace_arr((*cmd)->cmd, files, *index, 1);
 	else
-		(*redirect)->content = ft_replace_str((*redirect)->content,
-				files[0], 0, ft_strlen((*redirect)->content));
+		(*redirect)->content = ft_joinstrs(files, ' ');
 	if (index)
 		*index += ft_arrlen(files) - 1;
 	files = ft_free_2d(files);

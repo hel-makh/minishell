@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/27 19:11:41 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 21:55:53 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static int	handle_operators(t_cmd **cmd)
 {
 	int	i;
 
-	if (((*cmd)->type == AND && exit_status != 0)
-		|| ((*cmd)->type == OR && exit_status == 0))
+	if (((*cmd)->type == AND && g_exit_status != 0)
+		|| ((*cmd)->type == OR && g_exit_status == 0))
 	{
 		i = ft_next_cmd((*cmd));
 		while (i--)
@@ -65,7 +65,7 @@ void	execute_cmds(t_vars *vars)
 		if (pid)
 		{
 			waitpid(pid, &status, 0);
-			exit_status = WEXITSTATUS(status);
+			g_exit_status = WEXITSTATUS(status);
 			waitpid(-1, NULL, 0);
 		}
 		cmd = cmd->next;

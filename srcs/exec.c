@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/27 19:03:18 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 22:28:27 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	expand_args(t_cmd **cmd, t_vars *vars)
 	while (t_cmd->cmd[i])
 	{
 		ft_expand_env_vars(vars->envp, &t_cmd->cmd[i]);
-		if (!ft_expand_wildcards(vars, cmd, NULL, &i))
+		if (!ft_expand_wildcards(cmd, NULL, &i))
 			t_cmd->cmd[i] = ft_remove_quotes(t_cmd->cmd[i]);
 		i ++;
 	}
@@ -78,7 +78,7 @@ void	expand_args(t_cmd **cmd, t_vars *vars)
 	while (redirect)
 	{
 		ft_expand_env_vars(vars->envp, &redirect->content);
-		if (!ft_expand_wildcards(vars, NULL, &redirect, NULL))
+		if (!ft_expand_wildcards(NULL, &redirect, NULL))
 			redirect->content = ft_remove_quotes(redirect->content);
 		redirect = redirect->next;
 	}
@@ -91,10 +91,10 @@ void	the_execution(t_cmd *cmd, t_vars *vars)
 	expand_args(&cmd, vars);
 	if (is_built_in(cmd->cmd[0]))
 	{
-		exit_status = exec_built_in(cmd->cmd, vars);
+		g_exit_status = exec_built_in(cmd->cmd, vars);
 		if ((cmd->next && cmd->next->type == PIPE)
 			|| cmd->type == PIPE)
-			exit (exit_status);
+			exit (g_exit_status);
 		return ;
 	}
 	if (access(cmd->cmd[0], F_OK) == 0

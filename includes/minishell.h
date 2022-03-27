@@ -6,10 +6,9 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 19:15:31 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 22:27:57 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -18,8 +17,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
@@ -27,7 +26,7 @@
 
 # define PROMPT "minishell$ "
 
-int	exit_status;
+int	g_exit_status;
 
 enum e_type {
 	WORD,
@@ -95,8 +94,7 @@ int		ft_tokenization(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
 int		ft_parse_cmds(t_vars *vars);
 void	ft_expand_env_vars(char **envp, char **cmd);
-int		ft_expand_wildcards(
-			t_vars *vars, t_cmd **cmd, t_list **redirect, int *index);
+int		ft_expand_wildcards(t_cmd **cmd, t_list **redirect, int *index);
 
 /************************[ Execution ]************************/
 int		exec_init_pipes(t_cmd **cmd);
@@ -112,7 +110,7 @@ void	exit_cmd_notfound(char *cmd, int exit_status);
 int		is_built_in(char *name);
 int		exec_built_in(char **cmd, t_vars *vars);
 int		builtin_echo(char **cmd);
-int		builtin_pwd();
+int		builtin_pwd(void);
 int		builtin_cd(char **cmd, char **envp);
 int		builtin_env(char **envp);
 // int		builtin_export(char **cmd, char **envp);
