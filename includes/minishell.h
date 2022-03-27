@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 12:01:33 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 12:58:42 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		exec_close_pipes(t_cmd **cmd);
 
 // redirections
 int		duplicate_redirections(t_cmd **cmd, int is_fork);
-// void	heredoc_exec(t_exec *exec, char *end);
+int		open_heredoc(char *limiter);
 
 // built-ins
 int		is_built_in(char *name);

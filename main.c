@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/26 11:42:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/26 23:50:11 by hel-makh         ###   ########.fr       */
+/*   Created: 2022/03/19 11:13:32 by hel-makh          #+#    #+#             */
+/*   Updated: 2022/03/27 14:57:42 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_cmd_lstclear(&vars.cmds);
 		vars.cmdline = ft_free(vars.cmdline);
 		vars.cmdline = readline(PROMPT);
-		// vars.cmdline = ft_strdup("unset $HH");
 		if (!vars.cmdline)
 			break ;
 		if (*vars.cmdline && (!vars.last_cmdline || (vars.last_cmdline
@@ -91,19 +90,15 @@ int	main(int argc, char *argv[], char *envp[])
 			vars.last_cmdline = ft_strdup(vars.cmdline);
 			add_history(vars.cmdline);
 		}
-
 		if (!ft_tokenization(&vars) || !ft_lstsize(vars.tokens))
 			continue ;
-
 		if (!ft_verify_syntax(&vars))
 		{
 			ft_putendl_fd("\n>> Syntax error.\n", STDOUT_FILENO);
 			continue ;
 		}
-		
 		if (!ft_parse_cmds(&vars))
 			continue ;
-
 		execute_cmds(&vars);
 	}
 	ft_free_program(&vars);

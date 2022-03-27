@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:54:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/27 12:12:18 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 14:07:04 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	duplicate_pipes(t_cmd **cmd)
 			perror("Error");
 	}
 	if ((*cmd)->next && (*cmd)->next->type == PIPE
-		&& (*cmd)->next->pipe[STDIN_FILENO] != -1)
+		&& (*cmd)->next->pipe[STDOUT_FILENO] != -1)
 	{
 		if (dup2((*cmd)->next->pipe[STDOUT_FILENO], STDOUT_FILENO) == -1)
 			perror("Error");
