@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:52:39 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 20:12:57 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 19:08:55 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	builtin_cd(char **cmd, char **envp)
 {
 	char	*home_path;
 
+	if (!*cmd[1])
+		return (0);
 	if (!cmd[1])
 	{
 		home_path = ft_getenv("HOME", envp);
