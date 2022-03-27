@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:54:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/27 14:07:04 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 19:11:40 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	exec_cmd_child(t_cmd *cmd, t_vars *vars, int is_fork)
 		std[STDIN_FILENO] = dup(STDIN_FILENO);
 		std[STDOUT_FILENO] = dup(STDOUT_FILENO);
 	}
-	if (duplicate_redirections(&cmd, is_fork))
+	if (duplicate_redirections(&cmd, vars, is_fork))
 	{
 		duplicate_pipes(&cmd);
 		the_execution(cmd, vars);
@@ -92,7 +92,7 @@ static void	exec_cmd_child(t_cmd *cmd, t_vars *vars, int is_fork)
 	}
 }
 
-pid_t	exec_cmd(t_cmd **cmd, t_vars *vars)
+pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 {
 	pid_t	pid;
 	int		is_fork;

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:13:32 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 14:57:42 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 19:03:34 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 // #include "Libft/ft_putstr_fd.c"
 // #include "Libft/ft_putendl_fd.c"
 // #include "Libft/ft_strcmp.c"
+// #include "Libft/ft_strncmp.c"
 // #include "Libft/ft_free.c"
 // #include "Libft/ft_stradd.c"
 // #include "Libft/ft_arrlen.c"
@@ -52,8 +53,9 @@
 // #include "srcs/ft_expand_wildcards.c"
 // #include "srcs/exec.c"
 // #include "srcs/exec_cmds.c"
+// #include "srcs/exec_redirections.c"
 // #include "srcs/exec_tools.c"
-// // #include "srcs/exec_heredoc.c"
+// #include "srcs/exec_heredoc.c"
 // #include "srcs/exec_pipes.c"
 // #include "srcs/exec_builtin.c"
 // #include "srcs/exec_cd.c"
@@ -81,6 +83,7 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_cmd_lstclear(&vars.cmds);
 		vars.cmdline = ft_free(vars.cmdline);
 		vars.cmdline = readline(PROMPT);
+		// vars.cmdline = ft_strdup("echo hh > hh");
 		if (!vars.cmdline)
 			break ;
 		if (*vars.cmdline && (!vars.last_cmdline || (vars.last_cmdline

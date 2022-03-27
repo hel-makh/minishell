@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 12:58:42 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 19:15:31 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ enum e_type {
 	PIPE
 };
 
+/***********************[ Structers ]***********************/
 typedef struct s_list {
 	char			*content;
 	int				type;
@@ -67,6 +68,7 @@ typedef struct s_vars {
 	t_cmd			*cmds;
 }	t_vars;
 
+/***********************[ Linked Lists ]***********************/
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstnew(char *content, int type);
 t_list	*ft_lstlast(t_list *lst);
@@ -83,31 +85,30 @@ char	*ft_remove_quotes(char *s);
 int		ft_wc_strcmp(const char *s1, const char *s2);
 char	*ft_getenv(char *var, char **envp);
 
+/**************************[ Utils ]**************************/
 int		ft_init_vars(t_vars *vars, char *envp[]);
 void	ft_handle_signals(int sig);
+void	ft_free_program(t_vars *vars);
+
+/*************************[ Parsing ]*************************/
 int		ft_tokenization(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
 int		ft_parse_cmds(t_vars *vars);
-void	ft_expand_env_vars(t_cmd **cmd, t_vars *vars);
-void	ft_expand_wildcards(t_cmd **cmd, t_vars *vars);
-void	ft_free_program(t_vars *vars);
+void	ft_expand_env_vars(char **envp, char **cmd);
+int		ft_expand_wildcards(
+			t_vars *vars, t_cmd **cmd, t_list **redirect, int *index);
 
-// execution
+/************************[ Execution ]************************/
+int		exec_init_pipes(t_cmd **cmd);
 void	execute_cmds(t_vars *vars);
-pid_t	exec_cmd(t_cmd **cmd, t_vars *vars);
+pid_t	execute_cmd(t_cmd **cmd, t_vars *vars);
 void	the_execution(t_cmd *cmd, t_vars *vars);
+int		duplicate_redirections(t_cmd **cmd, t_vars *vars, int is_fork);
+int		open_heredoc(char *limiter, char **envp);
 void	exit_perror(void);
 void	exit_cmd_notfound(char *cmd, int exit_status);
 
-// pipes
-int		exec_init_pipes(t_cmd **cmd);
-int		exec_close_pipes(t_cmd **cmd);
-
-// redirections
-int		duplicate_redirections(t_cmd **cmd, int is_fork);
-int		open_heredoc(char *limiter);
-
-// built-ins
+/************************[ Built-ins ]************************/
 int		is_built_in(char *name);
 int		exec_built_in(char **cmd, t_vars *vars);
 int		builtin_echo(char **cmd);

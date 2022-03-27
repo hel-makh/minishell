@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/27 13:14:58 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 19:03:18 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,36 @@ static char	*find_cmd(t_cmd *cmd, t_vars *vars)
 	return (cmd_temp);
 }
 
+void	expand_args(t_cmd **cmd, t_vars *vars)
+{
+	t_cmd	*t_cmd;
+	t_list	*redirect;
+	int		i;
+
+	t_cmd = *cmd;
+	i = 0;
+	while (t_cmd->cmd[i])
+	{
+		ft_expand_env_vars(vars->envp, &t_cmd->cmd[i]);
+		if (!ft_expand_wildcards(vars, cmd, NULL, &i))
+			t_cmd->cmd[i] = ft_remove_quotes(t_cmd->cmd[i]);
+		i ++;
+	}
+	redirect = t_cmd->redirect;
+	while (redirect)
+	{
+		ft_expand_env_vars(vars->envp, &redirect->content);
+		if (!ft_expand_wildcards(vars, NULL, &redirect, NULL))
+			redirect->content = ft_remove_quotes(redirect->content);
+		redirect = redirect->next;
+	}
+}
+
 void	the_execution(t_cmd *cmd, t_vars *vars)
 {
 	char	*tmp;
 
-	ft_expand_env_vars(&cmd, vars);
-	ft_expand_wildcards(&cmd, vars);
+	expand_args(&cmd, vars);
 	if (is_built_in(cmd->cmd[0]))
 	{
 		exit_status = exec_built_in(cmd->cmd, vars);

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/27 16:33:22 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/27 19:01:33 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #define HEREDOC "/tmp/.minishell_hh_heredoctmp_78979346245648"
 
-static int	ft_varname_len(char *var_name)
+static int	ft_varname_len_heredoc(char *var_name)
 {
 	int	i;
 
@@ -28,24 +28,41 @@ static int	ft_varname_len(char *var_name)
 	return (i);
 }
 
+static int	ft_has_env_var_heredoc(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1] && ft_varname_len_heredoc(&str[i + 1]))
+			return (i);
+		i ++;
+	}
+	return (-1);
+}
+
 static void	ft_put_text_fd(char **envp, char **str, int fd)
 {
-	int		index;
+	size_t	index;
 	size_t	var_len;
 	char	*var_name;
+	char	*var_value;
 
-	if (!ft_strchr(*str, '$'))
-		return ;
 	index = 0;
-	// index = ft_has_env_var(str);
-	var_len = ft_varname_len(&(*str)[index + 1]);
-	var_name = ft_substr(*str, index + 1, var_len);
-	if (ft_getenv(var_name, envp))
-		*str = ft_replace_str(*str,
-				ft_getenv(var_name, envp), index, var_len + 1);
-	else
-		*str = ft_replace_str(*str, "", index, var_len + 1);
-	var_name = ft_free(var_name);
+	while ((*str)[index] && ft_has_env_var_heredoc(&(*str)[index]) != -1)
+	{
+		index += ft_has_env_var_heredoc(&(*str)[index]);
+		var_len = ft_varname_len_heredoc(&(*str)[index + 1]);
+		var_name = ft_substr(*str, index + 1, var_len);
+		if (ft_getenv(var_name, envp))
+			var_value = ft_getenv(var_name, envp);
+		else
+			var_value = ft_strdup("");
+		*str = ft_replace_str(*str, var_value, index, var_len + 1);
+		index += ft_strlen(var_value);
+		var_name = ft_free(var_name);
+	}
 	ft_putstr_fd(*str, fd);
 }
 
