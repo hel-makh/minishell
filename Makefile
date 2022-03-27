@@ -27,6 +27,7 @@ SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/exec_pwd.c\
 					srcs/exec_cd.c\
 					srcs/exec_env.c\
+					srcs/exec_export.c\
 					srcs/exec_unset.c\
 					srcs/exec_exit.c\
 					srcs/ft_free_program.c
