@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/28 17:01:37 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 19:18:12 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int		builtin_pwd(void);
 int		builtin_cd(char **cmd, char ***envp);
 int		builtin_env(char **envp);
 int		builtin_export(char **cmd, char ***envp);
+void	print_export(char **envp);
 int		builtin_unset(char **cmd, char ***envp);
 int		builtin_exit(char **cmd);
 
