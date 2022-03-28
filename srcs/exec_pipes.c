@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:54:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/27 19:11:40 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 11:49:59 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,5 @@ pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 			break ;
 		(*cmd) = (*cmd)->next;
 	}
-	if (is_fork)
-		return (pid);
-	return (0);
+	return (pid);
 }
