@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:54:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/28 11:58:11 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:32:31 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,12 @@ int	exec_init_pipes(t_cmd **cmd)
 
 static int	exec_is_fork(t_cmd *cmd)
 {
-	if (!cmd->cmd[0])
-		return (0);
-	if (((cmd->next && cmd->next->type == PIPE)
-			|| cmd->type == PIPE)
-		|| ((!cmd->next || (cmd->next && cmd->next->type != PIPE))
+	if (!cmd->cmd[0]
+		|| (is_built_in(cmd->cmd[0])
 			&& cmd->type != PIPE
-			&& !is_built_in(cmd->cmd[0])))
-		return (1);
-	return (0);
+			&& (!cmd->next || (cmd->next && cmd->next->type != PIPE))))
+		return (0);
+	return (1);
 }
 
 static void	duplicate_pipes(t_cmd **cmd)
