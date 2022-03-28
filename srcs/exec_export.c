@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 22:30:08 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/28 12:43:15 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:46:20 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static int	ft_is_varname(char *var_name)
 		ft_putstr_fd("minishell: export: '", STDERR_FILENO);
 		ft_putstr_fd(var_name, STDERR_FILENO);
 		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-		return (EXIT_FAILURE);
+		return (0);
 	}
-	return (EXIT_SUCCESS);
+	return (1);
 }
 
 int	builtin_export(char **cmd, char ***envp)
