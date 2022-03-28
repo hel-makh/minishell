@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/27 19:01:33 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 10:54:53 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ static int	ft_varname_len_heredoc(char *var_name)
 	i = 0;
 	while (var_name[i])
 	{
+		if (i == 0 && var_name[i] == '?')
+		{
+			i ++;
+			break ;
+		}
 		if (!ft_isalnum(var_name[i]) && var_name[i] != '_')
 			break ;
 		i ++;
@@ -35,7 +40,9 @@ static int	ft_has_env_var_heredoc(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && ft_varname_len_heredoc(&str[i + 1]))
+		if (str[i] == '$'
+			&& str[i + 1]
+			&& (ft_varname_len_heredoc(&str[i + 1]) || str[i + 1] == '?'))
 			return (i);
 		i ++;
 	}
@@ -55,13 +62,18 @@ static void	ft_put_text_fd(char **envp, char **str, int fd)
 		index += ft_has_env_var_heredoc(&(*str)[index]);
 		var_len = ft_varname_len_heredoc(&(*str)[index + 1]);
 		var_name = ft_substr(*str, index + 1, var_len);
-		if (ft_getenv(var_name, envp))
-			var_value = ft_getenv(var_name, envp);
+		if (var_len == 1 && !ft_strcmp(var_name, "?"))
+			var_value = ft_itoa(g_glob.exit_status);
+		else if (ft_getenv(var_name, envp))
+			var_value = ft_strdup(ft_getenv(var_name, envp));
 		else
 			var_value = ft_strdup("");
+		if (!var_value)
+			return ;
 		*str = ft_replace_str(*str, var_value, index, var_len + 1);
 		index += ft_strlen(var_value);
 		var_name = ft_free(var_name);
+		var_value = ft_free(var_value);
 	}
 	ft_putstr_fd(*str, fd);
 }
