@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/28 10:11:56 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:54:44 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,11 @@ void	the_execution(t_cmd *cmd, t_vars *vars)
 {
 	char	*tmp;
 
+	if (!cmd->cmd[0])
+	{
+		g_glob.exit_status = 0;
+		return ;
+	}
 	expand_args(&cmd, vars);
 	if (is_built_in(cmd->cmd[0]))
 	{
