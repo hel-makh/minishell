@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 23:08:18 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 10:28:30 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:43:33 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static int	ft_is_varname(char *var_name)
 			ft_putstr_fd("minishell: unset: '", STDERR_FILENO);
 			ft_putstr_fd(var_name, STDERR_FILENO);
 			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-			return (0);
+			return (EXIT_FAILURE);
 		}
 		i ++;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 int	builtin_unset(char **cmd, char ***envp)
@@ -39,7 +39,7 @@ int	builtin_unset(char **cmd, char ***envp)
 
 	empty_arr = ft_calloc (1, sizeof(char *));
 	if (!empty_arr)
-		return (0);
+		return (EXIT_FAILURE);
 	i = 1;
 	while (cmd[i])
 	{
@@ -57,5 +57,5 @@ int	builtin_unset(char **cmd, char ***envp)
 		i ++;
 	}
 	empty_arr = ft_free_2d(empty_arr);
-	return (1);
+	return (EXIT_SUCCESS);
 }

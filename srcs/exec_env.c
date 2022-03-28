@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 21:33:18 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 23:29:55 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:38:55 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ int	builtin_env(char **envp)
 			ft_putendl_fd(envp[i], STDOUT_FILENO);
 		i ++;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }

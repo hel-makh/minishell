@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:53:36 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 20:12:51 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:36:49 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ int	builtin_echo(char **cmd)
 	}
 	if (!option)
 		printf ("\n");
-	return (0);
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 10:11:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 21:40:21 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:43:55 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ int	builtin_exit(char **cmd)
 	else
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
-		return (1);
-	}	
+		return (EXIT_FAILURE);
+	}
 }

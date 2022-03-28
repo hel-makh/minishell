@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 22:30:08 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 23:47:26 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:43:15 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static int	ft_is_varname(char *var_name)
 		ft_putstr_fd("minishell: export: '", STDERR_FILENO);
 		ft_putstr_fd(var_name, STDERR_FILENO);
 		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-		return (0);
+		return (EXIT_FAILURE);
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 int	builtin_export(char **cmd, char ***envp)
@@ -51,7 +51,7 @@ int	builtin_export(char **cmd, char ***envp)
 	// if (!cmd[1])
 	// 	return (print_export(envp), 1);
 	if (!cmd[1])
-		return (builtin_env(*envp), 1);
+		return (builtin_env(*envp));
 	i = 1;
 	while (cmd[i])
 	{
@@ -59,5 +59,5 @@ int	builtin_export(char **cmd, char ***envp)
 			*envp = ft_add_str2arr(*envp, cmd[i]);
 		i ++;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }

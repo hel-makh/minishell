@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:16:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 20:13:06 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:38:42 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ int	builtin_pwd(void)
 		return (1);
 	}
 	printf ("%s\n", buff);
-	return (0);
+	return (EXIT_SUCCESS);
 }
