@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 23:31:38 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 10:21:36 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
+# include <signal.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <readline/readline.h>
@@ -25,8 +26,6 @@
 # include "../Libft/libft.h"
 
 # define PROMPT "minishell$ "
-
-int	g_exit_status;
 
 enum e_type {
 	WORD,
@@ -44,6 +43,14 @@ enum e_type {
 };
 
 /***********************[ Structers ]***********************/
+typedef struct s_glob
+{
+	pid_t			pid;
+	int				exit_status;
+}	t_glob;
+
+t_glob	g_glob;
+
 typedef struct s_list {
 	char			*content;
 	int				type;
@@ -86,7 +93,7 @@ char	*ft_getenv(char *var, char **envp);
 
 /**************************[ Utils ]**************************/
 int		ft_init_vars(t_vars *vars, char *envp[]);
-void	ft_handle_signals(int sig);
+void	signals_handler(int sign);
 void	ft_free_program(t_vars *vars);
 
 /*************************[ Parsing ]*************************/

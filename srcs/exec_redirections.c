@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 11:47:56 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 22:28:17 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 10:27:09 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int	expand_redirect(t_list *redirect, t_vars *vars)
 		redirect->content = ft_remove_quotes(redirect->content);
 	if (ft_char_count(redirect->content, ' '))
 	{
+		g_glob.exit_status = 1;
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(content, STDERR_FILENO);
 		ft_putendl_fd(": ambiguous redirect", STDERR_FILENO);

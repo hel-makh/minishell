@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/27 21:55:53 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 10:50:48 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static int	handle_operators(t_cmd **cmd)
 {
 	int	i;
 
-	if (((*cmd)->type == AND && g_exit_status != 0)
-		|| ((*cmd)->type == OR && g_exit_status == 0))
+	if (((*cmd)->type == AND && g_glob.exit_status != 0)
+		|| ((*cmd)->type == OR && g_glob.exit_status == 0))
 	{
 		i = ft_next_cmd((*cmd));
 		while (i--)
@@ -52,7 +52,6 @@ static int	handle_operators(t_cmd **cmd)
 void	execute_cmds(t_vars *vars)
 {
 	t_cmd	*cmd;
-	pid_t	pid;
 	int		status;
 
 	exec_init_pipes(&vars->cmds);
@@ -61,13 +60,17 @@ void	execute_cmds(t_vars *vars)
 	{
 		if (handle_operators(&cmd))
 			continue ;
-		pid = execute_cmd(&cmd, vars);
-		if (pid)
+		g_glob.pid = execute_cmd(&cmd, vars);
+		if (g_glob.pid)
 		{
-			waitpid(pid, &status, 0);
-			g_exit_status = WEXITSTATUS(status);
+			waitpid(g_glob.pid, &status, 0);
+			if (WIFEXITED(status))
+				g_glob.exit_status = WEXITSTATUS(status);
+			else if (!WIFSIGNALED(status))
+				g_glob.exit_status = WTERMSIG(status);
 			waitpid(-1, NULL, 0);
 		}
 		cmd = cmd->next;
 	}
+	g_glob.pid = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:13:32 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 21:52:04 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 10:19:41 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	if (!ft_init_vars(&vars, envp))
 		return (EXIT_FAILURE);
-	signal(SIGINT, ft_handle_signals);
-	// signal(SIGQUIT, ft_handle_signals);
+	signal(SIGINT, signals_handler);
+	signal(SIGQUIT, signals_handler);
 	vars.cmdline = ft_strdup("");
 	while (vars.cmdline)
 	{
@@ -84,7 +84,6 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_cmd_lstclear(&vars.cmds);
 		vars.cmdline = ft_free(vars.cmdline);
 		vars.cmdline = readline(PROMPT);
-		// vars.cmdline = ft_strdup("echo hh > 123*");
 		if (!vars.cmdline)
 			break ;
 		if (*vars.cmdline && (!vars.last_cmdline || (vars.last_cmdline
