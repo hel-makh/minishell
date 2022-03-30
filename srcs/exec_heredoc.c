@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/28 10:54:53 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 09:50:37 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,23 @@ int	open_heredoc(char *limiter, char **envp)
 	int		fd;
 	char	*heredoc;
 	char	*heredoc_text;
-
+	
 	fd = open(HEREDOC, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
 		return (fd);
 	heredoc = NULL;
 	heredoc_text = ft_strdup("");
-	while (1)
+	g_glob.heredoc = 1;
+	while (g_glob.heredoc)
 	{
 		heredoc = ft_free(heredoc);
-		heredoc = readline("> ");
-		if (!heredoc || ft_strcmp(heredoc, limiter) == 0)
+		heredoc = get_next_line(0);
+		if (!heredoc || ft_strncmp(heredoc, limiter,ft_strlen(limiter)) == 0)
 			break ;
-		heredoc = ft_stradd(heredoc, "\n");
 		heredoc_text = ft_stradd(heredoc_text, heredoc);
 	}
+	if (g_glob.heredoc == 0)
+			return (-2);
 	ft_put_text_fd(envp, &heredoc_text, fd);
 	heredoc = ft_free(heredoc);
 	heredoc_text = ft_free(heredoc_text);

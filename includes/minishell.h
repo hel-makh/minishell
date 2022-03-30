@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/28 10:21:36 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/29 12:48:50 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_glob
 {
 	pid_t			pid;
 	int				exit_status;
+	int				heredoc;
+	int				flag;
 }	t_glob;
 
 t_glob	g_glob;
@@ -95,6 +97,9 @@ char	*ft_getenv(char *var, char **envp);
 int		ft_init_vars(t_vars *vars, char *envp[]);
 void	signals_handler(int sign);
 void	ft_free_program(t_vars *vars);
+void	signal_heredoc(int sign);
+char	*get_next_line(int fd);
+
 
 /*************************[ Parsing ]*************************/
 int		ft_tokenization(t_vars *vars);

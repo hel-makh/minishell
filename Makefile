@@ -30,7 +30,9 @@ SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/exec_export.c\
 					srcs/exec_unset.c\
 					srcs/exec_exit.c\
-					srcs/ft_free_program.c
+					srcs/ft_free_program.c\
+					gnl/get_next_line.c\
+					gnl/get_next_line_utils.c
 
 OBJS			=	$(SRCS:.c=.o)\
 					$(MAIN:.c=.o)

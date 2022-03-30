@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:13:32 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/28 10:19:41 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 09:45:39 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,21 @@
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_vars	vars;
+	struct sigaction sa;
 
 	(void)argc;
 	(void)argv;
 	if (!ft_init_vars(&vars, envp))
 		return (EXIT_FAILURE);
-	signal(SIGINT, signals_handler);
-	signal(SIGQUIT, signals_handler);
+	
+    sa.sa_handler = signals_handler;
+    sa.sa_flags = 0;
+    sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT,SIG_IGN);
 	vars.cmdline = ft_strdup("");
 	while (vars.cmdline)
 	{
+		g_glob.heredoc = 0;
 		ft_lstclear(&vars.tokens);
 		ft_cmd_lstclear(&vars.cmds);
 		vars.cmdline = ft_free(vars.cmdline);

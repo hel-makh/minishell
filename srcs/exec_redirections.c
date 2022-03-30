@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 11:47:56 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/28 10:27:09 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 17:00:14 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int	duplicate_redirections(t_cmd **cmd, t_vars *vars, int is_fork)
 				exit_perror();
 			return (perror("Error"), 0);
 		}
+		if (fd[STDIN_FILENO] == -2)
+			return (0);
 		redirect = redirect->next;
 	}
 	duplicate_redirect_fd(cmd, fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:54:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/28 12:32:31 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 09:46:24 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,25 @@ static void	exec_cmd_child(t_cmd *cmd, t_vars *vars, int is_fork)
 		close(std[STDOUT_FILENO]);
 	}
 }
+int check_heredoc(t_cmd **cmd)
+{
+	t_list *tmp2;
+	t_cmd *tmp;
+
+	tmp = *cmd;
+	while (tmp)
+	{
+		tmp2 = tmp->redirect;
+		while (tmp2)
+		{
+			if (tmp2->type == D_RED_IN)
+				return (1);
+			tmp2 = tmp2->next;
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 {
@@ -99,9 +118,15 @@ pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 	pid = 0;
 	while (*cmd)
 	{
+		if (check_heredoc(cmd))
+			g_glob.heredoc = 1;
 		is_fork = exec_is_fork(*cmd);
 		if (is_fork)
+		{
+			signal(SIGQUIT,SIG_DFL);
+			signal(SIGQUIT,signals_handler);
 			pid = fork();
+		}
 		if (pid == -1)
 			exit_perror();
 		if (pid == 0)

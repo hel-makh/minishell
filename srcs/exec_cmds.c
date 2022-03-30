@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/28 10:50:48 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/29 11:44:21 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	execute_cmds(t_vars *vars)
 				g_glob.exit_status = WEXITSTATUS(status);
 			else if (!WIFSIGNALED(status))
 				g_glob.exit_status = WTERMSIG(status);
+			if (g_glob.exit_status == 130)
+				break;
 			waitpid(-1, NULL, 0);
 		}
 		cmd = cmd->next;
