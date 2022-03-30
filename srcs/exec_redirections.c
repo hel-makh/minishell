@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 11:47:56 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/28 17:00:14 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 15:12:39 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	expand_redirect(t_list *redirect, t_vars *vars)
 	return (1);
 }
 
-static void	open_redirect_fd(t_list *redirect, t_vars *vars, int *fd)
+static void	open_redirect_fd(t_cmd *cmd, t_list *redirect, int *fd)
 {
 	if (redirect->type == RED_OUT)
 		fd[STDOUT_FILENO] = open(redirect->content,
@@ -68,16 +68,17 @@ static void	open_redirect_fd(t_list *redirect, t_vars *vars, int *fd)
 	else if (redirect->type == RED_IN)
 		fd[STDIN_FILENO] = open(redirect->content, O_RDONLY);
 	else if (redirect->type == D_RED_IN)
-		fd[STDIN_FILENO] = open_heredoc(redirect->content, vars->envp);
+		fd[STDIN_FILENO] = cmd->heredoc[STDIN_FILENO];
 }
 
 static void	duplicate_redirect_fd(t_cmd **cmd, int *fd)
 {
 	dup2(fd[STDIN_FILENO], STDIN_FILENO);
-	if (fd[STDIN_FILENO] != STDIN_FILENO)
+	if (fd[STDIN_FILENO] != STDIN_FILENO && (*cmd)->type == PIPE)
 		(*cmd)->pipe[STDIN_FILENO] = fd[STDIN_FILENO];
 	dup2(fd[STDOUT_FILENO], STDOUT_FILENO);
-	if (fd[STDOUT_FILENO] != STDOUT_FILENO && (*cmd)->next)
+	if (fd[STDOUT_FILENO] != STDOUT_FILENO
+		&& (*cmd)->next && (*cmd)->next->type == PIPE)
 		(*cmd)->next->pipe[STDOUT_FILENO] = fd[STDOUT_FILENO];
 }
 
@@ -93,15 +94,13 @@ int	duplicate_redirections(t_cmd **cmd, t_vars *vars, int is_fork)
 	{
 		if (!expand_redirect(redirect, vars))
 			return (0);
-		open_redirect_fd(redirect, vars, fd);
+		open_redirect_fd(*cmd, redirect, fd);
 		if (fd[STDIN_FILENO] == -1 || fd[STDOUT_FILENO] == -1)
 		{
 			if (is_fork)
 				exit_perror();
 			return (perror("Error"), 0);
 		}
-		if (fd[STDIN_FILENO] == -2)
-			return (0);
 		redirect = redirect->next;
 	}
 	duplicate_redirect_fd(cmd, fd);

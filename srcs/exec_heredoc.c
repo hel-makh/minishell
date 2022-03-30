@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 09:50:37 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 15:09:46 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,33 +78,57 @@ static void	ft_put_text_fd(char **envp, char **str, int fd)
 	ft_putstr_fd(*str, fd);
 }
 
-int	open_heredoc(char *limiter, char **envp)
+static int	open_heredoc(t_cmd *cmd, char *delimiter, char **envp)
 {
-	int		fd;
 	char	*heredoc;
 	char	*heredoc_text;
-	
-	fd = open(HEREDOC, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd == -1)
-		return (fd);
+
+	if (pipe(cmd->heredoc) == -1)
+		return (perror("Error"), 0);
 	heredoc = NULL;
 	heredoc_text = ft_strdup("");
-	g_glob.heredoc = 1;
-	while (g_glob.heredoc)
+	while (1)
 	{
 		heredoc = ft_free(heredoc);
-		heredoc = get_next_line(0);
-		if (!heredoc || ft_strncmp(heredoc, limiter,ft_strlen(limiter)) == 0)
+		heredoc = readline("> ");
+		if (!heredoc || ft_strcmp(heredoc, delimiter) == 0)
 			break ;
+		heredoc = ft_stradd(heredoc, "\n");
 		heredoc_text = ft_stradd(heredoc_text, heredoc);
 	}
-	if (g_glob.heredoc == 0)
-			return (-2);
-	ft_put_text_fd(envp, &heredoc_text, fd);
+	ft_put_text_fd(envp, &heredoc_text, cmd->heredoc[STDOUT_FILENO]);
+	close(cmd->heredoc[STDOUT_FILENO]);
+	cmd->heredoc[STDOUT_FILENO] = -1;
 	heredoc = ft_free(heredoc);
 	heredoc_text = ft_free(heredoc_text);
-	fd = open(HEREDOC, O_RDONLY);
-	if (fd == -1 || unlink(HEREDOC) == -1)
-		return (-1);
-	return (fd);
+	return (1);
+}
+
+int	exec_init_heredoc(t_cmd **cmd, char **envp)
+{
+	t_cmd	*cmd_t;
+	t_list	*redirect;
+
+	cmd_t = *cmd;
+	while (cmd_t)
+	{
+		redirect = cmd_t->redirect;
+		while (redirect)
+		{
+			if (redirect->type == D_RED_IN)
+			{
+				if (cmd_t->heredoc[STDIN_FILENO] != -1
+					&& cmd_t->heredoc[STDOUT_FILENO] != -1)
+				{
+					close(cmd_t->heredoc[STDIN_FILENO]);
+					close(cmd_t->heredoc[STDOUT_FILENO]);
+				}
+				if (!open_heredoc(cmd_t, redirect->content, envp))
+					return (0);
+			}
+			redirect = redirect->next;
+		}
+		cmd_t = cmd_t->next;
+	}
+	return (1);
 }

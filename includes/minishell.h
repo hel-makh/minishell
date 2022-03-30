@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 11:08:47 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 15:07:58 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ typedef struct s_glob
 {
 	pid_t			pid;
 	int				exit_status;
-	int				heredoc;
-	int				flag;
 }	t_glob;
 
 t_glob	g_glob;
@@ -63,6 +61,7 @@ typedef struct s_cmd {
 	char			**cmd;
 	int				type;
 	int				pipe[2];
+	int				heredoc[2];
 	int				*subsh_lvl;
 	t_list			*redirect;
 	struct s_cmd	*next;
@@ -97,7 +96,6 @@ char	*ft_getenv(char *var, char **envp);
 int		ft_init_vars(t_vars *vars, char *envp[]);
 void	signals_handler(int sign);
 void	ft_free_program(t_vars *vars);
-void	signal_heredoc(int sign);
 
 /*************************[ Parsing ]*************************/
 int		ft_tokenization(t_vars *vars);
@@ -107,12 +105,15 @@ void	ft_expand_env_vars(char **envp, char **cmd);
 int		ft_expand_wildcards(t_cmd **cmd, t_list **redirect, int *index);
 
 /************************[ Execution ]************************/
-int		exec_init_pipes(t_cmd **cmd);
 void	execute_cmds(t_vars *vars);
-pid_t	execute_cmd(t_cmd **cmd, t_vars *vars);
+void	exec_cmd_child(t_cmd *cmd, t_vars *vars, int is_fork);
 void	the_execution(t_cmd *cmd, t_vars *vars);
+void	ft_init_pipes(t_cmd **cmd);
+void	ft_close_pipes(t_cmd *cmd);
+int		exec_init_pipes(t_cmd **cmd);
 int		duplicate_redirections(t_cmd **cmd, t_vars *vars, int is_fork);
-int		open_heredoc(char *limiter, char **envp);
+int		exec_init_heredoc(t_cmd **cmd, char **envp);
+int		has_heredoc(t_list *redirect);
 void	exit_perror(void);
 void	exit_cmd_notfound(char *cmd, int exit_status);
 

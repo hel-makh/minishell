@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:34:52 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/26 16:37:52 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 15:05:49 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,15 @@ void	exit_cmd_notfound(char *cmd, int exit_status)
 	else if (exit_status == 127)
 		ft_putendl_fd(": command not found", 2);
 	exit(exit_status);
+}
+
+int	has_heredoc(t_list *redirect)
+{
+	while (redirect)
+	{
+		if (redirect->type == D_RED_IN)
+			return (1);
+		redirect = redirect->next;
+	}
+	return (0);
 }
