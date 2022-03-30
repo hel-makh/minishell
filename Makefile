@@ -46,11 +46,11 @@ CFLAGS			=	-Wall -Wextra -Werror
 
 RM				=	rm -f
 
-.c.o:
-				# $(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+%.o:%.c			$(HEADER) 
+				$(CC) $(CFLAGS) $(CPPFLAGS)  -c $< -o $@ 
 
-$(NAME):		$(HEADER) $(LIB)
-				$(CC) $(CFLAGS) $(MAIN) $(SRCS) $(LIB) -o $(NAME) -lreadline $(LDFLAGS) $(CPPFLAGS)
+$(NAME):		$(HEADER) $(LIB) $(OBJS)
+				$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline $(LDFLAGS)
 
 all:			$(NAME)
 
