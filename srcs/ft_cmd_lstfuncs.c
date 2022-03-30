@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:51:40 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/25 12:03:12 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 16:52:30 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	ft_cmd_lstclear(t_cmd **lst)
 		holder = *lst;
 		*lst = (*lst)->next;
 		holder->cmd = ft_free_2d(holder->cmd);
+		holder->subsh_lvl = ft_free(holder->subsh_lvl);
 		ft_lstclear(&holder->redirect);
 		holder = ft_free(holder);
 	}
