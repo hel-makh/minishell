@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 19:03:39 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 21:40:17 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*ft_getenv(char *var, char **envp);
 /**************************[ Utils ]**************************/
 int		ft_init_vars(t_vars *vars, char *envp[]);
 void	signals_handler(int sign);
-void	signal_process(int sign);
+void	signal_child(int sign);
 int		exec_is_fork(t_cmd *cmd);
 void	ft_free_program(t_vars *vars);
 

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/28 12:54:44 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 21:08:56 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static char	*find_path(char **paths, char *cmd)
 {
-	int		i;
-	int		result;
+	int			i;
+	int			result;
+	struct stat	path_stat;
 
 	i = 0;
 	while (paths[i])
@@ -26,8 +27,8 @@ static char	*find_path(char **paths, char *cmd)
 		paths[i] = ft_stradd(paths[i], cmd);
 		if (!paths[i])
 			return (NULL);
-		result = access(paths[i], F_OK);
-		if (result == 0)
+		lstat(paths[i], &path_stat);
+		if (S_ISREG(path_stat.st_mode))
 		{
 			result = access(paths[i], X_OK);
 			if (result == 0)
@@ -48,7 +49,12 @@ static char	*find_cmd(t_cmd *cmd, t_vars *vars)
 
 	path = ft_getenv("PATH", vars->envp);
 	if (!path)
-		exit_cmd_notfound(cmd->cmd[0], 127);
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		exit(127);
+	}
 	paths = ft_split(path, ':');
 	if (!paths)
 		exit_perror();

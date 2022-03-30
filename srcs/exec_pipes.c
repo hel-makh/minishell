@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:54:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 18:29:26 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 21:40:58 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,11 @@ void	exec_cmd_child(t_cmd *cmd, t_vars *vars, int is_fork)
 {
 	int	std[2];
 
-	signal(SIGINT, signal_process);
-	signal(SIGQUIT, signal_process);
+	if (is_fork)
+	{
+		signal(SIGINT, signal_child);
+		signal(SIGQUIT, signal_child);
+	}
 	if (!is_fork)
 	{
 		std[STDIN_FILENO] = dup(STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:13:32 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 19:06:01 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 21:36:16 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	main(int argc, char *argv[], char *envp[])
 	vars.sa.sa_handler = signals_handler;
 	vars.sa.sa_flags = 0;
 	sigaction(SIGINT, &vars.sa, NULL);
-	vars.cmdline = ft_strdup("");
 	signal(SIGQUIT, SIG_IGN);
+	vars.cmdline = ft_strdup("");
 	while (ft_loop_cmds(&vars))
 		;
 	ft_free_program(&vars);

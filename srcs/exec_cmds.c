@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 18:56:14 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 21:38:56 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 	{
 		is_fork = exec_is_fork(*cmd);
 		if (is_fork)
+		{
+			signal(SIGINT, SIG_IGN);
 			pid = fork();
+		}
 		if (pid == -1)
 			exit_perror();
 		if (pid == 0)
@@ -100,16 +103,15 @@ void	execute_cmds(t_vars *vars)
 	{
 		if (handle_operators(&cmd))
 			continue ;
-		signal(SIGINT, SIG_IGN);
 		g_glob.pid = execute_cmd(&cmd, vars);
 		if (g_glob.pid)
 		{
 			waitpid(g_glob.pid, &status, 0);
 			child_exit_status(status);
 			waitpid(-1, NULL, 0);
+			sigaction(SIGINT, &vars->sa, NULL);
+			signal(SIGQUIT, SIG_IGN);
 		}
-		signal(SIGQUIT, SIG_IGN);
-		sigaction(SIGINT, &vars->sa, NULL);
 		cmd = cmd->next;
 	}
 	g_glob.pid = 0;

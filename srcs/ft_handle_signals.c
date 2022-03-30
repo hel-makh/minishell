@@ -6,13 +6,13 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 08:35:27 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 18:57:36 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 22:06:36 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	signal_process(int sign)
+void	signal_child(int sign)
 {
 	if (sign == SIGQUIT && g_glob.pid == 0)
 	{
