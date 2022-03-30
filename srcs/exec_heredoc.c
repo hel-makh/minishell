@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 16:21:03 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 16:30:53 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ static int	open_heredoc(t_cmd *cmd, char *delimiter, char **envp)
 		heredoc = ft_free(heredoc);
 		ft_putstr_fd("> ", STDOUT_FILENO);
 		heredoc = get_next_line(STDOUT_FILENO);
-		if (!heredoc || ft_strncmp(heredoc, delimiter, ft_strlen(delimiter)) == 0)
+		if (!heredoc || (!ft_strncmp(heredoc, delimiter, ft_strlen(delimiter))
+				&& ft_strlen(heredoc) - 1 == ft_strlen(delimiter)))
 			break ;
 		heredoc_text = ft_stradd(heredoc_text, heredoc);
 	}
@@ -102,9 +103,7 @@ static int	open_heredoc(t_cmd *cmd, char *delimiter, char **envp)
 	ft_put_text_fd(envp, &heredoc_text, cmd->heredoc[STDOUT_FILENO]);
 	close(cmd->heredoc[STDOUT_FILENO]);
 	cmd->heredoc[STDOUT_FILENO] = -1;
-	heredoc = ft_free(heredoc);
-	heredoc_text = ft_free(heredoc_text);
-	return (1);
+	return (ft_free(heredoc), ft_free(heredoc_text), 1);
 }
 
 int	exec_init_heredoc(t_cmd **cmd, char **envp)

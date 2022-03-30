@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handle_signals.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 08:35:27 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 16:12:35 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 16:29:37 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	signal_process(int sign)
 	}
 }
 
-static void signal_heredoc(int sign)
+static void	signal_heredoc(int sign)
 {
 	if (sign == SIGINT)
 	{

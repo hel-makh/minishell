@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 16:26:32 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 16:27:49 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 		is_fork = exec_is_fork(*cmd);
 		if (is_fork)
 		{	
-			signal(SIGQUIT,SIG_DFL);
-			signal(SIGQUIT,signals_handler);
+			signal(SIGQUIT, SIG_DFL);
+			signal(SIGQUIT, signals_handler);
 			pid = fork();
 		}
 		if (pid == -1)
