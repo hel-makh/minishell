@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 10:44:23 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 11:08:47 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ int		ft_init_vars(t_vars *vars, char *envp[]);
 void	signals_handler(int sign);
 void	ft_free_program(t_vars *vars);
 void	signal_heredoc(int sign);
-char	*get_next_line(int fd);
-
 
 /*************************[ Parsing ]*************************/
 int		ft_tokenization(t_vars *vars);
