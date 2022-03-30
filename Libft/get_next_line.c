@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 19:22:20 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 11:09:00 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 11:38:26 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "libft.h"
 
 #define BUFFER_SIZE 1
- 
+
 typedef struct s_list
 {
 	int				fd;
@@ -35,7 +35,9 @@ static char	*get_fd_content(int fd, t_list *fd_list)
 	return ("");
 }
 
-static void	set_fd_content(int fd, t_list **fd_list, char content[BUFFER_SIZE + 1])
+static void	set_fd_content(
+	int fd, t_list **fd_list, char content[BUFFER_SIZE + 1]
+	)
 {
 	t_list	*holder;
 	t_list	*new_list;
