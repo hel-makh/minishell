@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 18:28:42 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 11:08:09 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 23:13:33 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
+char	*ft_strstr(const char *haystack, const char *needle);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 int		ft_atoi(const char *str);
 void	*ft_calloc(size_t count, size_t size);
@@ -51,6 +52,7 @@ char	*ft_joinstrs(char **array, char c);
 char	*ft_stradd(char const *s1, char const *s2);
 char	*ft_strnadd(char const *s1, char const *s2, size_t n);
 char	*ft_strtrim(char const *s1, char const *set);
+int		ft_arr_has_str(char **arr, char *str);
 char	*ft_replace_str( char *s1, const char *s2,
 			unsigned int start, unsigned int len);
 char	**ft_arrdup(char **array);
