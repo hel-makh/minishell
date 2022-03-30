@@ -6,7 +6,7 @@
 /*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:13:32 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 16:16:46 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 18:43:07 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,20 +70,19 @@
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_vars	vars;
-	struct sigaction sa;
 
 	(void)argc;
 	(void)argv;
 	
 	if (!ft_init_vars(&vars, envp))
 		return (EXIT_FAILURE);
-	sa.sa_handler = signals_handler;
-    sa.sa_flags = 0;
-    sigaction(SIGINT, &sa, NULL);
+	vars.sa.sa_handler = signals_handler;
+    vars.sa.sa_flags = 0;
+    sigaction(SIGINT, &vars.sa, NULL);
 	vars.cmdline = ft_strdup("");
+	signal(SIGQUIT,SIG_IGN);
 	while (vars.cmdline)
 	{
-		signal(SIGQUIT,SIG_IGN);
 		g_glob.heredoc = 0;
 		ft_lstclear(&vars.tokens);
 		ft_cmd_lstclear(&vars.cmds);
@@ -110,5 +109,5 @@ int	main(int argc, char *argv[], char *envp[])
 		execute_cmds(&vars);
 	}
 	ft_free_program(&vars);
-	return (EXIT_SUCCESS);
+	return (g_glob.exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 15:24:43 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 18:31:48 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_cmd {
 typedef struct s_vars {
 	char			*cmdline;
 	char			*last_cmdline;
+	struct	sigaction sa;
 	char			**envp;
 	t_list			*tokens;
 	t_cmd			*cmds;
@@ -96,6 +97,7 @@ char	*ft_getenv(char *var, char **envp);
 /**************************[ Utils ]**************************/
 int		ft_init_vars(t_vars *vars, char *envp[]);
 void	signals_handler(int sign);
+void	signal_process(int sign);
 void	ft_free_program(t_vars *vars);
 
 /*************************[ Parsing ]*************************/

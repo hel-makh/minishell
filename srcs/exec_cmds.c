@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 16:27:49 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 18:41:10 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,7 @@ static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 	{
 		is_fork = exec_is_fork(*cmd);
 		if (is_fork)
-		{	
-			signal(SIGQUIT, SIG_DFL);
-			signal(SIGQUIT, signals_handler);
 			pid = fork();
-		}
 		if (pid == -1)
 			exit_perror();
 		if (pid == 0)
@@ -100,6 +96,7 @@ void	execute_cmds(t_vars *vars)
 	{
 		if (handle_operators(&cmd))
 			continue ;
+		signal(SIGINT, SIG_IGN);
 		g_glob.pid = execute_cmd(&cmd, vars);
 		if (g_glob.pid)
 		{
@@ -109,6 +106,18 @@ void	execute_cmds(t_vars *vars)
 			else if (!WIFSIGNALED(status))
 				g_glob.exit_status = WTERMSIG(status);
 			waitpid(-1, NULL, 0);
+		}
+		signal(SIGQUIT, SIG_IGN);
+		sigaction(SIGINT, &vars->sa, NULL);
+		if (WTERMSIG(status) == SIGQUIT)
+		{
+			g_glob.exit_status = 128 + WTERMSIG(status);
+			write(1, "Quit: 3\n", 9);
+		}
+		if (WTERMSIG(status) == SIGINT)
+		{
+			g_glob.exit_status = 128 + WTERMSIG(status);
+			write(1, "\n", 1);
 		}
 		cmd = cmd->next;
 	}
