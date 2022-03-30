@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:46:03 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/27 23:43:29 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/28 17:11:33 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	exec_built_in(char **cmd, t_vars *vars)
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		status = builtin_pwd();
 	else if (ft_strcmp(cmd[0], "cd") == 0)
-		status = builtin_cd(cmd, vars->envp);
+		status = builtin_cd(cmd, &vars->envp);
 	else if (ft_strcmp(cmd[0], "env") == 0)
 		status = builtin_env(vars->envp);
 	else if (ft_strcmp(cmd[0], "export") == 0)

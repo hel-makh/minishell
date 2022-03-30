@@ -6,7 +6,7 @@
 /*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/29 12:48:50 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 10:44:23 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,10 @@ int		is_built_in(char *name);
 int		exec_built_in(char **cmd, t_vars *vars);
 int		builtin_echo(char **cmd);
 int		builtin_pwd(void);
-int		builtin_cd(char **cmd, char **envp);
+int		builtin_cd(char **cmd, char ***envp);
 int		builtin_env(char **envp);
 int		builtin_export(char **cmd, char ***envp);
+void	print_export(char **envp);
 int		builtin_unset(char **cmd, char ***envp);
 int		builtin_exit(char **cmd);
 
