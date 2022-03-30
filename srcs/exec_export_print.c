@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 19:17:43 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/28 19:18:04 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 18:06:17 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	print_export(char **envp)
 		}
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putendl_fd(envp[cmp], STDOUT_FILENO);
-		envp[cmp] = NULL;
+		envp[cmp] = ft_free(envp[cmp]);
 		i ++;
 	}
 }
