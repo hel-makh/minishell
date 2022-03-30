@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 15:06:45 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 16:26:32 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,16 @@ static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 	{
 		is_fork = exec_is_fork(*cmd);
 		if (is_fork)
+		{	
+			signal(SIGQUIT,SIG_DFL);
+			signal(SIGQUIT,signals_handler);
 			pid = fork();
+		}
 		if (pid == -1)
 			exit_perror();
 		if (pid == 0)
 			exec_cmd_child(*cmd, vars, is_fork);
+		ft_close_pipes(*cmd);
 		if (!(*cmd)->next || ((*cmd)->next && (*cmd)->next->type != PIPE))
 			break ;
 		(*cmd) = (*cmd)->next;

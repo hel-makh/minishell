@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 15:09:46 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 16:21:03 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,18 @@ static int	open_heredoc(t_cmd *cmd, char *delimiter, char **envp)
 		return (perror("Error"), 0);
 	heredoc = NULL;
 	heredoc_text = ft_strdup("");
-	while (1)
+	g_glob.heredoc = 1;
+	while (g_glob.heredoc)
 	{
 		heredoc = ft_free(heredoc);
-		heredoc = readline("> ");
-		if (!heredoc || ft_strcmp(heredoc, delimiter) == 0)
+		ft_putstr_fd("> ", STDOUT_FILENO);
+		heredoc = get_next_line(STDOUT_FILENO);
+		if (!heredoc || ft_strncmp(heredoc, delimiter, ft_strlen(delimiter)) == 0)
 			break ;
-		heredoc = ft_stradd(heredoc, "\n");
 		heredoc_text = ft_stradd(heredoc_text, heredoc);
 	}
+	if (g_glob.heredoc == 0)
+		return (0);
 	ft_put_text_fd(envp, &heredoc_text, cmd->heredoc[STDOUT_FILENO]);
 	close(cmd->heredoc[STDOUT_FILENO]);
 	cmd->heredoc[STDOUT_FILENO] = -1;
