@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:13:32 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 19:02:50 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 19:06:01 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ int	main(int argc, char *argv[], char *envp[])
 	while (ft_loop_cmds(&vars))
 		;
 	ft_free_program(&vars);
+	ft_putendl_fd("exit", STDOUT_FILENO);
 	return (g_glob.exit_status);
 }
