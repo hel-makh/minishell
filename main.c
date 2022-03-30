@@ -3,69 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:13:32 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 18:43:07 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 19:02:50 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-// #include "Libft/ft_isalpha.c"
-// #include "Libft/ft_isdigit.c"
-// #include "Libft/ft_isalnum.c"
-// #include "Libft/ft_strlen.c"
-// #include "Libft/ft_strcpy.c"
-// #include "Libft/ft_strcat.c"
-// #include "Libft/ft_strchr.c"
-// #include "Libft/ft_strrchr.c"
-// #include "Libft/ft_bzero.c"
-// #include "Libft/ft_calloc.c"
-// #include "Libft/ft_strdup.c"
-// #include "Libft/ft_arrdup.c"
-// #include "Libft/ft_strnstr.c"
-// #include "Libft/ft_substr.c"
-// #include "Libft/ft_putchar_fd.c"
-// #include "Libft/ft_putstr_fd.c"
-// #include "Libft/ft_putendl_fd.c"
-// #include "Libft/ft_strcmp.c"
-// #include "Libft/ft_strncmp.c"
-// #include "Libft/ft_free.c"
-// #include "Libft/ft_stradd.c"
-// #include "Libft/ft_joinstrs.c"
-// #include "Libft/ft_arrlen.c"
-// #include "Libft/ft_add_str2arr.c"
-// #include "Libft/ft_replace_str.c"
-// #include "Libft/ft_replace_arr.c"
-// #include "Libft/ft_split.c"
-
-// #include "srcs/ft_wc_strcmp.c"
-// #include "srcs/ft_remove_quotes.c"
-// #include "srcs/ft_lstfuncs.c"
-// #include "srcs/ft_cmd_lstfuncs.c"
-// #include "srcs/ft_getenv.c"
-// #include "srcs/ft_init_vars.c"
-// #include "srcs/ft_handle_signals.c"
-// #include "srcs/ft_tokenization.c"
-// #include "srcs/ft_verify_syntax.c"
-// #include "srcs/ft_parse_cmds.c"
-// #include "srcs/ft_expand_env_vars.c"
-// #include "srcs/ft_expand_wildcards.c"
-// #include "srcs/exec.c"
-// #include "srcs/exec_cmds.c"
-// #include "srcs/exec_redirections.c"
-// #include "srcs/exec_tools.c"
-// #include "srcs/exec_heredoc.c"
-// #include "srcs/exec_pipes.c"
-// #include "srcs/exec_builtin.c"
-// #include "srcs/exec_cd.c"
-// #include "srcs/exec_pwd.c"
-// #include "srcs/exec_echo.c"
-// #include "srcs/exec_env.c"
-// #include "srcs/exec_unset.c"
-// #include "srcs/exec_exit.c"
-// #include "srcs/ft_free_program.c"
+static int	ft_loop_cmds(t_vars *vars)
+{
+	g_glob.heredoc = 0;
+	ft_lstclear(&vars->tokens);
+	ft_cmd_lstclear(&vars->cmds);
+	vars->cmdline = ft_free(vars->cmdline);
+	vars->cmdline = readline(PROMPT);
+	if (!vars->cmdline)
+		return (0);
+	if (vars->cmdline[0] && (!vars->last_cmdline || (vars->last_cmdline
+				&& ft_strcmp(vars->cmdline, vars->last_cmdline))))
+	{
+		vars->last_cmdline = ft_free(vars->last_cmdline);
+		vars->last_cmdline = ft_strdup(vars->cmdline);
+		add_history(vars->cmdline);
+	}
+	if (!ft_tokenization(vars) || !ft_lstsize(vars->tokens))
+		return (1);
+	if (!ft_verify_syntax(vars))
+	{
+		ft_putendl_fd("\n>> Syntax error.\n", STDOUT_FILENO);
+		return (1);
+	}
+	if (!ft_parse_cmds(vars))
+		return (1);
+	execute_cmds(vars);
+	return (1);
+}
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -73,41 +47,15 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void)argc;
 	(void)argv;
-	
 	if (!ft_init_vars(&vars, envp))
 		return (EXIT_FAILURE);
 	vars.sa.sa_handler = signals_handler;
-    vars.sa.sa_flags = 0;
-    sigaction(SIGINT, &vars.sa, NULL);
+	vars.sa.sa_flags = 0;
+	sigaction(SIGINT, &vars.sa, NULL);
 	vars.cmdline = ft_strdup("");
-	signal(SIGQUIT,SIG_IGN);
-	while (vars.cmdline)
-	{
-		g_glob.heredoc = 0;
-		ft_lstclear(&vars.tokens);
-		ft_cmd_lstclear(&vars.cmds);
-		vars.cmdline = ft_free(vars.cmdline);
-		vars.cmdline = readline(PROMPT);
-		if (!vars.cmdline)
-			break ;
-		if (*vars.cmdline && (!vars.last_cmdline || (vars.last_cmdline
-					&& ft_strcmp(vars.cmdline, vars.last_cmdline))))
-		{
-			vars.last_cmdline = ft_free(vars.last_cmdline);
-			vars.last_cmdline = ft_strdup(vars.cmdline);
-			add_history(vars.cmdline);
-		}
-		if (!ft_tokenization(&vars) || !ft_lstsize(vars.tokens))
-			continue ;
-		if (!ft_verify_syntax(&vars))
-		{
-			ft_putendl_fd("\n>> Syntax error.\n", STDOUT_FILENO);
-			continue ;
-		}
-		if (!ft_parse_cmds(&vars))
-			continue ;
-		execute_cmds(&vars);
-	}
+	signal(SIGQUIT, SIG_IGN);
+	while (ft_loop_cmds(&vars))
+		;
 	ft_free_program(&vars);
 	return (g_glob.exit_status);
 }

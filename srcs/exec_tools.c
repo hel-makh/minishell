@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:34:52 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 16:29:25 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 18:55:52 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,14 @@ int	has_heredoc(t_list *redirect)
 		redirect = redirect->next;
 	}
 	return (0);
+}
+
+int	exec_is_fork(t_cmd *cmd)
+{
+	if (!cmd->cmd[0]
+		|| (is_built_in(cmd->cmd[0])
+			&& cmd->type != PIPE
+			&& (!cmd->next || (cmd->next && cmd->next->type != PIPE))))
+		return (0);
+	return (1);
 }

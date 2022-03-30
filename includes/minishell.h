@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 18:31:48 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 19:03:39 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,36 +45,36 @@ enum e_type {
 /***********************[ Structers ]***********************/
 typedef struct s_glob
 {
-	pid_t			pid;
-	int				heredoc;
-	int				exit_status;
+	pid_t				pid;
+	int					heredoc;
+	int					exit_status;
 }	t_glob;
 
 t_glob	g_glob;
 
 typedef struct s_list {
-	char			*content;
-	int				type;
-	struct s_list	*next;
+	char				*content;
+	int					type;
+	struct s_list		*next;
 }	t_list;
 
 typedef struct s_cmd {
-	char			**cmd;
-	int				type;
-	int				pipe[2];
-	int				heredoc[2];
-	int				*subsh_lvl;
-	t_list			*redirect;
-	struct s_cmd	*next;
+	char				**cmd;
+	int					type;
+	int					pipe[2];
+	int					heredoc[2];
+	int					*subsh_lvl;
+	t_list				*redirect;
+	struct s_cmd		*next;
 }	t_cmd;
 
 typedef struct s_vars {
-	char			*cmdline;
-	char			*last_cmdline;
-	struct	sigaction sa;
-	char			**envp;
-	t_list			*tokens;
-	t_cmd			*cmds;
+	char				*cmdline;
+	char				*last_cmdline;
+	struct sigaction	sa;
+	char				**envp;
+	t_list				*tokens;
+	t_cmd				*cmds;
 }	t_vars;
 
 /***********************[ Linked Lists ]***********************/
@@ -98,6 +98,7 @@ char	*ft_getenv(char *var, char **envp);
 int		ft_init_vars(t_vars *vars, char *envp[]);
 void	signals_handler(int sign);
 void	signal_process(int sign);
+int		exec_is_fork(t_cmd *cmd);
 void	ft_free_program(t_vars *vars);
 
 /*************************[ Parsing ]*************************/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 18:41:10 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 18:56:14 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,6 @@ static int	handle_operators(t_cmd **cmd)
 	return (0);
 }
 
-static int	exec_is_fork(t_cmd *cmd)
-{
-	if (!cmd->cmd[0]
-		|| (is_built_in(cmd->cmd[0])
-			&& cmd->type != PIPE
-			&& (!cmd->next || (cmd->next && cmd->next->type != PIPE))))
-		return (0);
-	return (1);
-}
-
 static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 {
 	pid_t	pid;
@@ -82,6 +72,20 @@ static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 	return (pid);
 }
 
+static void	child_exit_status(int status)
+{
+	if (WIFEXITED(status))
+		g_glob.exit_status = WEXITSTATUS(status);
+	if (WTERMSIG(status) == SIGQUIT || WTERMSIG(status) == SIGINT)
+	{
+		g_glob.exit_status = 128 + WTERMSIG(status);
+		if (WTERMSIG(status) == SIGQUIT)
+			ft_putendl_fd("Quit: 3", STDOUT_FILENO);
+		if (WTERMSIG(status) == SIGINT)
+			ft_putstr_fd("\n", STDOUT_FILENO);
+	}
+}
+
 void	execute_cmds(t_vars *vars)
 {
 	t_cmd	*cmd;
@@ -101,24 +105,11 @@ void	execute_cmds(t_vars *vars)
 		if (g_glob.pid)
 		{
 			waitpid(g_glob.pid, &status, 0);
-			if (WIFEXITED(status))
-				g_glob.exit_status = WEXITSTATUS(status);
-			else if (!WIFSIGNALED(status))
-				g_glob.exit_status = WTERMSIG(status);
+			child_exit_status(status);
 			waitpid(-1, NULL, 0);
 		}
 		signal(SIGQUIT, SIG_IGN);
 		sigaction(SIGINT, &vars->sa, NULL);
-		if (WTERMSIG(status) == SIGQUIT)
-		{
-			g_glob.exit_status = 128 + WTERMSIG(status);
-			write(1, "Quit: 3\n", 9);
-		}
-		if (WTERMSIG(status) == SIGINT)
-		{
-			g_glob.exit_status = 128 + WTERMSIG(status);
-			write(1, "\n", 1);
-		}
 		cmd = cmd->next;
 	}
 	g_glob.pid = 0;

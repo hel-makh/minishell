@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handle_signals.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybensell <ybensell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 08:35:27 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 18:36:00 by ybensell         ###   ########.fr       */
+/*   Updated: 2022/03/30 18:57:36 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,14 @@ static void	signal_heredoc(int sign)
 
 void	signals_handler(int sign)
 {
-
-	if ((sign == SIGINT || sign == SIGQUIT) && g_glob.heredoc == 1)
+	if (g_glob.heredoc)
 		signal_heredoc(sign);
-	else if (g_glob.heredoc == 0)
+	else
 	{
-		if (sign == SIGINT)
-		{
-			g_glob.exit_status = 1;
-			ft_putchar_fd('\n', 1);
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-		}
+		g_glob.exit_status = 1;
+		ft_putchar_fd('\n', 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
