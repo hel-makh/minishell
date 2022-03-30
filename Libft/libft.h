@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 18:28:42 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 19:31:37 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 11:08:09 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_joinstrs(char **array, char c);
 char	*ft_stradd(char const *s1, char const *s2);
+char	*ft_strnadd(char const *s1, char const *s2, size_t n);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_replace_str( char *s1, const char *s2,
 			unsigned int start, unsigned int len);
@@ -64,5 +65,6 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+char	*get_next_line(int fd);
 
 #endif
