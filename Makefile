@@ -59,11 +59,11 @@ $(LIB):
 
 clean:
 				$(RM) $(OBJS)
-				# make clean -C Libft
+				make clean -C Libft
 
 fclean:			clean
 				$(RM) $(NAME)
-				# make fclean -C Libft
+				make fclean -C Libft
 
 re:				fclean all
 
