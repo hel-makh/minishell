@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 23:08:18 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/28 12:43:33 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/30 19:45:44 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,30 @@
 
 static int	ft_is_varname(char *var_name)
 {
+	int	alpha;
+	int	invalid;
 	int	i;
 
+	alpha = 0;
+	invalid = 0;
 	i = 0;
-	while (var_name[i])
+	while (var_name[i] && var_name[i] != '='
+		&& (var_name[i] != '+' || var_name[i + 1] != '='))
 	{
+		if (ft_isalpha(var_name[i]))
+			alpha ++;
 		if (!ft_isalnum(var_name[i]) && var_name[i] != '_')
-		{
-			ft_putstr_fd("minishell: unset: '", STDERR_FILENO);
-			ft_putstr_fd(var_name, STDERR_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-			return (EXIT_FAILURE);
-		}
+			invalid = 1;
 		i ++;
 	}
-	return (EXIT_SUCCESS);
+	if (!alpha || invalid)
+	{
+		ft_putstr_fd("minishell: unset: '", STDERR_FILENO);
+		ft_putstr_fd(var_name, STDERR_FILENO);
+		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+		return (0);
+	}
+	return (1);
 }
 
 int	builtin_unset(char **cmd, char ***envp)
