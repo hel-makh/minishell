@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 16:30:53 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 12:00:16 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ static void	ft_put_text_fd(char **envp, char **str, int fd)
 			var_value = ft_strdup(ft_getenv(var_name, envp));
 		else
 			var_value = ft_strdup("");
+		var_name = ft_free(var_name);
 		if (!var_value)
 			return ;
 		*str = ft_replace_str(*str, var_value, index, var_len + 1);
 		index += ft_strlen(var_value);
-		var_name = ft_free(var_name);
 		var_value = ft_free(var_value);
 	}
 	ft_putstr_fd(*str, fd);

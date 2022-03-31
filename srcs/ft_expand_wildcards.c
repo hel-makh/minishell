@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 13:06:35 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/27 22:27:48 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 12:08:17 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	**ft_get_files(char *cmd, int *index, char *cwd)
 		return (NULL);
 	folder = opendir(cwd);
 	if (!folder)
-		return (NULL);
+		return (ft_free_2d(files), NULL);
 	while (1)
 	{
 		entry = readdir(folder);
@@ -75,8 +75,10 @@ int	ft_expand_wildcards(t_cmd **cmd, t_list **redirect, int *index)
 	if (!getcwd(cwd, 4096))
 		return (0);
 	files = ft_get_files(cmd_p, index, cwd);
-	if (!files || !*files)
+	if (!files)
 		return (0);
+	if (!*files)
+		return (ft_free_2d(files), 0);
 	if (index)
 		(*cmd)->cmd = ft_replace_arr((*cmd)->cmd, files, *index, 1);
 	else

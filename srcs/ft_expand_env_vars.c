@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 15:41:31 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/31 11:46:35 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 11:59:14 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ void	ft_expand_env_vars(char **envp, char **str)
 			var_value = ft_strdup(ft_getenv(var_name, envp));
 		else
 			var_value = ft_strdup("");
+		var_name = ft_free(var_name);
 		if (!var_value)
 			return ;
 		*str = ft_replace_str(*str, var_value, index, var_len + 1);
 		index += ft_strlen(var_value);
-		var_name = ft_free(var_name);
 		var_value = ft_free(var_value);
 	}
 }
