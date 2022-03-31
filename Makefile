@@ -14,6 +14,7 @@ SRCS			=	srcs/ft_lstfuncs.c\
 					srcs/ft_tokenization.c\
 					srcs/ft_verify_syntax.c\
 					srcs/ft_parse_cmds.c\
+					srcs/ft_split_args.c\
 					srcs/ft_expand_env_vars.c\
 					srcs/ft_expand_wildcards.c\
 					srcs/exec.c\

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/31 10:58:15 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 11:47:51 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,31 @@ static char	*find_cmd(t_cmd *cmd, t_vars *vars)
 	return (cmd_temp);
 }
 
-void	expand_args(t_cmd **cmd, t_vars *vars)
+static int	split_args(t_cmd **cmd, int *index)
+{
+	char	**split;
+	size_t	i;
+
+	split = ft_split_args((*cmd)->cmd[*index]);
+	if (!split)
+		return (0);
+	(*cmd)->cmd = ft_replace_arr((*cmd)->cmd, split, *index, 1);
+	if (!(*cmd)->cmd)
+		return (ft_free_2d(split), 0);
+	i = 0;
+	while (i < ft_arrlen(split))
+	{
+		if (!ft_expand_wildcards(cmd, NULL, index))
+			(*cmd)->cmd[*index] = ft_remove_quotes((*cmd)->cmd[*index]);
+		i ++;
+		*index += 1;
+	}
+	*index -= 1;
+	split = ft_free_2d(split);
+	return (1);
+}
+
+static void	expand_args(t_cmd **cmd, t_vars *vars)
 {
 	t_cmd	*t_cmd;
 	t_list	*redirect;
@@ -76,8 +100,8 @@ void	expand_args(t_cmd **cmd, t_vars *vars)
 	while (t_cmd->cmd[i])
 	{
 		ft_expand_env_vars(vars->envp, &t_cmd->cmd[i]);
-		if (!ft_expand_wildcards(cmd, NULL, &i))
-			t_cmd->cmd[i] = ft_remove_quotes(t_cmd->cmd[i]);
+		if (!split_args(&t_cmd, &i))
+			return ;
 		i ++;
 	}
 	redirect = t_cmd->redirect;

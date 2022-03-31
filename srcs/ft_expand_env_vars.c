@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 15:41:31 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/28 10:41:30 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 11:46:35 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static int	ft_has_env_var(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!s_quote && str[i] == '\'')
+		if (!s_quote && (str[i] == '"' || str[i] == '\''))
 			s_quote = str[i];
-		else if (s_quote && str[i] == '\'')
+		else if (s_quote && str[i] == s_quote)
 			s_quote = 0;
-		if (!s_quote
+		if (s_quote != '\''
 			&& str[i] == '$'
 			&& str[i + 1]
 			&& (ft_varname_len(&str[i + 1]) || str[i + 1] == '?'))
