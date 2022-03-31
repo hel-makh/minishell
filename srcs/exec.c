@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 21:08:56 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 10:58:15 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ void	expand_args(t_cmd **cmd, t_vars *vars)
 
 void	the_execution(t_cmd *cmd, t_vars *vars)
 {
-	char	*tmp;
+	char		*tmp;
+	struct stat	path_stat;
 
 	if (!cmd->cmd[0])
 	{
@@ -108,8 +109,9 @@ void	the_execution(t_cmd *cmd, t_vars *vars)
 			exit (g_glob.exit_status);
 		return ;
 	}
-	if (access(cmd->cmd[0], F_OK) == 0
-		&& access(cmd->cmd[0], X_OK) == 0)
+	lstat(cmd->cmd[0], &path_stat);
+	if (S_ISREG(path_stat.st_mode)
+		&& access(cmd->cmd[0], F_OK) == 0 && access(cmd->cmd[0], X_OK) == 0)
 		tmp = cmd->cmd[0];
 	else
 		tmp = find_cmd(cmd, vars);
