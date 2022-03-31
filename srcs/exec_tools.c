@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:34:52 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/31 14:01:51 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 16:41:57 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	exit_perror(void)
 
 void	exit_cmd_notfound(char *cmd, int exit_status)
 {
-	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, 2);
 	if (exit_status == 126)
-		ft_putendl_fd(": Permission denied", 2);
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 	else if (exit_status == 127)
-		ft_putendl_fd(": command not found", 2);
+		ft_putendl_fd(": command not found", STDERR_FILENO);
 	exit(exit_status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/31 14:48:00 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 16:51:33 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 			exit_perror();
 		if (pid == 0)
 			exec_cmd_child(*cmd, vars, is_fork);
+		if (pid == 0 && is_fork)
+			exit(EXIT_FAILURE);
 		ft_close_pipes(*cmd);
 		if (!(*cmd)->next || ((*cmd)->next && (*cmd)->next->type != PIPE))
 			break ;
@@ -108,7 +110,8 @@ void	execute_cmds(t_vars *vars)
 		{
 			waitpid(g_glob.pid, &status, 0);
 			child_exit_status(status);
-			waitpid(-1, NULL, 0);
+			while (waitpid(-1, NULL, 0) != -1)
+				;
 			sigaction(SIGINT, &vars->sa, NULL);
 			signal(SIGQUIT, SIG_IGN);
 		}
