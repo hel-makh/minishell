@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:13:32 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 21:36:16 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 12:12:46 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_loop_cmds(t_vars *vars)
 		return (1);
 	if (!ft_verify_syntax(vars))
 	{
-		ft_putendl_fd("\n>> Syntax error.\n", STDOUT_FILENO);
+		ft_putendl_fd("minishell: syntax error.", STDERR_FILENO);
 		return (1);
 	}
 	if (!ft_parse_cmds(vars))
