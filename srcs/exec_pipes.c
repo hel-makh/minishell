@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:54:20 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 21:40:58 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 14:39:26 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,27 @@ void	ft_init_pipes(t_cmd **cmd)
 
 void	ft_close_pipes(t_cmd *cmd)
 {
-	if (cmd->type == PIPE)
+	if (cmd->type == PIPE && cmd->pipe[STDIN_FILENO] != -1)
+	{
 		close(cmd->pipe[STDIN_FILENO]);
-	if (cmd->next && cmd->next->type == PIPE)
+		cmd->pipe[STDIN_FILENO] = -1;
+	}
+	if (cmd->next && cmd->next->type == PIPE
+		&& cmd->next->pipe[STDOUT_FILENO] != -1)
+	{
 		close(cmd->next->pipe[STDOUT_FILENO]);
+		cmd->next->pipe[STDOUT_FILENO] = -1;
+	}
 	if (cmd->heredoc[STDIN_FILENO] != -1)
+	{
 		close(cmd->heredoc[STDIN_FILENO]);
+		cmd->heredoc[STDIN_FILENO] = -1;
+	}
 	if (cmd->heredoc[STDOUT_FILENO] != -1)
+	{
 		close(cmd->heredoc[STDOUT_FILENO]);
+		cmd->heredoc[STDOUT_FILENO] = -1;
+	}
 }
 
 int	exec_init_pipes(t_cmd **cmd)
@@ -46,20 +59,10 @@ int	exec_init_pipes(t_cmd **cmd)
 	cmd_t = *cmd;
 	while (cmd_t)
 	{
-		if (cmd_t->type == PIPE && !has_heredoc(cmd_t->redirect))
+		if (cmd_t->type == PIPE)
 		{
 			if (pipe(cmd_t->pipe) == -1)
-			{
-				cmd_t->pipe[STDIN_FILENO] = -1;
-				cmd_t->pipe[STDOUT_FILENO] = -1;
-				perror("Error");
-				return (0);
-			}
-		}
-		else
-		{
-			cmd_t->pipe[STDIN_FILENO] = -1;
-			cmd_t->pipe[STDOUT_FILENO] = -1;
+				return (perror("Error"), 0);
 		}
 		cmd_t = cmd_t->next;
 	}
@@ -74,6 +77,8 @@ static void	duplicate_pipes(t_cmd **cmd)
 			perror("Error");
 		if (close((*cmd)->pipe[STDIN_FILENO]) == -1)
 			perror("Error");
+		else
+			(*cmd)->pipe[STDIN_FILENO] = -1;
 	}
 	if ((*cmd)->next && (*cmd)->next->type == PIPE
 		&& (*cmd)->next->pipe[STDOUT_FILENO] != -1)
@@ -82,6 +87,8 @@ static void	duplicate_pipes(t_cmd **cmd)
 			perror("Error");
 		if (close((*cmd)->next->pipe[STDOUT_FILENO]) == -1)
 			perror("Error");
+		else
+			(*cmd)->next->pipe[STDOUT_FILENO] = -1;
 	}
 }
 

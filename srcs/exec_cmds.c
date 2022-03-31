@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/30 21:38:56 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 14:48:00 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,20 @@ static int	handle_operators(t_cmd **cmd)
 	return (0);
 }
 
+static void	child_exit_status(int status)
+{
+	if (WIFEXITED(status))
+		g_glob.exit_status = WEXITSTATUS(status);
+	if (WTERMSIG(status) == SIGQUIT || WTERMSIG(status) == SIGINT)
+	{
+		g_glob.exit_status = 128 + WTERMSIG(status);
+		if (WTERMSIG(status) == SIGQUIT)
+			ft_putendl_fd("Quit: 3", STDOUT_FILENO);
+		if (WTERMSIG(status) == SIGINT)
+			ft_putstr_fd("\n", STDOUT_FILENO);
+	}
+}
+
 static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 {
 	pid_t	pid;
@@ -73,20 +87,6 @@ static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 		(*cmd) = (*cmd)->next;
 	}
 	return (pid);
-}
-
-static void	child_exit_status(int status)
-{
-	if (WIFEXITED(status))
-		g_glob.exit_status = WEXITSTATUS(status);
-	if (WTERMSIG(status) == SIGQUIT || WTERMSIG(status) == SIGINT)
-	{
-		g_glob.exit_status = 128 + WTERMSIG(status);
-		if (WTERMSIG(status) == SIGQUIT)
-			ft_putendl_fd("Quit: 3", STDOUT_FILENO);
-		if (WTERMSIG(status) == SIGINT)
-			ft_putstr_fd("\n", STDOUT_FILENO);
-	}
 }
 
 void	execute_cmds(t_vars *vars)
