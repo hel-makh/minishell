@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/31 12:00:16 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/03/31 17:01:19 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	open_heredoc(t_cmd *cmd, char *delimiter, char **envp)
 		heredoc_text = ft_stradd(heredoc_text, heredoc);
 	}
 	if (g_glob.heredoc == 0)
-		return (0);
+		return (ft_free(heredoc), ft_free(heredoc_text), 0);
 	ft_put_text_fd(envp, &heredoc_text, cmd->heredoc[STDOUT_FILENO]);
 	close(cmd->heredoc[STDOUT_FILENO]);
 	cmd->heredoc[STDOUT_FILENO] = -1;
