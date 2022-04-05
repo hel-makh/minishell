@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:53:36 by ybensell          #+#    #+#             */
-/*   Updated: 2022/04/05 14:05:41 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 14:22:20 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	builtin_echo(char **cmd)
 
 	newline = 1;
 	i = 1;
-	while (is_echo_newline(cmd[i]))
+	while (cmd[i] && is_echo_newline(cmd[i]))
 	{
 		newline = 0;
 		i ++;
