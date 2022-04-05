@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 22:30:08 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 23:24:59 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 14:52:09 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,23 @@ static size_t	ft_varname_len_export(char *var_name)
 	return (i);
 }
 
-static int	ft_is_varname(char *var_name)
+static int	ft_is_varname_export(char *var_name)
 {
-	int	alpha;
 	int	invalid;
 	int	i;
 
-	alpha = 0;
 	invalid = 0;
 	i = 0;
 	while (var_name[i] && var_name[i] != '='
 		&& (var_name[i] != '+' || var_name[i + 1] != '='))
 	{
-		if (ft_isalpha(var_name[i]))
-			alpha ++;
+		if (i == 0 && !ft_isalpha(var_name[i]) && var_name[i] != '_')
+			invalid = 1;
 		if (!ft_isalnum(var_name[i]) && var_name[i] != '_')
 			invalid = 1;
 		i ++;
 	}
-	if (!alpha || invalid)
+	if (invalid)
 	{
 		ft_putstr_fd("minishell: export: '", STDERR_FILENO);
 		ft_putstr_fd(var_name, STDERR_FILENO);
@@ -90,7 +88,7 @@ static int	edit_env(char ***envp, char *argv)
 	if (!var_name)
 		return (0);
 	var_value = ft_getenv(var_name, *envp);
-	if (var_value && !ft_strchr(argv, '='))
+	if ((var_value || ft_arr_has_str(*envp, var_name)) && !ft_strchr(argv, '='))
 		return (ft_free(var_name), 1);
 	if (!var_value && !ft_arr_has_str(*envp, var_name))
 	{
@@ -123,7 +121,7 @@ int	builtin_export(char **cmd, char ***envp)
 	i = 1;
 	while (cmd[i])
 	{
-		if (ft_is_varname(cmd[i]))
+		if (ft_is_varname_export(cmd[i]))
 		{
 			if (!edit_env(envp, cmd[i]))
 				return (EXIT_FAILURE);
