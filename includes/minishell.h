@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/04/05 15:58:15 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 23:21:25 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
+# include <errno.h>
 # include "../Libft/libft.h"
 
 # define PROMPT "minishell$ "
@@ -71,10 +72,10 @@ typedef struct s_cmd {
 typedef struct s_vars {
 	char				*cmdline;
 	char				*last_cmdline;
-	struct sigaction	sa;
 	char				**envp;
 	t_list				*tokens;
 	t_cmd				*cmds;
+	struct sigaction	sa;
 }	t_vars;
 
 /***********************[ Linked Lists ]***********************/

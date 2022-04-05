@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 17:36:04 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/04/05 13:43:43 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 22:53:32 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static int	ft_increment_shlvl(t_vars *vars)
 
 int	ft_init_vars(t_vars *vars, char *envp[])
 {
+	char	cwd[4096];
+
 	vars->cmdline = NULL;
 	vars->last_cmdline = NULL;
 	vars->tokens = NULL;
@@ -71,5 +73,8 @@ int	ft_init_vars(t_vars *vars, char *envp[])
 		return (0);
 	if (!ft_unset_oldpwd(vars))
 		return (0);
+	if (!getcwd(cwd, 4096) && errno == ENOENT)
+		perror("minishell-init: error retrieving current directory: "
+			"getcwd: cannot access parent directories");
 	return (1);
 }
