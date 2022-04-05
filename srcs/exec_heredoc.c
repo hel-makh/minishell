@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/31 17:01:19 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 16:50:36 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	open_heredoc(t_cmd *cmd, char *delimiter, char **envp)
 	char	*heredoc_text;
 
 	if (pipe(cmd->heredoc) == -1)
-		return (perror("Error"), 0);
+		return (perror("pipe"), 0);
 	heredoc = NULL;
 	heredoc_text = ft_strdup("");
 	g_glob.heredoc = 1;
