@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:52:39 by ybensell          #+#    #+#             */
-/*   Updated: 2022/04/05 13:57:35 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 14:08:44 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	builtin_cd(char **cmd, char ***envp)
 
 	if (!getcwd(cwd, 4096))
 		return (EXIT_FAILURE);
-	if (!cmd[1] && !cd_home(cwd, envp))
+	if ((!cmd[1] || !ft_strcmp(cmd[1], "--")) && !cd_home(cwd, envp))
 		return (EXIT_FAILURE);
 	if (!*cmd[1])
 		return (EXIT_SUCCESS);
