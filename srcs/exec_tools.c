@@ -6,15 +6,19 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:34:52 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/31 16:41:57 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 15:55:13 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	exit_perror(void)
+void	exit_perror(char *error)
 {
-	perror ("Error");
+	char	*err;
+
+	err = ft_strjoin("minishell: ", error);
+	perror (err);
+	err = ft_free(err);
 	exit (1);
 }
 

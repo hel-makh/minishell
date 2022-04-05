@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 11:42:30 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/31 11:00:10 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 15:58:15 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int		exec_init_pipes(t_cmd **cmd);
 int		duplicate_redirections(t_cmd **cmd, t_vars *vars, int is_fork);
 int		exec_init_heredoc(t_cmd **cmd, char **envp);
 int		has_heredoc(t_list *redirect);
-void	exit_perror(void);
+void	exit_perror(char *error);
 void	exit_cmd_notfound(char *cmd, int exit_status);
 
 /************************[ Built-ins ]************************/

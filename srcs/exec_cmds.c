@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/31 16:51:33 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 15:55:25 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 			pid = fork();
 		}
 		if (pid == -1)
-			exit_perror();
+			exit_perror("fork");
 		if (pid == 0)
 			exec_cmd_child(*cmd, vars, is_fork);
 		if (pid == 0 && is_fork)

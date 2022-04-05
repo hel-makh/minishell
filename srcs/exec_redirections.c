@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 11:47:56 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 15:12:39 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 15:56:59 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int	duplicate_redirections(t_cmd **cmd, t_vars *vars, int is_fork)
 		if (fd[STDIN_FILENO] == -1 || fd[STDOUT_FILENO] == -1)
 		{
 			if (is_fork)
-				exit_perror();
-			return (perror("Error"), 0);
+				exit_perror("minishell: open");
+			return (perror("minishell: open"), 0);
 		}
 		redirect = redirect->next;
 	}

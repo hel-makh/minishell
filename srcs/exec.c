@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/31 11:47:51 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 15:57:48 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*find_cmd(t_cmd *cmd, t_vars *vars)
 	}
 	paths = ft_split(path, ':');
 	if (!paths)
-		exit_perror();
+		exit (1);
 	cmd_temp = find_path(paths, cmd->cmd[0]);
 	paths = ft_free_2d(paths);
 	if (!cmd_temp)
@@ -140,5 +140,5 @@ void	the_execution(t_cmd *cmd, t_vars *vars)
 	else
 		tmp = find_cmd(cmd, vars);
 	if ((execve(tmp, cmd->cmd, vars->envp) == -1))
-		exit_perror();
+		exit_perror("minishell: execve");
 }
