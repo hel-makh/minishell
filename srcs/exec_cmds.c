@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:11 by ybensell          #+#    #+#             */
-/*   Updated: 2022/04/05 15:55:25 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:31:39 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ static int	handle_operators(t_cmd **cmd)
 	return (0);
 }
 
-static void	child_exit_status(int status)
+static void	child_wait(t_vars *vars)
 {
+	int		status;
+
+	waitpid(g_glob.pid, &status, 0);
 	if (WIFEXITED(status))
 		g_glob.exit_status = WEXITSTATUS(status);
 	if (WTERMSIG(status) == SIGQUIT || WTERMSIG(status) == SIGINT)
@@ -61,6 +64,10 @@ static void	child_exit_status(int status)
 		if (WTERMSIG(status) == SIGINT)
 			ft_putstr_fd("\n", STDOUT_FILENO);
 	}
+	while (waitpid(-1, NULL, 0) != -1)
+		;
+	sigaction(SIGINT, &vars->sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
@@ -78,7 +85,7 @@ static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 			pid = fork();
 		}
 		if (pid == -1)
-			exit_perror("fork");
+			return (perror("minishell: fork"), -1);
 		if (pid == 0)
 			exec_cmd_child(*cmd, vars, is_fork);
 		if (pid == 0 && is_fork)
@@ -94,7 +101,6 @@ static pid_t	execute_cmd(t_cmd **cmd, t_vars *vars)
 void	execute_cmds(t_vars *vars)
 {
 	t_cmd	*cmd;
-	int		status;
 
 	ft_init_pipes(&vars->cmds);
 	if (!exec_init_heredoc(&vars->cmds, vars->envp))
@@ -106,15 +112,10 @@ void	execute_cmds(t_vars *vars)
 		if (handle_operators(&cmd))
 			continue ;
 		g_glob.pid = execute_cmd(&cmd, vars);
-		if (g_glob.pid)
-		{
-			waitpid(g_glob.pid, &status, 0);
-			child_exit_status(status);
-			while (waitpid(-1, NULL, 0) != -1)
-				;
-			sigaction(SIGINT, &vars->sa, NULL);
-			signal(SIGQUIT, SIG_IGN);
-		}
+		if (g_glob.pid == -1)
+			break ;
+		else if (g_glob.pid > 0)
+			child_wait(vars);
 		cmd = cmd->next;
 	}
 	g_glob.pid = 0;
