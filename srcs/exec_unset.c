@@ -6,31 +6,29 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 23:08:18 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 19:45:44 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 14:26:43 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	ft_is_varname(char *var_name)
+static int	ft_is_varname_unset(char *var_name)
 {
-	int	alpha;
 	int	invalid;
 	int	i;
 
-	alpha = 0;
 	invalid = 0;
 	i = 0;
 	while (var_name[i] && var_name[i] != '='
 		&& (var_name[i] != '+' || var_name[i + 1] != '='))
 	{
-		if (ft_isalpha(var_name[i]))
-			alpha ++;
+		if (i == 0 && !ft_isalpha(var_name[i]) && var_name[i] != '_')
+			invalid = 1;
 		if (!ft_isalnum(var_name[i]) && var_name[i] != '_')
 			invalid = 1;
 		i ++;
 	}
-	if (!alpha || invalid)
+	if (invalid)
 	{
 		ft_putstr_fd("minishell: unset: '", STDERR_FILENO);
 		ft_putstr_fd(var_name, STDERR_FILENO);
@@ -53,7 +51,7 @@ int	builtin_unset(char **cmd, char ***envp)
 	while (cmd[i])
 	{
 		j = 0;
-		while (ft_is_varname(cmd[i]) && (*envp)[j])
+		while (ft_is_varname_unset(cmd[i]) && (*envp)[j])
 		{
 			if (!ft_strncmp((*envp)[j], cmd[i], ft_strlen(cmd[i]))
 				&& (*envp)[j][ft_strlen(cmd[i])] == '=')
