@@ -6,11 +6,29 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 17:36:04 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/30 10:41:20 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 13:43:43 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	ft_unset_oldpwd(t_vars *vars)
+{
+	char	**unset;
+
+	unset = ft_calloc(3, sizeof(char *));
+	if (!unset)
+		return (0);
+	unset[0] = ft_strdup("");
+	if (!unset[0])
+		return (ft_free_2d(unset), 0);
+	unset[1] = ft_strdup("OLDPWD");
+	if (!unset[1])
+		return (ft_free_2d(unset), 0);
+	if (builtin_unset(unset, &vars->envp) == EXIT_FAILURE)
+		return (ft_free_2d(unset), 0);
+	return (ft_free_2d(unset), 1);
+}
 
 static int	ft_increment_shlvl(t_vars *vars)
 {
@@ -26,8 +44,14 @@ static int	ft_increment_shlvl(t_vars *vars)
 		shlvl_new_value = ft_itoa(ft_atoi(shlvl_value) + 1);
 	else
 		shlvl_new_value = ft_strdup("1");
+	if (!shlvl_new_value)
+		return (ft_free(shlvl), 0);
 	shlvl[0] = ft_strdup("");
+	if (!shlvl[0])
+		return (ft_free_2d(shlvl), 0);
 	shlvl[1] = ft_strjoin("SHLVL=", shlvl_new_value);
+	if (!shlvl[1])
+		return (ft_free_2d(shlvl), 0);
 	shlvl_new_value = ft_free(shlvl_new_value);
 	if (builtin_export(shlvl, &vars->envp) == EXIT_FAILURE)
 		return (ft_free_2d(shlvl), 0);
@@ -44,6 +68,8 @@ int	ft_init_vars(t_vars *vars, char *envp[])
 	if (!vars->envp)
 		return (0);
 	if (!ft_increment_shlvl(vars))
+		return (0);
+	if (!ft_unset_oldpwd(vars))
 		return (0);
 	return (1);
 }
