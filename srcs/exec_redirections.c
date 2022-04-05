@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 11:47:56 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/04/05 15:56:59 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:15:51 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	expand_redirect(t_list *redirect, t_vars *vars)
 	ft_expand_env_vars(vars->envp, &redirect->content);
 	if (!ft_expand_wildcards(NULL, &redirect, NULL))
 		redirect->content = ft_remove_quotes(redirect->content);
-	if (ft_char_count(redirect->content, ' '))
+	if (!*redirect->content || ft_char_count(redirect->content, ' '))
 	{
 		g_glob.exit_status = 1;
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -98,8 +98,8 @@ int	duplicate_redirections(t_cmd **cmd, t_vars *vars, int is_fork)
 		if (fd[STDIN_FILENO] == -1 || fd[STDOUT_FILENO] == -1)
 		{
 			if (is_fork)
-				exit_perror("minishell: open");
-			return (perror("minishell: open"), 0);
+				exit_perror("open");
+			return (perror("open"), 0);
 		}
 		redirect = redirect->next;
 	}
