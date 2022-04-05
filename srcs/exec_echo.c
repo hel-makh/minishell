@@ -6,22 +6,38 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:53:36 by ybensell          #+#    #+#             */
-/*   Updated: 2022/03/28 12:36:49 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/05 14:05:41 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	builtin_echo(char **cmd)
+static int	is_echo_newline(char *cmd)
 {
-	int	option;
 	int	i;
 
-	option = 0;
-	i = 1;
-	while (cmd[i] && ft_strcmp(cmd[i], "-n") == 0)
+	if (ft_strncmp(cmd, "-n", 2))
+		return (0);
+	i = 2;
+	while (cmd[i])
 	{
-		option = 1;
+		if (cmd[i] != 'n')
+			return (0);
+		i ++;
+	}
+	return (1);
+}
+
+int	builtin_echo(char **cmd)
+{
+	int	newline;
+	int	i;
+
+	newline = 1;
+	i = 1;
+	while (is_echo_newline(cmd[i]))
+	{
+		newline = 0;
 		i ++;
 	}
 	while (cmd[i])
@@ -31,7 +47,7 @@ int	builtin_echo(char **cmd)
 			printf (" ");
 		i ++;
 	}
-	if (!option)
+	if (newline)
 		printf ("\n");
 	return (EXIT_SUCCESS);
 }
