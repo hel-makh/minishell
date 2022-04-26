@@ -6,13 +6,11 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 11:18:40 by ybensell          #+#    #+#             */
-/*   Updated: 2022/04/05 16:50:36 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/26 02:39:34 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-#define HEREDOC "/tmp/.minishell_hh_heredoctmp_78979346245648"
 
 static int	ft_varname_len_heredoc(char *var_name)
 {
