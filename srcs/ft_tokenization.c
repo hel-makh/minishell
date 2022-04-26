@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 11:39:48 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/03/24 15:45:42 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/26 01:40:21 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	ft_tokenization(t_vars *vars)
 	i = 0;
 	while (vars->cmdline[i])
 	{
-		if (vars->cmdline[i] != ' ')
+		if (!ft_isspace(vars->cmdline[i]))
 		{
 			size = ft_get_token_size(vars, i - 1);
 			token_content = ft_substr(vars->cmdline, i, size);
