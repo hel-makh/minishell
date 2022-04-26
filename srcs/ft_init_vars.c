@@ -6,11 +6,33 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 17:36:04 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/04/05 22:53:32 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/26 02:03:29 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	ft_set_pwd(t_vars *vars)
+{
+	char	**pwd;
+	char	cwd[4096];
+
+	pwd = ft_calloc(3, sizeof(char *));
+	if (!pwd)
+		return (0);
+	if (!getcwd(cwd, 4096) && errno == ENOENT)
+		perror("minishell-init: error retrieving current directory: "
+			"getcwd: cannot access parent directories");
+	pwd[0] = ft_strdup("");
+	if (!pwd[0])
+		return (ft_free_2d(pwd), 0);
+	pwd[1] = ft_strjoin("PWD=", cwd);
+	if (!pwd[1])
+		return (ft_free_2d(pwd), 0);
+	builtin_export(pwd, vars->envp);
+	pwd = ft_free_2d(pwd);
+	return (1);
+}
 
 static int	ft_unset_oldpwd(t_vars *vars)
 {
@@ -60,8 +82,6 @@ static int	ft_increment_shlvl(t_vars *vars)
 
 int	ft_init_vars(t_vars *vars, char *envp[])
 {
-	char	cwd[4096];
-
 	vars->cmdline = NULL;
 	vars->last_cmdline = NULL;
 	vars->tokens = NULL;
@@ -71,10 +91,9 @@ int	ft_init_vars(t_vars *vars, char *envp[])
 		return (0);
 	if (!ft_increment_shlvl(vars))
 		return (0);
+	if (!ft_set_pwd(vars))
+		return (0);
 	if (!ft_unset_oldpwd(vars))
 		return (0);
-	if (!getcwd(cwd, 4096) && errno == ENOENT)
-		perror("minishell-init: error retrieving current directory: "
-			"getcwd: cannot access parent directories");
 	return (1);
 }
