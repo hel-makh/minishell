@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 17:36:04 by hel-makh          #+#    #+#             */
-/*   Updated: 2022/04/26 02:03:29 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/26 02:05:58 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	ft_set_pwd(t_vars *vars)
 	pwd[1] = ft_strjoin("PWD=", cwd);
 	if (!pwd[1])
 		return (ft_free_2d(pwd), 0);
-	builtin_export(pwd, vars->envp);
+	builtin_export(pwd, &vars->envp);
 	pwd = ft_free_2d(pwd);
 	return (1);
 }
