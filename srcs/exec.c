@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 10:35:04 by ybensell          #+#    #+#             */
-/*   Updated: 2022/04/05 15:57:48 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/04/29 00:08:29 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static char	*find_path(char **paths, char *cmd)
 {
 	int			i;
-	int			result;
 	struct stat	path_stat;
 
 	i = 0;
@@ -28,13 +27,11 @@ static char	*find_path(char **paths, char *cmd)
 		if (!paths[i])
 			return (NULL);
 		lstat(paths[i], &path_stat);
-		if (S_ISREG(path_stat.st_mode))
+		if (S_ISREG(path_stat.st_mode) && access(paths[i], F_OK) == 0)
 		{
-			result = access(paths[i], X_OK);
-			if (result == 0)
+			if (access(paths[i], X_OK) == 0)
 				return (ft_strdup(paths[i]));
-			else
-				exit_cmd_notfound(cmd, 126);
+			exit_error(cmd, "Permission denied", 126);
 		}
 		i++;
 	}
@@ -43,25 +40,28 @@ static char	*find_path(char **paths, char *cmd)
 
 static char	*find_cmd(t_cmd *cmd, t_vars *vars)
 {
-	char	*cmd_temp;
-	char	*path;
-	char	**paths;
+	struct stat	path_stat;
+	char		*cmd_temp;
+	char		*path;
+	char		**paths;
 
+	lstat(cmd->cmd[0], &path_stat);
+	if (S_ISREG(path_stat.st_mode) && access(cmd->cmd[0], F_OK) == 0)
+	{
+		if (access(cmd->cmd[0], X_OK) == 0)
+			return (cmd->cmd[0]);
+		exit_error(cmd->cmd[0], "Permission denied", 126);
+	}
 	path = ft_getenv("PATH", vars->envp);
 	if (!path)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
-		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		exit(127);
-	}
+		exit_error(cmd->cmd[0], "No such file or directory", 127);
 	paths = ft_split(path, ':');
 	if (!paths)
 		exit (1);
 	cmd_temp = find_path(paths, cmd->cmd[0]);
 	paths = ft_free_2d(paths);
 	if (!cmd_temp)
-		exit_cmd_notfound(cmd->cmd[0], 127);
+		exit_error(cmd->cmd[0], "command not found", 127);
 	return (cmd_temp);
 }
 
@@ -117,7 +117,6 @@ static void	expand_args(t_cmd **cmd, t_vars *vars)
 void	the_execution(t_cmd *cmd, t_vars *vars)
 {
 	char		*tmp;
-	struct stat	path_stat;
 
 	if (!cmd->cmd[0])
 	{
@@ -133,12 +132,7 @@ void	the_execution(t_cmd *cmd, t_vars *vars)
 			exit (g_glob.exit_status);
 		return ;
 	}
-	lstat(cmd->cmd[0], &path_stat);
-	if (S_ISREG(path_stat.st_mode)
-		&& access(cmd->cmd[0], F_OK) == 0 && access(cmd->cmd[0], X_OK) == 0)
-		tmp = cmd->cmd[0];
-	else
-		tmp = find_cmd(cmd, vars);
+	tmp = find_cmd(cmd, vars);
 	if ((execve(tmp, cmd->cmd, vars->envp) == -1))
 		exit_perror("minishell: execve");
 }
