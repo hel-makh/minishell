@@ -48,10 +48,10 @@ CFLAGS			=	-Wall -Wextra -Werror
 RM				=	rm -f
 
 %.o:%.c			$(HEADER) 
-				$(CC) $(CFLAGS) $(CPPFLAGS)  -c $< -o $@ 
+				$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@ 
 
 $(NAME):		$(HEADER) $(LIB) $(OBJS)
-				$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline $(LDFLAGS)
+				$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L$(shell brew --prefix readline)/lib
 
 all:			$(NAME)
 
