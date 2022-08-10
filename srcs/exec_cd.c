@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:52:39 by ybensell          #+#    #+#             */
-/*   Updated: 2022/04/05 23:43:34 by hel-makh         ###   ########.fr       */
+/*   Updated: 2022/08/10 14:10:24 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ static int	cd_oldpwd(char *old_cwd, char ***envp)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(old_pwd);
-		return (0);
+		return (1);
 	}
 	if (!change_pwd_env(old_cwd, envp))
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 static int	cd_home(char *old_cwd, char ***envp)
@@ -67,11 +67,11 @@ static int	cd_home(char *old_cwd, char ***envp)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(home_path);
-		return (0);
+		return (1);
 	}
 	if (!change_pwd_env(old_cwd, envp))
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 int	builtin_cd(char **cmd, char ***envp)
@@ -84,12 +84,12 @@ int	builtin_cd(char **cmd, char ***envp)
 		cwd = ft_strdup("");
 	if (!cwd)
 		return (EXIT_FAILURE);
-	if ((!cmd[1] || !ft_strcmp(cmd[1], "--")) && !cd_home(cwd, envp))
-		return (ft_free(cwd), EXIT_FAILURE);
+	if ((!cmd[1] || !ft_strcmp(cmd[1], "--")))
+		return (ft_free(cwd), cd_home(cwd, envp));
 	if (!*cmd[1])
 		return (ft_free(cwd), EXIT_SUCCESS);
-	if (!ft_strcmp(cmd[1], "-") && !cd_oldpwd(cwd, envp))
-		return (ft_free(cwd), EXIT_FAILURE);
+	if (!ft_strcmp(cmd[1], "-"))
+		return (ft_free(cwd), cd_oldpwd(cwd, envp));
 	if (chdir(cmd[1]) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
